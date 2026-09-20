@@ -111,7 +111,6 @@ PoC_final/
 ├─ llm.py                     zentraler Modell-Adapter (Text, Bild, Websuche)
 ├─ modelle.py                 lädt die Rolle→Modell-Zuordnung
 ├─ ausgabe.py                 Pfade für Input/Output/Config
-├─ Test_Websuche.py           Selbsttest der Websuche
 ├─ requirements.txt           Abhängigkeiten
 ├─ Config/                    konfigurierbar OHNE Code (siehe unten)
 ├─ Input/                     Eingaben (Bild, Systembeschreibung, optional draw.io)
