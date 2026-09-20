@@ -1,0 +1,27 @@
+{
+  "_hinweis": "Konfigurierbares Bewertungsschema (FA-18/FA-19). Aendern = diese Datei bearbeiten, kein Code. Prioritaet = Eintrittswahrscheinlichkeit x Auswirkung, danach in Klassen eingeteilt.",
+  "id": "cvss-nah-v1",
+  "name": "Eintrittswahrscheinlichkeit x Auswirkung",
+  "dimensionen": {
+    "eintrittswahrscheinlichkeit": {
+      "1": "unwahrscheinlich - privilegierter Zugang oder unrealistische Vorbedingungen noetig",
+      "2": "denkbar - erheblicher Aufwand oder Insiderwissen noetig",
+      "3": "moeglich - mit oeffentlich verfuegbarem Wissen ausfuehrbar",
+      "4": "wahrscheinlich - bekannte Schwaeche, Angriffsweg oeffentlich bekannt",
+      "5": "sehr wahrscheinlich - aktiv ausgenutzt (KEV-Beleg o. Ae.)"
+    },
+    "auswirkung": {
+      "1": "vernachlaessigbar - kein Schutzziel eines benannten Assets verletzt",
+      "2": "gering - Asset geringer Kritikalitaet betroffen",
+      "3": "spuerbar - Asset mittlerer Kritikalitaet betroffen",
+      "4": "schwerwiegend - Asset hoher Kritikalitaet betroffen",
+      "5": "kritisch - mehrere hochkritische Assets oder Systemuebernahme"
+    }
+  },
+  "prioritaetsklassen": [
+    {"name": "kritisch", "min_score": 20},
+    {"name": "hoch", "min_score": 12},
+    {"name": "mittel", "min_score": 6},
+    {"name": "niedrig", "min_score": 1}
+  ]
+}

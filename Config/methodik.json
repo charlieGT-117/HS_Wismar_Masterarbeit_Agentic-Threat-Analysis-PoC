@@ -1,0 +1,29 @@
+{
+  "_hinweis": "Konfigurierbares Methodik-Artefakt (FA-14). Der CISO waehlt je Angriffsflaeche einen Baustein (FA-14). STRIDE ist NUR ein Baustein hier - kein fest verdrahteter Ablauf. Aendern = diese Datei bearbeiten, kein Code.",
+  "stride_zuordnung_pflicht": true,
+  "bausteine": [
+    {
+      "id": "stride",
+      "name": "kategoriengeleitet (STRIDE)",
+      "wann": "Modellelement oder Datenfluss mit klarer Struktur, keine einschlaegigen externen Befunde. Systematische Abdeckung im Vordergrund.",
+      "kategorien": [
+        {"key": "S", "name": "Spoofing", "frage": "Kann eine Identitaet vorgetaeuscht werden?"},
+        {"key": "T", "name": "Tampering", "frage": "Koennen Daten unbemerkt veraendert werden?"},
+        {"key": "R", "name": "Repudiation", "frage": "Kann eine Handlung spaeter abgestritten werden?"},
+        {"key": "I", "name": "Information Disclosure", "frage": "Koennen Daten unbefugt eingesehen werden?"},
+        {"key": "D", "name": "Denial of Service", "frage": "Kann die Verfuegbarkeit beeintraechtigt werden?"},
+        {"key": "E", "name": "Elevation of Privilege", "frage": "Koennen Rechte unbefugt ausgeweitet werden?"}
+      ]
+    },
+    {
+      "id": "quellengeleitet",
+      "name": "quellengeleitet",
+      "wann": "Zur Angriffsflaeche liegen konkrete Threat-Intelligence-Befunde vor (CVE, bekannter Angriffspfad). Die Bedrohung wird aus dem Befund abgeleitet und auf das Modellelement zurueckgebunden."
+    },
+    {
+      "id": "kombiniert",
+      "name": "kombiniert",
+      "wann": "Angriffsflaeche mit externen Befunden UND struktureller Relevanz: erst quellengeleitet, dann kategoriengeleitete Restabdeckung."
+    }
+  ]
+}

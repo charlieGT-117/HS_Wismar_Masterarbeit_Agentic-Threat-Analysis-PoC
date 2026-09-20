@@ -1,0 +1,657 @@
+{
+  "elemente": [
+    {
+      "id": "E-01",
+      "name": "Kunde",
+      "art": "externer Akteur",
+      "beschreibung": "Endnutzer, der per Browser über HTTPS auf den Shop zugreift."
+    },
+    {
+      "id": "E-02",
+      "name": "Shop-Administrator",
+      "art": "externer Akteur",
+      "beschreibung": "Administrator zur Shop-Konfiguration und Authentifizierung; Zugriff via HTTPS. Netzwerk-Isolation (VPN/IP-Whitelist) ungeklaert."
+    },
+    {
+      "id": "E-03",
+      "name": "User-Bereich",
+      "art": "Komponente (Frontend)",
+      "beschreibung": "Frontend für Bestellungen, Kundenkonto und Warenkorb. Kartendaten werden über ein eingebettetes Fremdformular des Zahlungsdienstleisters erfasst (nicht in ShopFlow)."
+    },
+    {
+      "id": "E-04",
+      "name": "Admin-Bereich",
+      "art": "Komponente (Frontend)",
+      "beschreibung": "Frontend für Shop-Konfiguration und Authentifizierung."
+    },
+    {
+      "id": "E-05",
+      "name": "Authentication",
+      "art": "Komponente",
+      "beschreibung": "Eigener Authentifizierungsdienst; stellt Token aus, die das API Gateway prüft."
+    },
+    {
+      "id": "E-06",
+      "name": "API Gateway (REST)",
+      "art": "Komponente",
+      "beschreibung": "REST-Gateway zwischen Frontend und Middleware; prüft ausgestellte Token."
+    },
+    {
+      "id": "E-07",
+      "name": "Monitoring für Frontend",
+      "art": "Komponente",
+      "beschreibung": "Überwachungskomponente der Frontend-/Zugriffsschicht."
+    },
+    {
+      "id": "E-08",
+      "name": "Middleware",
+      "art": "Komponente",
+      "beschreibung": "Integrationsschicht; alle Aufrufe synchron über die Middleware. Zusätzlich Ereignisbus für asynchronen Austausch zwischen Bestell-, Logistik- und Shop-Service."
+    },
+    {
+      "id": "E-09",
+      "name": "Backend",
+      "art": "Komponente",
+      "beschreibung": "Anwendungsdienst (Shop-Service) in der Anwendungsschicht."
+    },
+    {
+      "id": "E-10",
+      "name": "Bestellung",
+      "art": "Komponente",
+      "beschreibung": "Anwendungsdienst für Bestellungen; empfängt Zahlungsausgang-Rückmeldung vom Zahlungsdienstleister."
+    },
+    {
+      "id": "E-11",
+      "name": "Logistik",
+      "art": "Komponente",
+      "beschreibung": "Anwendungsdienst für Logistik; nutzt Versanddienstleister-API."
+    },
+    {
+      "id": "E-12",
+      "name": "Suche",
+      "art": "Komponente",
+      "beschreibung": "Anwendungsdienst für Suche; erhält Anfragen über API Gateway und Middleware. Eigener Suchindex vs. Aggregation über bestehende DBs ungeklaert."
+    },
+    {
+      "id": "E-13",
+      "name": "Mailserver Gateway",
+      "art": "Komponente",
+      "beschreibung": "Gateway zum Mailversand; leitet an externes Mail-Relay."
+    },
+    {
+      "id": "E-14",
+      "name": "Mailserver",
+      "art": "Komponente",
+      "beschreibung": "Mailversand-Dienst (externes Relay)."
+    },
+    {
+      "id": "E-15",
+      "name": "Datenbank (User)",
+      "art": "Datenspeicher",
+      "beschreibung": "Datenbank des Backend/Nutzerdaten."
+    },
+    {
+      "id": "E-16",
+      "name": "Datenbank (Bestellung)",
+      "art": "Datenspeicher",
+      "beschreibung": "Datenbank für Bestellungen."
+    },
+    {
+      "id": "E-17",
+      "name": "Datenbank (Logistik)",
+      "art": "Datenspeicher",
+      "beschreibung": "Datenbank für Logistik."
+    },
+    {
+      "id": "E-18",
+      "name": "Monitoring",
+      "art": "Komponente",
+      "beschreibung": "Betriebsüberwachung, empfängt Protokolle aller Dienste."
+    },
+    {
+      "id": "E-19",
+      "name": "Log Server DB",
+      "art": "Datenspeicher",
+      "beschreibung": "Speicher für Log-/Protokolldaten."
+    },
+    {
+      "id": "E-20",
+      "name": "3rd Party Provider (Produktdaten)",
+      "art": "externes System",
+      "beschreibung": "Fremdbetrieben; liefert Produktstammdaten und Verfügbarkeiten teils über Schnittstelle, teils über nächtlichen Dateiimport."
+    },
+    {
+      "id": "E-21",
+      "name": "Faktur SaaS",
+      "art": "externes System",
+      "beschreibung": "Fremdbetriebener Fakturierungsdienst; erstellt Rechnungen, die im Objektspeicher abgelegt werden."
+    },
+    {
+      "id": "E-22",
+      "name": "Zahlungsdienstleister",
+      "art": "externes System",
+      "beschreibung": "Fremdbetrieben; stellt eingebettetes Zahlungsformular, Kartendaten außerhalb des Systems, meldet Zahlungsausgang an Bestellservice."
+    },
+    {
+      "id": "E-23",
+      "name": "Werbung / Affiliate",
+      "art": "externes System",
+      "beschreibung": "Affiliate-Partner binden Anzeigen ein, liefern Anzeigen aus, rechnen Klicks ab und melden Konversionen an den Werbe-/Affiliate-Dienst zurück."
+    },
+    {
+      "id": "E-24",
+      "name": "SAP-System (Händler)",
+      "art": "externes System",
+      "beschreibung": "Externes System des Händlers für Bestandsführung und Buchhaltung. Konkrete Datenflüsse/Anbindung ungeklaert."
+    },
+    {
+      "id": "E-25",
+      "name": "Versanddienstleister",
+      "art": "externes System",
+      "beschreibung": "Stellt API für Labels und Sendungsverfolgung bereit."
+    },
+    {
+      "id": "E-26",
+      "name": "Objektspeicher",
+      "art": "Datenspeicher",
+      "beschreibung": "Ablage für Rechnungen (aus Faktur SaaS) und ggf. Produktbilder. Anbindung/Netzzone ungeklaert."
+    },
+    {
+      "id": "E-27",
+      "name": "Ereignisbus",
+      "art": "Komponente",
+      "beschreibung": "Asynchroner Ereignisaustausch zwischen Bestell-, Logistik- und Shop-Service. Protokoll/Verschlüsselung/Authentifizierung ungeklaert."
+    }
+  ],
+  "datenfluesse": [
+    {
+      "id": "DF-01",
+      "quelle": "E-01",
+      "ziel": "E-03",
+      "daten": "Sitzungsdaten, Warenkörbe, Kundendaten, Bestelldaten (via HTTPS)",
+      "ueberschreitet_grenze": "VG-1"
+    },
+    {
+      "id": "DF-02",
+      "quelle": "E-02",
+      "ziel": "E-04",
+      "daten": "Zugangsdaten, Konfigurationsdaten (via HTTPS)",
+      "ueberschreitet_grenze": "VG-1"
+    },
+    {
+      "id": "DF-03",
+      "quelle": "E-03",
+      "ziel": "E-05",
+      "daten": "Anmeldedaten / Token-Anforderung",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-04",
+      "quelle": "E-04",
+      "ziel": "E-05",
+      "daten": "Admin-Anmeldedaten / Token-Anforderung",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-05",
+      "quelle": "E-03",
+      "ziel": "E-06",
+      "daten": "REST-Anfragen mit Token (Datenkategorien pro Fluss unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-06",
+      "quelle": "E-04",
+      "ziel": "E-06",
+      "daten": "REST-Anfragen mit Token (Datenkategorien pro Fluss unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-07",
+      "quelle": "E-07",
+      "ziel": "E-04",
+      "daten": "Überwachungsdaten (unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-08",
+      "quelle": "E-06",
+      "ziel": "E-08",
+      "daten": "unbekannt (synchron); Datenkategorien pro Fluss nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-2"
+    },
+    {
+      "id": "DF-09",
+      "quelle": "E-08",
+      "ziel": "E-09",
+      "daten": "unbekannt; Service-Authentifizierung ungeklaert",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-10",
+      "quelle": "E-08",
+      "ziel": "E-10",
+      "daten": "unbekannt; Service-Authentifizierung ungeklaert",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-11",
+      "quelle": "E-08",
+      "ziel": "E-11",
+      "daten": "unbekannt; Service-Authentifizierung ungeklaert",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-12",
+      "quelle": "E-08",
+      "ziel": "E-12",
+      "daten": "Suchanfragen (Datenkategorien unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-13",
+      "quelle": "E-08",
+      "ziel": "E-13",
+      "daten": "Mailinhalte (ggf. personenbezogene Daten, unbestaetigt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-14",
+      "quelle": "E-09",
+      "ziel": "E-15",
+      "daten": "Nutzerdaten (Kategorie unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-15",
+      "quelle": "E-10",
+      "ziel": "E-16",
+      "daten": "Bestelldaten (Kategorie unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-16",
+      "quelle": "E-11",
+      "ziel": "E-17",
+      "daten": "Logistikdaten (Kategorie unbekannt)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-17",
+      "quelle": "E-13",
+      "ziel": "E-14",
+      "daten": "Mailversand über externes Relay (Kategorie unbekannt)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-18",
+      "quelle": "E-08",
+      "ziel": "E-20",
+      "daten": "Produktstammdaten, Verfügbarkeiten (REST-Schnittstelle und nächtlicher Dateiimport)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-19",
+      "quelle": "E-15",
+      "ziel": "E-18",
+      "daten": "Protokolle aller Dienste",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-20",
+      "quelle": "E-18",
+      "ziel": "E-19",
+      "daten": "Log-/Protokolldaten",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-21",
+      "quelle": "E-10",
+      "ziel": "E-27",
+      "daten": "Bestell-/Logistik-Ereignisse (Ereignisbus)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-22",
+      "quelle": "E-11",
+      "ziel": "E-27",
+      "daten": "Logistik-Ereignisse (Ereignisbus)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-23",
+      "quelle": "E-09",
+      "ziel": "E-27",
+      "daten": "Shop-Ereignisse (Ereignisbus)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-24",
+      "quelle": "E-22",
+      "ziel": "E-10",
+      "daten": "Zahlungsausgang-Rückmeldung",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-25",
+      "quelle": "E-01",
+      "ziel": "E-22",
+      "daten": "Kartendaten (direkt im eingebetteten Fremdformular, ausserhalb ShopFlow)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-26",
+      "quelle": "E-08",
+      "ziel": "E-21",
+      "daten": "Rechnungsrelevante Daten (Datenkategorien unbekannt)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-27",
+      "quelle": "E-21",
+      "ziel": "E-26",
+      "daten": "Erzeugte Rechnungen",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-28",
+      "quelle": "E-11",
+      "ziel": "E-25",
+      "daten": "Versandaufträge, Adressdaten; Labels und Sendungsverfolgung (API)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-29",
+      "quelle": "E-08",
+      "ziel": "E-24",
+      "daten": "Bestandsführungs- und Buchhaltungsdaten (konkrete Daten unbekannt)",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-30",
+      "quelle": "E-23",
+      "ziel": "E-09",
+      "daten": "Konversionsmeldungen; Anzeigen-Einbindung/Klickabrechnung",
+      "ueberschreitet_grenze": "VG-3"
+    }
+  ],
+  "vertrauensgrenzen": [
+    {
+      "id": "VG-1",
+      "name": "Externe Nutzer ↔ System",
+      "beschreibung": "Grenze zwischen externen Akteuren (Browser) und der Frontend-Schicht via HTTPS."
+    },
+    {
+      "id": "VG-2",
+      "name": "Zugriffsschicht ↔ Integrationsschicht",
+      "beschreibung": "Übergang vom API Gateway zur Middleware. Als Vertrauensgrenze angenommen; Netzsegmentierung/Firewall nicht dokumentiert (Luecke)."
+    },
+    {
+      "id": "VG-3",
+      "name": "System ↔ Externe Systeme/Partner",
+      "beschreibung": "Grenze zwischen System und fremdbetriebenen Partnern (Zahlungsdienstleister, Faktur SaaS, 3rd Party, Versanddienstleister, SAP, Werbung/Affiliate, Mail-Relay) via REST/API/Dateiimport."
+    }
+  ],
+  "assets": [
+    {
+      "id": "A-01",
+      "name": "Kundendaten/Kundenkonto",
+      "element_ref": "E-15",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integritaet"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "User-Bereich nennt Kundenkonto und personenbezogene Daten; Kunden-/Sitzungsdaten fliessen durch das System."
+    },
+    {
+      "id": "A-02",
+      "name": "Kreditkartendaten",
+      "element_ref": "E-22",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integritaet"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Karteneingabe erfolgt im eingebetteten Formular des Zahlungsdienstleisters (PCI-DSS-konform); Kartendaten liegen ausserhalb von ShopFlow. Element-Ref auf E-22 korrigiert."
+    },
+    {
+      "id": "A-03",
+      "name": "Bestelldaten",
+      "element_ref": "E-16",
+      "schutzziele": [
+        "Integritaet",
+        "Verfuegbarkeit",
+        "Vertraulichkeit"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Bestellungen sind Kernfunktion des Shops."
+    },
+    {
+      "id": "A-04",
+      "name": "Logistikdaten",
+      "element_ref": "E-17",
+      "schutzziele": [
+        "Integritaet",
+        "Verfuegbarkeit"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Logistik-DB stützt Auslieferungsprozesse."
+    },
+    {
+      "id": "A-05",
+      "name": "Admin-Konfiguration/Zugangsdaten",
+      "element_ref": "E-04",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integritaet"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Admin-Bereich steuert Shop-Konfiguration und Authentifizierung; Zugangsdaten und API-Schlüssel sind kritisch."
+    },
+    {
+      "id": "A-06",
+      "name": "Log-/Protokolldaten",
+      "element_ref": "E-19",
+      "schutzziele": [
+        "Integritaet",
+        "Verfuegbarkeit"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Protokolle aller Dienste sind für Nachvollziehbarkeit relevant."
+    },
+    {
+      "id": "A-07",
+      "name": "Authentifizierungstoken/Sitzungsdaten",
+      "element_ref": "E-05",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integritaet"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Eigener Authentifizierungsdienst stellt Token aus, die das Gateway prüft; Kompromittierung ermöglicht Identitätsdiebstahl."
+    },
+    {
+      "id": "A-08",
+      "name": "Rechnungen",
+      "element_ref": "E-26",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integritaet"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Rechnungen (aus Faktur SaaS) enthalten personenbezogene und finanzielle Daten, werden im Objektspeicher abgelegt."
+    }
+  ],
+  "annahmen": [
+    "Externe Akteure kommunizieren laut Diagramm über HTTPS mit dem Frontend.",
+    "Alle synchronen Aufrufe laufen über die Middleware; zusätzlich existiert ein Ereignisbus für asynchronen Austausch zwischen Bestell-, Logistik- und Shop-Service.",
+    "Gestrichelte Kästen (3rd Party, Faktur SaaS, Zahlungsdienstleister) sind fremdbetrieben.",
+    "Kartendaten liegen ausserhalb des Systems; Karteneingabe erfolgt im eingebetteten Fremdformular des Zahlungsdienstleisters (PCI-DSS-konform).",
+    "VG-2 (Gateway↔Middleware) wird mangels expliziter Netzsegmentierungsangaben als Vertrauensgrenze angenommen.",
+    "Der Authentifizierungsdienst stellt Token aus, die das API Gateway prüft."
+  ],
+  "rueckfragen_nutzer": [
+    "Welche Schutzbedarfe/Kritikalitäten gelten aus fachlicher/geschäftlicher Sicht für die Assets? (Kennung aus Entwurf: frage_an nutzer)",
+    "Welche Datenkategorien (personenbezogene Daten, Zahlungsinformationen, Authentifizierungstokens, Systemlogs) sollen bei der Threat-Analyse pro Flussart (Kunde↔System, Dienst↔Dienst, System↔extern) betrachtet werden, falls keine detaillierte Datenfluss-Dokumentation vorliegt?"
+  ],
+  "klaerungsprotokoll": [
+    {
+      "frage": "Wo verlaufen die tatsächlichen Netzzonen- und Vertrauensgrenzen zwischen den Schichten?",
+      "gefragt_wen": "architekt",
+      "antwort": "Diagramm zeigt vier horizontale Schichten und grenzt externe Systeme/Partner (gestrichelt) ab, kennzeichnet aber keine expliziten Netzzonen, Firewalls, DMZ oder Segmentierung. LUECKE bleibt: Netzwerk-Segmentierung, Vertrauensgrenzen zwischen Komponenten, Isolation von DB-, Middleware-, Monitoring-/Log-Zonen nicht dokumentiert."
+    },
+    {
+      "frage": "Ist der Admin-Bereich aus dem Internet erreichbar oder nur intern?",
+      "gefragt_wen": "architekt",
+      "antwort": "Keine Antwort im Dokument. Beide Akteure (Kunde und Admin) greifen laut Diagramm über HTTPS zu; Netzwerk-Kontrollen (VPN, IP-Whitelist, Isolation) sind nicht dokumentiert. LUECKE bleibt."
+    },
+    {
+      "frage": "Welche Protokolle und Verschlüsselung werden je Datenfluss verwendet (außer HTTPS/REST)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Nur HTTPS/REST explizit genannt. Für interne Dienste-Kommunikation, Ereignisbus, DB-Verbindungen, Objektspeicher, externe APIs (Zahlung, SAP, Versand, Import, Affiliate), Protokollsammlung und Geheimnisverwaltung sind Protokoll/Verschlüsselung/Authentifizierung nicht dokumentiert. LUECKE bleibt."
+    },
+    {
+      "frage": "Wie authentifizieren sich die internen Dienste untereinander?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "BESTAETIGT: Eigener Authentifizierungsdienst stellt Token aus, die das Gateway prüft; Bestell-/Logistik-/Shop-Service tauschen Ereignisse über einen Ereignisbus. LUECKE bleibt: Service-to-Service-Authentifizierung der Fachdienste und Authentifizierung am Ereignisbus nicht beschrieben."
+    },
+    {
+      "frage": "Welche konkreten Datenkategorien fließen über die einzelnen Datenflüsse (DF-08 bis DF-18)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Keine formale Datenfluss-Nummerierung im Dokument. Narrativ genannte Datenkategorien: Kundendaten, Bestelldaten, Logistikdaten, Sitzungsdaten, Warenkörbe, Produktbilder, Rechnungen, Kartendaten (Fremdformular), Produktstammdaten, Verfügbarkeitsdaten, Konversionsmeldungen, Protokolldaten, Zugangsdaten, API-Schlüssel. LUECKE bleibt: granulare Zuordnung pro Fluss fehlt."
+    },
+    {
+      "frage": "Welche Produkt- und Versionsstände haben die eingesetzten Komponenten?",
+      "gefragt_wen": "architekt",
+      "antwort": "Keine Antwort/Angaben im Dokument. Produktnamen, Versionen und Eigen- vs. Fremdentwicklung nicht erkennbar. LUECKE bleibt."
+    },
+    {
+      "frage": "Wie ist die Suche (E-12) mit Datenspeichern verbunden bzw. woher bezieht sie Daten?",
+      "gefragt_wen": "architekt",
+      "antwort": "Suche ist über Middleware verbunden und erhält Anfragen über API Gateway; keine dedizierte Such-DB im Diagramm. LUECKE bleibt: eigener Suchindex vs. Aggregation über bestehende DBs unklar."
+    },
+    {
+      "frage": "Mit welchen externen Systemen kommuniziert die Middleware konkret und welche Daten fließen?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "BESTAETIGT: Zahlungsdienstleister (eingebettetes Zahlungsformular, Zahlungsausgang-Rückmeldung an Bestellservice), Faktur-SaaS (Rechnungen in Objektspeicher), Werbe-/Affiliate-Dienst (Anzeigen, Konversionsmeldungen), SAP-System (Bestandsführung/Buchhaltung), Versanddienstleister (Labels/Sendungsverfolgung-API), Drittanbieter (Produktstammdaten/Verfügbarkeiten via Schnittstelle und nächtlichem Dateiimport), Mail-Relay (Mailversand). LUECKE bleibt: konkrete Datenfelder, Authentifizierungsmechanismen und Verschlüsselung der externen Kommunikation nicht dokumentiert."
+    }
+  ],
+  "fachagenten_dialog": [
+    {
+      "frage": "Wo verlaufen die tatsächlichen Netzzonen- und Vertrauensgrenzen zwischen den Schichten?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "Das Diagramm zeigt vier horizontale Schichten (Zugangskanäle, Frontend- und Zugriffssicht, Integrationsschicht, Anwendungs- und Datenschicht, Betrieb und Überwachung) und grenzt externe Systeme/Partner ab. Jedoch werden die eigentlichen Netzzonen- und Vertrauensgrenzen nicht explizit gekennzeichnet. Das Diagramm zeigt Komponentengruppen und Datenflüsse, aber keine Informationen über Netzwerk-Segmentierung, Firewalls, DMZ-Strukturen oder welche Komponenten in welchen physischen/logischen Netzzonen liegen.",
+        "quelle": "dokument",
+        "beleg": "Vier horizontale Schichten sind visuell separiert (Zugangskanäle, Frontend-/Zugriffssicht, Integrationsschicht, Anwendungs-/Datenschicht, Betrieb/Überwachung). Die externe Box 'Externe Systeme und Partner' ist durch gestrichelte Linien abgegrenzt. Allerdings gibt es keine Kennzeichnung von Firewalls, DMZ, Netzwerk-Interfaces oder expliziten Vertrauensgrenzen zwischen Komponenten innerhalb der Schichten.",
+        "luecke": "Kritisch fehlen: (1) Explizite Netzwerk-Segmentierung (z.B. welche Komponenten sind in einer DMZ, welche im internen Netz?), (2) Vertrauensgrenzen zwischen einzelnen Komponenten oder Schichten, (3) ob die Integrationsschicht (Middleware) physisch oder logisch von Backend-Komponenten getrennt ist, (4) Netzwerk-Isolationszonen für die Datenbankschicht, (5) ob Monitoring und Log Server in einer separaten, abgesicherten Zone liegen.",
+        "rueckfrage": "Können Sie folgende Netzzonen definieren: (a) Wo genau sind die Firewalls positioniert? (b) Welche Komponenten liegen in der DMZ, welche im internen Netz? (c) Ist die Datenbankschicht netzwerk-isoliert vom Frontend und von extern nicht erreichbar? (d) Liegt die Log Server DB in einer separaten, geschützten Zone? (e) Welche spezifischen Vertrauensgrenzen existieren zwischen Middleware und den Backend-Komponenten?"
+      }
+    },
+    {
+      "frage": "Ist der Admin-Bereich aus dem Internet erreichbar oder nur intern?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "",
+        "quelle": "dokument",
+        "beleg": "Das Diagramm zeigt, dass sowohl der Kunde (Browser) als auch der Shop-Administrator über HTTPS auf die Frontend- und Zugriffschicht zugreifen. Beide sind in der Zone 'Zuganskanäle' dargestellt und kommunizieren mit dem System über HTTPS. Es gibt jedoch keine explizite Kennzeichnung von Netzwerk-Perimeter-Grenzen, DMZ-Strukturen oder Zugriffsbeschränkungen, die angeben würden, ob der Admin-Bereich nur über bestimmte Netzwerke (z.B. VPN, internes Netz) oder aus dem offenen Internet erreichbar ist.",
+        "luecke": "Es ist nicht dokumentiert, ob der Admin-Bereich (Shop-Administrator) durch Netzwerk-Level-Beschränkungen (Firewall, IP-Whitelist, VPN-Erzwingung) vom Internet isoliert ist oder ob er direkt aus dem Internet zugreifbar ist.",
+        "rueckfrage": "Ist der Admin-Bereich durch Netzwerk-Kontrollen (z.B. VPN-Erzwingung, IP-Whitelist, separate Admin-URL mit Netzwerk-Isolation) vom Internet isoliert, oder ist er direkt aus dem offenen Internet erreichbar?"
+      }
+    },
+    {
+      "frage": "Welche Protokolle und Verschlüsselung werden je Datenfluss verwendet (außer den markierten HTTPS/REST)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Die Systembeschreibung nennt explizit nur HTTPS/REST als Protokoll. Für alle anderen Datenflüsse sind Protokoll und Verschlüsselung nicht dokumentiert.",
+        "quelle": "dokument",
+        "beleg": "Die Beschreibung erwähnt 'markierte HTTPS/REST', definiert aber nicht, welche Flüsse das sind, und dokumentiert andere Protokolle nicht.",
+        "luecke": "Folgende kritische Datenflüsse haben keine dokumentierte Protokoll-/Verschlüsselungsspezifikation: (1) Kommunikation zwischen Reverse Proxy und API-Gateway, (2) zwischen API-Gateway und Fachdiensten, (3) zwischen Fachdiensten untereinander, (4) Ereignisbus (Protokoll, Verschlüsselung, Authentifizierung), (5) Datenbankverbindungen, (6) Kommunikation mit Objektspeicher, (7) Zugriff auf Zwischenspeicher (Cache), (8) Schnittstelle zum Zahlungsdienstleister (Rückkanal), (9) Anbindung SAP-System, (10) Versanddienstleister-API, (11) Dateiimport von Drittanbietern, (12) Affiliate-Partner-Integration, (13) Protokollsammlung (Datenfluss von Diensten zur zentralen Protokollsammlung und deren Datenbankzugriff), (14) Zugriff auf Geheimnisverwaltung durch Dienste, (15) Kommunikation über Sprungserver.",
+        "rueckfrage": "Bitte dokumentieren Sie für jeden genannten Datenfluss: (a) Welches Protokoll wird verwendet (z. B. gRPC, AMQP, HTTP, direkte DB-Verbindung)? (b) Ist der Datenfluss verschlüsselt (TLS, Ende-zu-Ende)? (c) Gibt es gegenseitige Authentifizierung (mTLS, API-Keys, Zertifikate)? Priorität: Ereignisbus, interne Dienst-Kommunikation, externe API-Anbindungen, Datenbankzugriffe."
+      }
+    },
+    {
+      "frage": "Wie authentifizieren sich die internen Dienste untereinander (z.B. Middleware zu Anwendungsdiensten)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "",
+        "quelle": "gemischt",
+        "beleg": "Ein eigener Authentifizierungsdienst übernimmt die Anmeldung; er stellt Token aus, die das Gateway prüft. [...] Bestell-, Logistik- und Shop-Service tauschen Ereignisse über einen Ereignisbus aus.",
+        "luecke": "Die Systembeschreibung nennt den Authentifizierungsdienst und Token-basierte Authentifizierung für das Gateway, beschreibt aber nicht, wie sich die Fachdienste untereinander authentifizieren (z.B. wenn Shop-Service den Bestellservice aufruft, oder welche Authentifizierungsmechanismen der Ereignisbus nutzt). Es ist unklar, ob Service-to-Service-Kommunikation überhaupt authentifiziert ist, und wenn ja, auf welche Weise.",
+        "rueckfrage": "Wie authentifizieren sich die internen Fachdienste (Shop-Service, Bestellservice, Logistikservice, Suchdienst, Werbe-/Affiliate-Dienst) bei gegenseitigen Aufrufen? Nutzen sie Token desselben Authentifizierungsdienstes, separate Service-Account-Credentials, mTLS, oder ist die Service-to-Service-Kommunikation unautentifiziert? Wie authentifiziert sich der Ereignisbus gegenüber den Services, die Events konsumieren?"
+      }
+    },
+    {
+      "frage": "Welche konkreten Datenkategorien fließen über die einzelnen Datenflüsse (insb. DF-08 bis DF-18)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Die Systembeschreibung enthält keine Nummerierung oder Bezeichnung einzelner Datenflüsse wie 'DF-08' bis 'DF-18'. Sie beschreibt Datenflüsse nur narrativ: Kunden → Browser → Reverse Proxy → API-Gateway → Fachdienste; Dienste tauschen Ereignisse über einen Ereignisbus aus; externe Partner (Zahlungsdienstleister, Versanddienstleister, Drittanbieter, Affiliate-Partner, Mailrelay) kommunizieren mit dem System. Die Datenkategorien werden ebenfalls nur allgemein genannt: Kundendaten, Bestelldaten, Logistikdaten, Sitzungsdaten, Warenkörbe, Produktbilder, Rechnungen, Kartendaten (über PCI-DSS-konformes Fremdformular), Produktstammdaten, Verfügbarkeitsdaten, Konversionsmeldungen, Protokolldaten, Zugangsdaten und API-Schlüssel. Eine detaillierte Datenflussmappierung mit nummerierten Flüssen und granularen Datenkategorien pro Fluss liegt nicht vor.",
+        "quelle": "dokument",
+        "beleg": "Die Systembeschreibung erwähnt Datenflüsse nur generisch: 'Bestell-, Logistik- und Shop-Service tauschen Ereignisse über einen Ereignisbus aus' und listet externe Schnittstellen auf, ohne diese zu nummerieren oder Datenkategorien präzise zuzuordnen.",
+        "luecke": "Es gibt keine formale Datenfluss-Nummernvergabe (DF-01 bis DF-18 o.ä.) und keine Zuordnung konkreter, granularer Datenkategorien (z.B. PII-Felder, Zahlungsdaten, Authentifizierungstokens, Audit-Logs) zu einzelnen Kommunikationspfaden. Unklar ist auch, welche Daten bei internen Dienste-zu-Dienste-Kommunikation fließen und ob diese verschlüsselt oder authentifiziert sind.",
+        "rueckfrage": "Liegt eine detaillierte Datenfluss-Dokumentation vor, die jeden Kommunikationspfad (intern und extern) nummeriert und die Datenkategorien pro Fluss auflistet? Falls nicht: Welche Datenkategorien (z.B. personenbezogene Daten, Zahlungsinformationen, Authentifizierungstokens, Systemlogs) sollen bei der Threat-Analyse pro Flussart (Kunde↔System, Dienst↔Dienst, System↔extern) betrachtet werden?"
+      }
+    },
+    {
+      "frage": "Welche Produkt- und Versionsstände haben die eingesetzten Komponenten?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "",
+        "quelle": "",
+        "beleg": "",
+        "luecke": "Das Architekturdiagramm zeigt die strukturelle Zusammensetzung des ShopFlow-Systems und identifiziert alle Komponenten (Backend, Bestellung, Logistik, Suche, Mailserver Gateway, API Gateway, Authentication, Middleware, etc.). Es enthält jedoch keine Informationen zu Produktnamen, Versionen oder konkreten Softwareständen der eingesetzten Komponenten. Es ist nicht erkennbar, ob es sich um Eigenentwicklungen, Open-Source-Lösungen oder kommerzielle Produkte handelt, und in welchen Versionen diese vorliegen.",
+        "rueckfrage": "Welche konkreten Produkte und Versionen werden für die folgenden Komponenten eingesetzt: API Gateway, Authentication-System, Middleware, Backend, Bestellungs-Engine, Logistik-System, Such-Engine, Mailserver Gateway, Datenbanken (Typ und Version jeweils), Monitoring, Log Server, und externe Systeme (3rd Party Provider, Faktur SaaS, Zahlungsdienstleister, Werbung/Affiliate)? Welche sind Eigenentwicklungen und welche sind Fremdsysteme?"
+      }
+    },
+    {
+      "frage": "Wie ist die Suche (E-12) mit Datenspeichern verbunden bzw. woher bezieht sie Daten?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "Im Diagramm ist erkennbar, dass die Suche-Komponente über die Middleware mit anderen Komponenten verbunden ist. Eine direkte Datenbankverbindung der Suche zu einem spezifischen Datenspeicher ist im Diagramm nicht explizit dargestellt. Die Suche empfängt Anfragen über die API Gateway (REST) und leitet diese über die Middleware weiter.",
+        "quelle": "dokument",
+        "beleg": "Die Suche-Komponente (Anwendungs- und Datenschicht) ist mit der Middleware verbunden, welche als zentraler Vermittler 'alle Aufrufe synchron über die Middleware' koordiniert. Darunter sind separate Datenbanken für Backend, Bestellung und Logistik dargestellt, aber keine dedizierte Datenbank für die Suche.",
+        "luecke": "Es ist nicht klar, ob die Suche auf eine eigene, im Diagramm nicht benannte Datenbank zugreift, oder ob sie ihre Daten aus den bestehenden Datenbanken (User, Bestellung, Logistik) über die Middleware aggregiert, oder ob ein separater Suchindex/Such-Datastore existiert.",
+        "rueckfrage": "Bezieht die Suche-Komponente ihre Daten aus einer eigenen Datenbank (z.B. Elasticsearch, Solr oder ähnlicher Suchindex), oder werden die Suchanfragen durch die Middleware gegen die bestehenden Datenbanken (Backend, Bestellung, Logistik) koordiniert?"
+      }
+    },
+    {
+      "frage": "Mit welchen externen Systemen kommuniziert die Middleware konkret (Zahlungsdienstleister, Faktur, Werbung) und welche Daten fließen?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Die Systembeschreibung nennt folgende externe Systeme und Datenflüsse:\n\n1. **Zahlungsdienstleister**: Das System erhält ein in die Shop-Seite eingebettetes Zahlungsformular vom Dienstleister. Der Dienstleister meldet den Zahlungsausgang an den Bestellservice zurück. Die Karteneingabe erfolgt direkt beim Dienstleister, nicht in ShopFlow selbst.\n\n2. **Faktur-SaaS**: Ein Faktur-SaaS erstellt die Rechnungen. Die erzeugten Rechnungen werden im Objektspeicher abgelegt.\n\n3. **Werbe-/Affiliate-Dienst**: Affiliate-Partner binden ihre Anzeigen ein und melden Konversionen zurück an den Werbe- beziehungsweise Affiliate-Dienst, der Anzeigen ausliefert und Klicks abrechnet.\n\n4. **SAP-System**: Das SAP-System des Händlers ist für Bestandsführung und Buchhaltung angebunden (konkrete Datenflüsse nicht spezifiziert).\n\n5. **Versanddienstleister**: Stellt eine API für Labels und Sendungsverfolgung bereit.\n\n6. **Drittanbieter (Produktdaten)**: Liefern Produktstammdaten und Verfügbarkeiten teils über eine Schnittstelle, teils über nächtlichen Dateiimport.\n\n7. **Mail-Relay**: Der Mailversand läuft über ein externes Relay.",
+        "quelle": "dokument",
+        "beleg": "Ein Zahlungsdienstleister wickelt die Kartenzahlung ab; die Karteneingabe erfolgt in einem in die Shop-Seite eingebetteten Formular des Dienstleisters, und der Dienstleister meldet den Zahlungsausgang an den Bestellservice zurück. Ein Faktur-SaaS erstellt die Rechnungen. [...] Ein Versanddienstleister stellt eine API für Labels und Sendungsverfolgung bereit. Drittanbieter liefern Produktstammdaten und Verfügbarkeiten, teils über eine Schnittstelle, teils über einen nächtlichen Dateiimport. Affiliate-Partner binden ihre Anzeigen ein und melden Konversionen zurück.",
+        "luecke": "Konkrete Datenflüsse sind oft nicht spezifiziert: Welche exakten Daten sendet der Bestellservice zum Zahlungsdienstleister? Welche Daten sendet das Faktur-SaaS zurück? Welche Daten fließen zwischen ShopFlow und SAP? Welche Authentifizierungsmechanismen (API-Keys, mTLS, OAuth) werden für diese externen Kommunikationen verwendet? Erfolgt die Kommunikation verschlüsselt? Welche Daten werden beim Dateiimport von Drittanbietern importiert?",
+        "rueckfrage": "1. Welche konkreten Daten und Schnittstellen-Protokolle nutzt ShopFlow zur Kommunikation mit dem Zahlungsdienstleister, dem Faktur-SaaS, dem SAP-System und dem Versanddienstleister (z.B. REST, SOAP, proprietary)?\n2. Wie authentifiziert sich ShopFlow gegenüber diesen externen Systemen (API-Keys, OAuth, Zertifikate, Benutzername/Passwort)?\n3. Ist die Kommunikation mit diesen externen Systemen verschlüsselt (TLS)?\n4. Welche sensitiven Daten (z.B. Kundendaten, Bestelldetails, Zahlungsinformationen) werden an welche externen Systeme übertragen?"
+      }
+    }
+  ],
+  "modell_zuordnung": {
+    "ciso": {
+      "anbieter": "anthropic",
+      "modell": "claude-opus-4-8",
+      "profil": "tiefes Reasoning (Kern)"
+    },
+    "architekt": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "profil": "guenstige, bildfaehige Extraktion"
+    },
+    "sw_engineer": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "profil": "guenstige, treue Extraktion"
+    },
+    "ti_agent": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "profil": "Websuche + Normalisierung"
+    },
+    "pruefer": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "profil": "unabhaengige Pruefung (anderes Modell als CISO)"
+    }
+  }
+}

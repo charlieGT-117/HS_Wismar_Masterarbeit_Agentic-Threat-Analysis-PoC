@@ -1,0 +1,35 @@
+{
+  "_hinweis": "Konfigurierbares Quellen-Artefakt (FA-07). Der TI-Agent waehlt je Anfrage EINE Quelle nach passender Abstraktionsebene und begruendet die Wahl - so wird die Recherche aus Modell und Angriffsflaeche abgeleitet (FA-08) und die Relevanz gesichert (FA-09). Weitere Quellen hier ergaenzen; im Code kommt je Quelle ein Abruf-Handler dazu.",
+  "quellen": [
+    {
+      "id": "cwe", "klasse": "K1", "name": "CWE (Common Weakness Enumeration)",
+      "abstraktionsebene": "Schwaeche-Typ (Warum)", "auth": false, "live": false,
+      "geeignet_fuer": "strukturelle Schwaechen im Entwurf, unabhaengig vom Produkt. Passt fuer abstrakte Elemente ohne Produktnamen."
+    },
+    {
+      "id": "capec", "klasse": "K2", "name": "CAPEC (Common Attack Pattern Enumeration)",
+      "abstraktionsebene": "Angriffsmuster (Wie generisch)", "auth": false, "live": false,
+      "geeignet_fuer": "generischer Angriffsweg zu einer Schwaeche. Passt fuer abstrakte Angriffsflaechen."
+    },
+    {
+      "id": "attack", "klasse": "K3", "name": "MITRE ATT&CK (Enterprise)",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)", "auth": false, "live": false,
+      "geeignet_fuer": "reales Vorgehen beobachteter Angreifer; verbindet die Bedrohung mit dem Angreiferverhalten."
+    },
+    {
+      "id": "owasp", "klasse": "OWASP", "name": "OWASP Top 10 (Web, 2021)",
+      "abstraktionsebene": "Web-Anwendungsrisiko", "auth": false, "live": false,
+      "geeignet_fuer": "typische Risiken von Web-Anwendungen. Passt fuer die Web-Bestandteile von ShopFlow."
+    },
+    {
+      "id": "nvd", "klasse": "K4", "name": "NVD / CVE",
+      "abstraktionsebene": "Produkt-Schwachstelle (Was, konkret)", "auth": false, "live": true,
+      "geeignet_fuer": "konkrete Schwachstellen in KONKRET benannten Produkten/Versionen. NUR waehlen, wenn im Modell ein konkretes Produkt mit Version steht."
+    },
+    {
+      "id": "kev", "klasse": "K4", "name": "CISA KEV (Known Exploited Vulnerabilities)",
+      "abstraktionsebene": "aktiv ausgenutzte Produkt-Schwachstelle", "auth": false, "live": true,
+      "geeignet_fuer": "nachweislich aktiv ausgenutzte Schwachstellen; liefert den Ausnutzungsstatus (FA-14). Nur bei konkretem Produkt."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "erzeugt_am": "2026-09-19T14:32:54+00:00",
+  "anzahl": 3,
+  "ti_befunde": [
+    {
+      "id": "TI-01",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A07:2021",
+      "summary": "Identification and Authentication Failures: Das Kundenkonto im User-Bereich ist anfällig für Credential Stuffing, Brute-Force-Angriffe, schwache Passwort-Richtlinien, Session Fixation und fehlende MFA. Ein Angreifer kann durch diese Schwächen Kundenkonten übernehmen und auf Bestelldaten, gespeicherte Zahlungsmethoden und persönliche Daten (A-01, A-02, A-03) zugreifen.",
+      "source_url": "https://owasp.org/Top10/2021/A07_2021-Identification_and_Authentication_Failures/",
+      "quellenwahl_begruendung": "AF-01 ist eine Web-Frontend-Komponente mit Kundenkonto-Login – OWASP A07:2021 adressiert exakt die Authentifizierungs- und Session-Management-Schwächen, die an dieser Grenzüberschreitung (VG-1) zwischen externem Kunden und Frontend-Zugriffsschicht wirksam werden.",
+      "retrieved_at": "2026-09-19T14:32:54+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-02",
+      "source_id": "attack",
+      "source_name": "MITRE ATT&CK (Enterprise)",
+      "klasse": "K3",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)",
+      "identifier": "T1185",
+      "summary": "Browser Session Hijacking: Angreifer nutzen Sicherheitslücken und Funktionalitäten im Browser, um Inhalte zu manipulieren, Nutzerverhalten zu ändern und Informationen abzufangen. Durch Injektion von Software in den Browser können sie Cookies, HTTP-Sessions und SSL-Client-Zertifikate des Nutzers übernehmen und sich damit als authentifizierter Kunde ausgeben – direkt relevant für den HTTPS-Zugang von E-01 zum User-Bereich E-03.",
+      "source_url": "https://attack.mitre.org/techniques/T1185/",
+      "quellenwahl_begruendung": "T1185 beschreibt das reale, beobachtete Vorgehen von Gegnern gegen HTTPS-Browser-Sessions – passend zur Grenzüberschreitung VG-1, an der ein externer Kunde (E-01) per Browser auf den User-Bereich (E-03) zugreift.",
+      "retrieved_at": "2026-09-19T14:32:54+00:00",
+      "exploitation_status": "aktiv dokumentiert durch MITRE ATT&CK als reales Angreifer-TTP (u.a. durch Cobalt Strike Browser Pivot belegt)",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-03",
+      "source_id": "capec",
+      "source_name": "CAPEC (Common Attack Pattern Enumeration)",
+      "klasse": "K2",
+      "abstraktionsebene": "Angriffsmuster (Wie generisch)",
+      "identifier": "CAPEC-81 (Web Skimming / Formjacking)",
+      "summary": "Web Skimming / Formjacking (Magecart-Angriff): Angreifer injizieren schädlichen Code in eine Website und extrahieren damit Daten, die Nutzer in HTML-Formulare eingeben – z. B. Kreditkartendaten. Die gestohlenen Daten werden an einen vom Angreifer kontrollierten Server übermittelt. Besonders kritisch für E-03 (User-Bereich mit eingebettetem Zahlungsformular des Zahlungsdienstleisters), da solche Angriffe auch über kompromittierte Drittanbieter-Skripte wirken und durch Standard-Sicherheitsscanner nicht erkannt werden.",
+      "source_url": "https://en.wikipedia.org/wiki/Web_skimming",
+      "quellenwahl_begruendung": "Das eingebettete Zahlungsformular des Zahlungsdienstleisters in E-03 ist ein klassischer Angriffsvektor für Formjacking/Web-Skimming – CAPEC beschreibt diesen generischen Angriffsweg ohne Produktbindung auf der richtigen Abstraktionsebene für diese abstrakte Frontend-Komponente.",
+      "retrieved_at": "2026-09-19T14:32:54+00:00",
+      "exploitation_status": "aktiv ausgenutzt – bekannte Fälle: British Airways (380.000 Kreditkartendaten, 2018), Ticketmaster (40.000 Kunden, 2018); Magecart-Gruppen aktiv gegen E-Commerce",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    }
+  ],
+  "diagnose": [
+    {
+      "surface_ref": "AF-01",
+      "status": "ok",
+      "anzahl": 3,
+      "hinweis": "3 belegte Befunde uebernommen."
+    }
+  ]
+}

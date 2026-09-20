@@ -1,0 +1,19 @@
+# Geheimnisse – NIEMALS hochladen (enthält den API-Key)
+.env
+.env.*
+
+# Virtuelle Umgebung
+venv/
+.venv/
+env/
+
+# Python-Cache
+__pycache__/
+*.pyc
+
+# Editor / Betriebssystem
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
