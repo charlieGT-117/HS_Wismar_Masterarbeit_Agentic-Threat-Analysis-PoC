@@ -1,8 +1,7 @@
 """Zentrale Rolle-zu-Modell-Zuordnung.
 
 Liest Config/modelle.json und liefert je Rolle Anbieter und Modell. So steht die
-Zuordnung an EINER Stelle (Kapitel 6.3.2). Die vollstaendige Zuordnung wird ins
-Analysemodell geschrieben und dient damit als Laufmanifest (NFA-01).
+Zuordnung an einer Stelle.
 """
 
 import json
@@ -31,15 +30,6 @@ def modell_fuer(rolle: str) -> str:
 
 def anbieter_fuer(rolle: str) -> str:
     return _eintrag(rolle).get("anbieter", "anthropic")
-
-
-def temperatur_fuer(rolle: str) -> float:
-    """Temperature der Rolle (konfigurierbar in modelle.json). Standard 0.2 - niedrig
-    fuer reproduzierbare, konsistente Ergebnisse."""
-    try:
-        return float(_eintrag(rolle).get("temperature", 0.2))
-    except (TypeError, ValueError):
-        return 0.2
 
 
 def alle_zuordnungen() -> dict:
