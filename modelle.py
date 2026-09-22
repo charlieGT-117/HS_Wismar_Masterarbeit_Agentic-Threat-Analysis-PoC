@@ -33,6 +33,15 @@ def anbieter_fuer(rolle: str) -> str:
     return _eintrag(rolle).get("anbieter", "anthropic")
 
 
+def temperatur_fuer(rolle: str) -> float:
+    """Temperature der Rolle (konfigurierbar in modelle.json). Standard 0.2 - niedrig
+    fuer reproduzierbare, konsistente Ergebnisse."""
+    try:
+        return float(_eintrag(rolle).get("temperature", 0.2))
+    except (TypeError, ValueError):
+        return 0.2
+
+
 def alle_zuordnungen() -> dict:
     """Die komplette Rolle-zu-Modell-Zuordnung (fuer das Laufmanifest)."""
     return _laden().get("rollen", {})

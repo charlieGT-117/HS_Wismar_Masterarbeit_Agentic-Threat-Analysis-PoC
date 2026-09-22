@@ -1,12 +1,10 @@
 # PoC – Agentische Threat Analyse
 
-Prototyp zur Masterarbeit "Einsatz der KI-Agenten zur Threat Analyse und Threat Intelligence-Korellation für Softwareapllikationen"
-
-Prototyp setzt ein Orchestrator-Worker agentische Architektur um
-Ein CISO-Agent orchestriert mehrere spezialisierte LLM-gestzützte Agenten (Architekt, Software-Engineer, Threat-Intelligence, Prüfer) und führt eine
+Prototyp zur Masterarbeit: Ein **CISO-Agent** orchestriert mehrere spezialisierte
+LLM-Agenten (Architekt, Software-Engineer, Threat-Intelligence, Prüfer) und führt eine
 nachvollziehbare Threat Analyse durch – vom Systemmodell über Angriffsflächen und
-Threat Intelligence bis zu bewerteten, priorisierten Threats. 
-Bedienung erfolgt über eine Streamlit-Oberfläche.
+Threat Intelligence bis zu bewerteten, priorisierten Bedrohungen. Bedienung über eine
+Streamlit-Oberfläche.
 
 ---
 
@@ -45,6 +43,9 @@ Eine Datei **`.env`** im Projektordner anlegen mit genau dieser Zeile:
 ANTHROPIC_API_KEY=sk-ant-...dein-key...
 ```
 
+**Wichtig:** Der Key ist wie ein Passwort. Nicht weitergeben, nicht in Screenshots
+zeigen, nicht in Git einchecken. Die `.env` bleibt lokal.
+
 ---
 
 ## 4. Eingaben ablegen (Ordner `Input/`)
@@ -53,7 +54,7 @@ Der Prototyp arbeitet mit **einer** Haupteingabe; ergänzende Angaben holt der C
 den Fachagenten oder beim Nutzer ein.
 
 - **Architekturdiagramm**: `Input/…​.png` oder `.jpg` (wird per Bild-Eingabe gelesen).
-- **Systembeschreibung**: `Input/Systembeschreibung.md` (Fließtext oder
+- **Systembeschreibung** (optional): `Input/Systembeschreibung.md` (Fließtext oder
   strukturiert) – nur der Software-Engineer-Agent kennt diese Datei.
 - **draw.io-Quelle** (optional): `Input/…​.drawio` – nur nötig, wenn die Marker im Bild
   *pixelgenau* sitzen sollen (sonst werden die Positionen automatisch aus dem Bild erkannt).
@@ -68,7 +69,8 @@ Die Dateien lassen sich auch direkt in der Oberfläche (Seitenleiste) hochladen.
 python -m streamlit run app.py
 ```
 
-Der Browser öffnet die Oberfläche automatisch.
+Der Browser öffnet die Oberfläche automatisch (sonst die angezeigte lokale Adresse
+öffnen). Beim ersten Start ggf. mit **Enter** durch die E-Mail-Abfrage von Streamlit.
 
 ---
 
@@ -111,6 +113,7 @@ PoC_final/
 ├─ llm.py                     zentraler Modell-Adapter (Text, Bild, Websuche)
 ├─ modelle.py                 lädt die Rolle→Modell-Zuordnung
 ├─ ausgabe.py                 Pfade für Input/Output/Config
+├─ Test_Websuche.py           Selbsttest der Websuche
 ├─ requirements.txt           Abhängigkeiten
 ├─ Config/                    konfigurierbar OHNE Code (siehe unten)
 ├─ Input/                     Eingaben (Bild, Systembeschreibung, optional draw.io)
@@ -139,3 +142,4 @@ PoC_final/
   Bedrohungen inkl. Analyse und Bewertung, Annahmen, offene Punkte, Quellenverzeichnis).
 
 ---
+

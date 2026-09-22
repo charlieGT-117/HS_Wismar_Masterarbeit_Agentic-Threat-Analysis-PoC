@@ -1,6 +1,6 @@
 """Der Pruef-Agent (Reflexionsmuster; unterstuetzt NFA-01 Nachvollziehbarkeit und NFA-03 Kontrollierbarkeit).
 
-Prueft das vom CISO entwickelte Systemmodell KRITISCH, bevor es dem Menschen zur
+Prueft das vom CISO entwickelte Systemmodell KRITISCH, bevor es dem Nutzer zur
 Freigabe vorgelegt wird. Zweite Pruefebene neben der strukturellen Schema-Pruefung:
 Das Schema prueft maschinell die Verweise; dieser Agent prueft semantisch die
 Qualitaet und Ehrlichkeit des Modells.
@@ -13,17 +13,18 @@ import json
 import re
 from llm import frage_modell, repariere_json
 from ausgabe import AUSGABE
-from modelle import modell_fuer, anbieter_fuer
+from modelle import modell_fuer, anbieter_fuer, temperatur_fuer
 
 
 # Eigenes Modell fuer die unabhaengige Pruefung (kann vom CISO-Modell abweichen).
 ANBIETER = anbieter_fuer("pruefer")
 MODELL = modell_fuer("pruefer")
+TEMPERATUR = temperatur_fuer("pruefer")
 
 
 AUFTRAG = """Du bist der Pruef-Agent in einem Threat-Analyse-System. Du erhaeltst ein
 Systemmodell, das der CISO-Agent entwickelt hat, und pruefst es KRITISCH und
-unabhaengig, bevor es einem Menschen zur Freigabe vorgelegt wird. Du bist streng,
+unabhaengig, bevor es einem Nutzer zur Freigabe vorgelegt wird. Du bist streng,
 aber fair.
 
 Pruefe entlang dieser Checkliste:
@@ -80,4 +81,5 @@ def pruefe_systemmodell(modell: dict | None = None) -> dict:
         + "\n\nZU PRUEFENDES SYSTEMMODELL:\n"
         + json.dumps(modell, ensure_ascii=False, indent=2)
     )
-    return _json_aus_text(frage_modell(prompt, anbieter=ANBIETER, modell=MODELL, max_tokens=8000))
+    return _json_aus_text(frage_modell(prompt, anbieter=ANBIETER, modell=MODELL,
+                                       max_tokens=8000, temperatur=TEMPERATUR))

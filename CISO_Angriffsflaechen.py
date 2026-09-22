@@ -15,9 +15,10 @@ from pathlib import Path
 
 from llm import frage_modell, repariere_json
 from ausgabe import AUSGABE
-from modelle import modell_fuer
+from modelle import modell_fuer, temperatur_fuer
 
 MODELL = modell_fuer("ciso")
+TEMPERATUR = temperatur_fuer("ciso")
 MAX_TOKENS = 16000
 
 ORDNER = Path(__file__).resolve().parent
@@ -67,7 +68,7 @@ def ableite_angriffsflaechen(modell: dict) -> list:
     print("\n[CISO] Leite Angriffsflaechen aus dem Systemmodell ab ...")
     kontext = "SYSTEMMODELL:\n" + json.dumps(modell, ensure_ascii=False, indent=2)
     ergebnis = _json_aus_text(frage_modell(
-        AUFTRAG + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS))
+        AUFTRAG + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS, temperatur=TEMPERATUR))
     return ergebnis.get("angriffsflaechen", [])
 
 

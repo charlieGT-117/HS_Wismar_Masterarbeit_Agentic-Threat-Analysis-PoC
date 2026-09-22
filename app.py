@@ -15,7 +15,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from Agent_CISO import baue_systemmodell, ueberarbeite_mit_antworten
+from Agent_CISO import entwickle_systemmodell, ueberarbeite_mit_antworten
 from Agent_Pruefer import pruefe_systemmodell
 from CISO_Angriffsflaechen import ableite_angriffsflaechen
 from Agent_TI import recherchiere, lade_quellen, speichere_ti_befunde
@@ -26,6 +26,7 @@ from Wissensbasis import frage_wissensbasis
 from Bild_Marker import (diagramm_pfad, positionen_sicherstellen, annotiere,
                          marker_angriffsflaechen, marker_bedrohungen, marker_bewertung)
 from ausgabe import AUSGABE
+import metriken
 
 ORDNER = Path(__file__).resolve().parent
 INPUT = ORDNER / "Input"
@@ -143,11 +144,13 @@ with st.sidebar:
 st.subheader("1 · Systemmodell entwickeln")
 if st.button("Systemmodell entwickeln", type="primary"):
     with st.spinner("CISO analysiert das Diagramm, befragt die Fachagenten ..."):
-        modell = baue_systemmodell()
+        metriken.starte_lauf()                          # neuer Lauf: Zeit/Token-Zähler zurücksetzen
+        modell = entwickle_systemmodell()
         st.session_state.modell = modell
         speichere_modell()                              # Analysemodell schreiben ...
         st.session_state.pruefbericht = pruefe_systemmodell()   # ... der Prüfer liest es
         st.session_state.freigegeben = False
+        metriken.stufe("Stufe 1 – Systemmodell + Prüfung")
     st.rerun()
 
 if st.session_state.modell:
@@ -233,6 +236,7 @@ if st.button("Angriffsflächen ableiten", disabled=not st.session_state.freigege
     with st.spinner("CISO leitet Angriffsflächen ab ..."):
         st.session_state.modell["angriffsflaechen"] = ableite_angriffsflaechen(st.session_state.modell)
         speichere_modell()
+        metriken.stufe("Stufe 2 – Angriffsflächen")
     st.rerun()
 if hat("angriffsflaechen"):
     st.metric("Angriffsflächen", len(st.session_state.modell["angriffsflaechen"]))
@@ -264,6 +268,7 @@ else:
             speichere_modell()
             speichere_ti_befunde(st.session_state.modell["ti_befunde"],
                                  st.session_state.modell.get("ti_diagnose"))
+            metriken.stufe("Stufe 3 – Threat-Intelligence (Websuche)")
         st.rerun()
 if hat("ti_befunde"):
     st.metric("TI-Befunde", len(st.session_state.modell["ti_befunde"]))
@@ -321,6 +326,7 @@ else:
                 m["bedrohungen_freigegeben"] = False   # nach Änderung erneut freigeben (FA-17)
                 m["bewertungen"] = []                  # geänderter Umfang → alte Bewertung verwerfen
                 speichere_modell()
+                metriken.stufe("Stufe 4 – Bedrohungen identifizieren/analysieren")
             st.rerun()
     else:
         st.success("Alle Angriffsflächen analysiert.")
@@ -349,14 +355,15 @@ if not hat("bedrohungen"):
     st.caption("Erst Schritt 4 (Bedrohungen identifizieren) ausführen.")
 else:
     m = st.session_state.modell
-    st.caption("Du kannst Bedrohungen bearbeiten, ergänzen (neue Zeile) oder verwerfen "
-               "(Häkchen). Die Änderungen fließen in die Bewertung ein.")
+    st.caption("Häkchen in **übernehmen** = diese Bedrohung wird bewertet. "
+               "Häkchen entfernen = verwerfen. Zellen bearbeiten = korrigieren, "
+               "neue Zeile = ergänzen. **Nur angehakte Bedrohungen** gehen in Schritt 5.")
     orig_by_id = {t.get("id"): t for t in m["bedrohungen"]}
 
     def _txt(v):
         return "; ".join(map(str, v)) if isinstance(v, list) else (v or "")
 
-    rows = [{"verwerfen": False, "id": t.get("id", ""), "titel": t.get("titel", ""),
+    rows = [{"uebernehmen": True, "id": t.get("id", ""), "titel": t.get("titel", ""),
              "stride": t.get("stride", ""), "element_ref": t.get("element_ref", ""),
              "surface_ref": t.get("surface_ref", ""), "szenario": _txt(t.get("szenario")),
              "voraussetzungen": _txt(t.get("voraussetzungen")),
@@ -364,19 +371,23 @@ else:
             for t in m["bedrohungen"]]
     edited = st.data_editor(
         pd.DataFrame(rows), num_rows="dynamic", use_container_width=True, hide_index=True,
-        column_config={"verwerfen": st.column_config.CheckboxColumn("verwerfen", width="small"),
+        column_config={"uebernehmen": st.column_config.CheckboxColumn(
+                           "übernehmen", help="Angehakt = wird bewertet", width="small"),
                        "id": st.column_config.TextColumn("ID", disabled=True)},
         key="threat_editor")
 
+    _ausgewaehlt = int(edited["uebernehmen"].fillna(False).sum()) if "uebernehmen" in edited else 0
+    st.caption(f"Ausgewählt: **{_ausgewaehlt}** Bedrohung(en) werden bewertet.")
+
     def _uebernehmen_aus_tabelle():
-        """Baut die Bedrohungsliste aus dem aktuellen Tabellenstand neu auf
-        (verworfene und gelöschte Zeilen fallen weg) und verwirft alte Bewertungen."""
+        """Baut die Bedrohungsliste aus dem aktuellen Tabellenstand neu auf: Es bleiben
+        NUR die angehakten (übernehmen) Zeilen; alte Bewertungen werden verworfen."""
         nums = [int(re.sub(r"\D", "", str(i)) or 0) for i in orig_by_id]
         naechste = max(nums or [0])
         neu = []
         for _, r in edited.iterrows():
-            if bool(r.get("verwerfen")):
-                continue
+            if not bool(r.get("uebernehmen")):
+                continue   # nicht angehakt -> nicht übernehmen
             if not str(r.get("titel") or "").strip():
                 continue   # leere neue Zeile ignorieren
             tid = str(r.get("id") or "").strip()
@@ -395,18 +406,11 @@ else:
         m["bewertungen"] = []          # geänderter Umfang → alte Bewertung verwerfen
         return len(neu)
 
-    cA, cB = st.columns(2)
-    if cA.button("💾 Änderungen übernehmen"):
-        anzahl = _uebernehmen_aus_tabelle()
-        m["bedrohungen_freigegeben"] = False
-        speichere_modell()
-        st.success(f"{anzahl} Bedrohungen übernommen. Bitte noch freigeben.")
-        st.rerun()
-    if cB.button("✔ Bedrohungen freigeben", type="primary"):
-        anzahl = _uebernehmen_aus_tabelle()   # aktuellen Tabellenstand mit übernehmen
+    if st.button("✔ Auswahl freigeben → Bewertung", type="primary"):
+        anzahl = _uebernehmen_aus_tabelle()   # übernimmt den aktuellen Tabellenstand
         m["bedrohungen_freigegeben"] = True
         speichere_modell()
-        st.success(f"{anzahl} Bedrohungen freigegeben – die Bewertung ist freigeschaltet.")
+        st.success(f"{anzahl} Bedrohung(en) freigegeben – nur diese werden in Schritt 5 bewertet.")
         st.rerun()
 
     if m.get("bedrohungen_freigegeben"):
@@ -426,6 +430,9 @@ if st.button("Bewerten & priorisieren", disabled=not _bedrohungen_bereit):
         scoring = lade_scoring()
         st.session_state.modell["bewertungen"] = bewerte(st.session_state.modell, scoring)
         st.session_state.modell["scoring_schema"] = scoring
+        metriken.stufe("Stufe 5 – Bewertung/Priorisierung")
+        st.session_state.modell["laufmetriken"] = metriken.schnappschuss()  # Zeit/Token je Lauf
+        metriken.schreibe()                                                 # Output/lauf_metriken.json
         speichere_modell()
     st.rerun()
 
@@ -445,11 +452,36 @@ if hat("bewertungen"):
 
     bericht = erzeuge_bericht(st.session_state.modell)
     (AUSGABE / "bericht.md").write_text(bericht, encoding="utf-8")
-    c1, c2 = st.columns(2)
+    c1, c2, c3 = st.columns(3)
     c1.download_button("⬇ Bericht (Markdown)", bericht, file_name="bericht.md")
     c2.download_button("⬇ Analysemodell (JSON)",
                        json.dumps(st.session_state.modell, ensure_ascii=False, indent=2),
                        file_name="analysemodell.json")
+    _metriken = st.session_state.modell.get("laufmetriken", metriken.schnappschuss())
+    c3.download_button("⬇ Laufmetriken (JSON)",
+                       json.dumps(_metriken, ensure_ascii=False, indent=2),
+                       file_name="lauf_metriken.json")
+    with st.expander("⏱ Laufmetriken – Zeit & Tokenverbrauch"):
+        _t = _metriken.get("tokens", {})
+        k1, k2, k3 = st.columns(3)
+        k1.metric("Tokens gesamt", f"{_t.get('gesamt', 0):,}".replace(",", "."))
+        k2.metric("Aktive Modellzeit", f"{_metriken.get('aktive_modellzeit_s', 0)} s")
+        k3.metric("Modellaufrufe", _metriken.get("aufrufe", 0))
+        if _metriken.get("je_modell"):
+            st.caption("Je Modell")
+            st.dataframe(
+                [{"Modell": m, "Aufrufe": e["aufrufe"], "Input": e["input_tokens"],
+                  "Output": e["output_tokens"], "Gesamt": e["gesamt_tokens"],
+                  "Modellzeit (s)": e["modellzeit_s"]}
+                 for m, e in _metriken["je_modell"].items()],
+                use_container_width=True, hide_index=True)
+        if _metriken.get("phasen"):
+            st.caption("Je Stufe")
+            st.dataframe(
+                [{"Stufe": p["name"], "Aufrufe": p["aufrufe"], "Input": p["input_tokens"],
+                  "Output": p["output_tokens"], "Modellzeit (s)": p.get("modellzeit_s", 0)}
+                 for p in _metriken["phasen"]],
+                use_container_width=True, hide_index=True)
     with st.expander("Bericht ansehen"):
         st.markdown(bericht)
 

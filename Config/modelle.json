@@ -1,10 +1,35 @@
 {
-  "_hinweis": "Zentrale Rolle-zu-Modell-Zuordnung (Kapitel 6.3.2: 'konfigurierbarer Parameter'). Aendern = nur diese Datei, kein Code. Jede Rolle erhaelt ein Modell passend zum kognitiven Profil.",
+  "_hinweis": "Zentrale Rolle-zu-Modell-Zuordnung (Kapitel 6.3.2: 'konfigurierbarer Parameter'). Aendern = nur diese Datei, kein Code. Jede Rolle erhaelt ein Modell und eine Temperature passend zum kognitiven Profil. Temperature niedrig (0.2) fuer reproduzierbare, konsistente Ergebnisse; wird ins Laufmanifest geschrieben (NFA-01).",
   "rollen": {
-    "ciso":        {"anbieter": "anthropic", "modell": "claude-opus-4-8",          "profil": "tiefes Reasoning (Kern)"},
-    "architekt":   {"anbieter": "anthropic", "modell": "claude-haiku-4-5-20251001", "profil": "guenstige, bildfaehige Extraktion"},
-    "sw_engineer": {"anbieter": "anthropic", "modell": "claude-haiku-4-5-20251001", "profil": "guenstige, treue Extraktion"},
-    "ti_agent":    {"anbieter": "anthropic", "modell": "claude-sonnet-4-6",          "profil": "Websuche + Normalisierung"},
-    "pruefer":     {"anbieter": "anthropic", "modell": "claude-sonnet-4-6",          "profil": "unabhaengige Pruefung (anderes Modell als CISO)"}
+    "ciso": {
+      "anbieter": "anthropic",
+      "modell": "claude-opus-4-8",
+      "temperature": 0.2,
+      "profil": "tiefes Reasoning (Kern)"
+    },
+    "architekt": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "temperature": 0.2,
+      "profil": "guenstige, bildfaehige Extraktion"
+    },
+    "sw_engineer": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "temperature": 0.2,
+      "profil": "guenstige, treue Extraktion"
+    },
+    "ti_agent": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "temperature": 0.2,
+      "profil": "Websuche + Normalisierung"
+    },
+    "pruefer": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "temperature": 0.2,
+      "profil": "unabhaengige Pruefung (anderes Modell als CISO)"
+    }
   }
 }

@@ -10,9 +10,10 @@ import json
 
 from llm import frage_modell
 from ausgabe import AUSGABE
-from modelle import modell_fuer
+from modelle import modell_fuer, temperatur_fuer
 
 MODELL = modell_fuer("ciso")
+TEMPERATUR = temperatur_fuer("ciso")
 
 AUFTRAG = """Du bist der CISO-Agent. Ein Experte stellt eine Frage zu einer bereits
 durchgefuehrten Bedrohungsanalyse. Beantworte sie AUSSCHLIESSLICH auf Basis der unten
@@ -58,7 +59,7 @@ def frage_wissensbasis(frage: str) -> str:
               + "\n\nBELEGQUELLE THREAT INTELLIGENCE (Output/ti_befunde.json):\n"
               + json.dumps(ti_belege, ensure_ascii=False)
               + "\n\nFRAGE DES EXPERTEN:\n" + frage)
-    return frage_modell(prompt, modell=MODELL, max_tokens=2000)
+    return frage_modell(prompt, modell=MODELL, max_tokens=2000, temperatur=TEMPERATUR)
 
 
 if __name__ == "__main__":

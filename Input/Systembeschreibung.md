@@ -35,8 +35,8 @@
 - **Beschreibung:** Einziger Eintrittspunkt zu den Backend-Diensten; Routing, Token-Prüfung über JWKS von Keycloak, Rollenprüfung je Route, Ratenbegrenzung.
 
 ### Monitoring für Frontend
-- **Technologie:** ⚠ Sentry 9.1.2 (self-hosted) mit `@sentry/browser` 5.15.0
-- **Beschreibung:** Erfassung von JavaScript-Fehlern, Ladezeiten und Nutzersitzungen im Browser; liefert Fehlerberichte an das Entwicklungsteam. *(Ergänzung ggü. der vollständigen Fassung, s. Abschnitt „Abgleich“.)*
+- **Technologie:** Sentry 9.1.2 (self-hosted) mit `@sentry/browser` 5.15.0
+- **Beschreibung:** Erfassung von JavaScript-Fehlern, Ladezeiten und Nutzersitzungen im Browser; liefert Fehlerberichte an das Entwicklungsteam. 
 
 ---
 
@@ -44,7 +44,7 @@
 
 ### Middleware Service
 - **Technologie:** Java 11, Spring Boot 2.6.3, Spring Framework 5.3.15
-- **Beschreibung:** Vermittelt zwischen API-Gateway und Fachdiensten, führt Formatumsetzungen durch und hält die Anbindungen nach außen (Faktur-SaaS per REST/OAuth Client Credentials, SAP per SOAP, Drittanbieter per REST und nächtlichem SFTP-Import). Prüft die Rolle aus dem Token nicht erneut.
+- **Beschreibung:** Vermittelt zwischen API-Gateway und Fachdiensten, führt Formatumsetzungen durch und hält die Anbindungen nach außen.
 
 ---
 

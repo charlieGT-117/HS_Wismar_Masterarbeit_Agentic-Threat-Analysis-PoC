@@ -1,0 +1,62 @@
+{
+  "erzeugt_am": "2026-09-22T11:42:50+00:00",
+  "anzahl": 3,
+  "ti_befunde": [
+    {
+      "id": "TI-01",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A01:2021",
+      "summary": "Broken Access Control: Fehler bei der Durchsetzung von Zugriffsrechten im Web-Frontend ermöglichen das unbefugte Einsehen oder Manipulieren fremder Bestellungen, Konten und Zahlungsmittel-Token über IDOR, URL-Tampering oder JWT-Manipulation.",
+      "source_url": "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/",
+      "quellenwahl_begruendung": "AF-01 ist ein webbasierter Kundenzugang (SPA/Browser) ohne konkretes benanntes Produkt – OWASP trifft genau diese Abstraktionsebene für Web-Anwendungsrisiken.",
+      "retrieved_at": "2026-09-22T11:42:50+00:00",
+      "exploitation_status": "Häufigste Schwachstellenkategorie laut OWASP; in 94 % aller getesteten Anwendungen nachweisbar",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-02",
+      "source_id": "capec",
+      "source_name": "CAPEC (Common Attack Pattern Enumeration)",
+      "klasse": "K2",
+      "abstraktionsebene": "Angriffsmuster (Wie generisch)",
+      "identifier": "CAPEC-63",
+      "summary": "Cross-Site Scripting (XSS): Ein Angreifer injiziert bösartige Skripte in die SPA-Oberfläche des User-Bereichs; der Browser des Opfers führt das Skript aus und ermöglicht so Session-Hijacking, Token-Diebstahl oder Manipulation der Zahlungsseite (inkl. iframe-Kontext).",
+      "source_url": "https://capec.mitre.org/data/definitions/63.html",
+      "quellenwahl_begruendung": "CAPEC beschreibt generische Angriffsmuster auf Angriffsflächenebene – passend für das abstrakte SPA-Frontend ohne konkrete Produktversion.",
+      "retrieved_at": "2026-09-22T11:42:50+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-03",
+      "source_id": "attack",
+      "source_name": "MITRE ATT&CK (Enterprise)",
+      "klasse": "K3",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)",
+      "identifier": "T1185",
+      "summary": "Browser Session Hijacking: Reale Angreifer stehlen authentifizierte Browser-Sessions (Cookies, Session-Token) des Kunden, um sich als legitimer Nutzer auszugeben und auf Bestelldaten, Kundenkonto und Zahlungsmittel-Token zuzugreifen, ohne Anmeldedaten zu kennen.",
+      "source_url": "https://attack.mitre.org/techniques/T1185/",
+      "quellenwahl_begruendung": "ATT&CK T1185 verknüpft das beobachtete Gegnerverhalten direkt mit dem Browser-basierten Kundenzugang (E-01/E-03) und den erreichbaren Session-Assets (A-04, A-05).",
+      "retrieved_at": "2026-09-22T11:42:50+00:00",
+      "exploitation_status": "Beobachtetes Angreifer-TTP; in ATT&CK Enterprise dokumentiert",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    }
+  ],
+  "diagnose": [
+    {
+      "surface_ref": "AF-01",
+      "status": "ok",
+      "anzahl": 3,
+      "hinweis": "3 belegte Befunde uebernommen."
+    }
+  ]
+}

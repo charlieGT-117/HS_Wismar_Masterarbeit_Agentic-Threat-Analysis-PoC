@@ -1,0 +1,62 @@
+{
+  "erzeugt_am": "2026-09-22T11:20:56+00:00",
+  "anzahl": 3,
+  "ti_befunde": [
+    {
+      "id": "TI-01",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A01:2021",
+      "summary": "Broken Access Control ist das kritischste Web-Anwendungsrisiko laut OWASP 2021: 94 % der getesteten Anwendungen weisen eine Form von Zugriffskontroll-Schwäche auf. Angreifer können URL-Parameter manipulieren, fremde Konten einsehen oder Privilege Escalation durchführen – direkt relevant für den Kundenkonto- und Bestellbereich der SPA.",
+      "source_url": "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/",
+      "quellenwahl_begruendung": "Der User-Bereich ist eine externe Web-SPA mit Kundenkonto-Funktion; A01:2021 trifft exakt diesen Angriffsweg gegen fehlende oder fehlerhafte Autorisierungsprüfungen in Web-Anwendungen.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-02",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A07:2021",
+      "summary": "Identification and Authentication Failures (ehem. Broken Authentication): Die Kategorie umfasst Credential Stuffing, Brute-Force-Angriffe, schwache Passwörter, unsichere Session-IDs und JWT-Missbrauch. Für einen über HTTPS erreichbaren Registrierungs-/Login-Bereich (registrierte Kunden und Gäste) ist dies ein zentrales Risiko.",
+      "source_url": "https://owasp.org/Top10/2021/A07_2021-Identification_and_Authentication_Failures/",
+      "quellenwahl_begruendung": "Der User-Bereich erlaubt Login registrierter Kunden sowie Gastzugang; Schwächen in Authentifizierung und Session-Management (A07:2021) sind für diesen externen Zugangspunkt der SPA direkt einschlägig.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-03",
+      "source_id": "attack",
+      "source_name": "MITRE ATT&CK (Enterprise)",
+      "klasse": "K3",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)",
+      "identifier": "T1190",
+      "summary": "Exploit Public-Facing Application: Reale Angreifer nutzen Schwachstellen (Bugs, Fehlkonfigurationen) in internetexponierter Software, um initialen Zugang zu erlangen – ohne Nutzerinteraktion. Laut Verizon DBIR 2025 ist dies der zweithäufigste Initial-Access-Vektor; die Zeit von Disclosure bis Massenausnutzung beträgt nur noch Stunden.",
+      "source_url": "https://attack.mitre.org/techniques/T1190/",
+      "quellenwahl_begruendung": "AF-01 ist eine über HTTPS öffentlich erreichbare SPA; T1190 bildet das beobachtete reale Angreifer-TTP für den Erstzugang über genau solche internetexponierte Web-Anwendungen ab.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "aktiv und weit verbreitet – zweithäufigster Initial-Access-Vektor laut Verizon DBIR 2025",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    }
+  ],
+  "diagnose": [
+    {
+      "surface_ref": "AF-01",
+      "status": "ok",
+      "anzahl": 3,
+      "hinweis": "3 belegte Befunde uebernommen."
+    }
+  ]
+}

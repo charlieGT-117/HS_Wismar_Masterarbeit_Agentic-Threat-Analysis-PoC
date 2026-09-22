@@ -1,0 +1,62 @@
+{
+  "erzeugt_am": "2026-09-22T11:32:21+00:00",
+  "anzahl": 3,
+  "ti_befunde": [
+    {
+      "id": "TI-01",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A07:2021",
+      "summary": "Identification and Authentication Failures: Der externe Kunden-Zugang (Login, Session-Management, Passwort-Reset) ist der klassische Angriffspunkt für Credential Stuffing, Brute Force und Session-Fixation. Bei einer SPA ohne robuste serverseitige Session-Kontrolle können Angreifer Kundenkonten übernehmen und auf Bestelldaten, Kontodaten sowie gespeicherte Zahlungsmethoden (A-01, A-02, A-04, A-05) zugreifen.",
+      "source_url": "https://owasp.org/Top10/2021/A07_2021-Identification_and_Authentication_Failures/",
+      "quellenwahl_begruendung": "AF-01 ist ein Web-Frontend-Zugangspunkt für externe Nutzer – genau die Ebene, für die OWASP Top 10 konzipiert ist; Authentifizierungs- und Session-Schwächen sind das primäre Risiko eines browserbasierten Kundenbereichs ohne konkretes Produktnamen-Binding.",
+      "retrieved_at": "2026-09-22T11:32:21+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-02",
+      "source_id": "capec",
+      "source_name": "CAPEC (Common Attack Pattern Enumeration)",
+      "klasse": "K2",
+      "abstraktionsebene": "Angriffsmuster (Wie generisch)",
+      "identifier": "CAPEC-62",
+      "summary": "Cross-Site Request Forgery (Session Riding): Angreifer platzieren präparierte Links oder iframes, die im Browser eines authentifizierten Kunden unbeabsichtigt Aktionen (z. B. Bestellabbruch, Adressänderung) im Namen des Opfers auslösen. SPAs sind besonders exponiert, weil CSRF-Token im JavaScript-Speicher gehalten werden und bei XSS-Schwächen gestohlen werden können.",
+      "source_url": "https://cvefeed.io/capec/detail/capec-62-cross-site-request-forgery",
+      "quellenwahl_begruendung": "CAPEC-62 beschreibt den generischen Angriffsweg auf session-basierte Web-Frontends ohne konkretes Produkt – passend zur abstrakten SPA-Komponente E-03 in AF-01, für die kein Produktname vorliegt.",
+      "retrieved_at": "2026-09-22T11:32:21+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-03",
+      "source_id": "attack",
+      "source_name": "MITRE ATT&CK (Enterprise)",
+      "klasse": "K3",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)",
+      "identifier": "T1190",
+      "summary": "Exploit Public-Facing Application: Reale Angreifer (u. a. APT41, BlackByte-Ransomware-Gruppe) nutzen Schwachstellen in internet-exponierten Webanwendungen als initialen Zugangspunkt. Laut Verizon DBIR 2025 ist T1190 der zweithäufigste Initial-Access-Vektor nach Phishing; die Zeit zwischen Vulnerability-Disclosure und Massenausnutzung beträgt oft nur Stunden.",
+      "source_url": "https://attack.mitre.org/techniques/T1190/",
+      "quellenwahl_begruendung": "T1190 verknüpft die abstrakte Angriffsfläche AF-01 (extern erreichbares Web-Frontend) mit beobachtetem, realem Angreiferverhalten und liefert damit die TTP-Ebene (K3), die weder OWASP noch CAPEC abdecken.",
+      "retrieved_at": "2026-09-22T11:32:21+00:00",
+      "exploitation_status": "aktiv ausgenutzt durch mehrere APT- und Ransomware-Gruppen (z. B. APT41, BlackByte); laut DBIR 2025 zweithäufigster Initial-Access-Vektor",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    }
+  ],
+  "diagnose": [
+    {
+      "surface_ref": "AF-01",
+      "status": "ok",
+      "anzahl": 3,
+      "hinweis": "3 belegte Befunde uebernommen."
+    }
+  ]
+}

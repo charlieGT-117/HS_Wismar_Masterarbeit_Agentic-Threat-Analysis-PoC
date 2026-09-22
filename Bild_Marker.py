@@ -21,9 +21,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 from llm import frage_modell_mit_bild, repariere_json
 from ausgabe import AUSGABE
-from modelle import modell_fuer
+from modelle import modell_fuer, temperatur_fuer
 
 MODELL = modell_fuer("architekt")   # bildfaehig und guenstig
+TEMPERATUR = temperatur_fuer("architekt")
 
 AF_FARBE  = "#9673a6"               # Angriffsflaechen (Schritt 2)
 STD_FARBE = "#6c8ebf"               # Bedrohungen ohne Prioritaet (Schritt 4)
@@ -78,7 +79,8 @@ def ermittle_element_positionen(modell: dict, bildpfad: str) -> dict:
         '"x0": 40, "y0": 120, "x1": 210, "y1": 180}]}\n\n'
         "ELEMENTE:\n" + json.dumps(elemente, ensure_ascii=False, indent=2)
     )
-    roh = frage_modell_mit_bild(auftrag, bildpfad, modell=MODELL, max_tokens=3000)
+    roh = frage_modell_mit_bild(auftrag, bildpfad, modell=MODELL, max_tokens=3000,
+                                temperatur=TEMPERATUR)
     daten = repariere_json(roh, MODELL)
 
     pos, zuordnung = {}, []

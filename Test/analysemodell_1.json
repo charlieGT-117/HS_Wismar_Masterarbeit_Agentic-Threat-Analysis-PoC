@@ -1,0 +1,1419 @@
+{
+  "elemente": [
+    {
+      "id": "E-01",
+      "name": "Kunde",
+      "art": "Externer Akteur",
+      "beschreibung": "Endnutzer via Browser, registriert oder als Gast."
+    },
+    {
+      "id": "E-02",
+      "name": "Shop-Administrator",
+      "art": "Externer Akteur",
+      "beschreibung": "Verwaltet Sortiment, Preise und Konfiguration."
+    },
+    {
+      "id": "E-03",
+      "name": "User-Bereich",
+      "art": "Frontend-Komponente",
+      "beschreibung": "SPA-Bereich für Bestellungen, Kundenkonto, Kreditkarte. Karteneingabe erfolgt in eingebettetem iframe des Zahlungsdienstleisters; Kartendaten berühren ShopFlow nicht."
+    },
+    {
+      "id": "E-04",
+      "name": "Admin-Bereich",
+      "art": "Frontend-Komponente",
+      "beschreibung": "SPA-Bereich für Sortiment, Preise, Shop-Konfiguration."
+    },
+    {
+      "id": "E-05",
+      "name": "Authentication",
+      "art": "Dienst",
+      "beschreibung": "Keycloak 18.0.0, OIDC/OAuth 2.0 (Authorization Code Flow), RS256-signierte JWT, Zugriffstoken 8h gültig ohne Rücknahme, TOTP optional."
+    },
+    {
+      "id": "E-06",
+      "name": "API Gateway (REST)",
+      "art": "Gateway",
+      "beschreibung": "Routing und Token-Prüfung (JWT mit Rolleninformationen)."
+    },
+    {
+      "id": "E-07",
+      "name": "Monitoring für Frontend",
+      "art": "Dienst",
+      "beschreibung": "Überwacht Verfügbarkeit und Fehler des Frontends (Sentry: JavaScript-Fehler, Ladezeiten, Nutzersitzungen)."
+    },
+    {
+      "id": "E-08",
+      "name": "Middleware Service",
+      "art": "Integrationsdienst",
+      "beschreibung": "Anbindung an Backend-Services und externe Systeme, Formatumsetzungen, hält Anbindungen nach außen."
+    },
+    {
+      "id": "E-09",
+      "name": "Backend",
+      "art": "Anwendungsdienst",
+      "beschreibung": "Shop-Service, Katalog, Warenkorb."
+    },
+    {
+      "id": "E-10",
+      "name": "Bestellung",
+      "art": "Anwendungsdienst",
+      "beschreibung": "Annahme, Status, Storno von Bestellungen. Publiziert Kafka-Ereignis 'Bestellung angelegt'; empfängt HMAC-signierten Webhook vom Zahlungsdienstleister."
+    },
+    {
+      "id": "E-11",
+      "name": "Logistik",
+      "art": "Anwendungsdienst",
+      "beschreibung": "Sendungsverfolgung."
+    },
+    {
+      "id": "E-12",
+      "name": "Suche",
+      "art": "Anwendungsdienst",
+      "beschreibung": "Produktsuche."
+    },
+    {
+      "id": "E-13",
+      "name": "Mailserver Gateway",
+      "art": "Dienst",
+      "beschreibung": "Postfix, Mailversand von Bestellbestätigungen und Marketing-E-Mails."
+    },
+    {
+      "id": "E-14",
+      "name": "Datenbank (User)",
+      "art": "Datenspeicher",
+      "beschreibung": "PostgreSQL 13.4, Kundendaten und Zahlungsmittel-Token; Zugriff per JDBC, TLS optional und derzeit deaktiviert."
+    },
+    {
+      "id": "E-15",
+      "name": "Datenbank Bestellungen",
+      "art": "Datenspeicher",
+      "beschreibung": "MySQL, Bestelldaten, Zugriff ohne TLS."
+    },
+    {
+      "id": "E-16",
+      "name": "Datenbank Versandaufträge",
+      "art": "Datenspeicher",
+      "beschreibung": "Versandauftragsdaten."
+    },
+    {
+      "id": "E-17",
+      "name": "Mailserver",
+      "art": "Dienst",
+      "beschreibung": "SMTP-Relay, TLS erwähnt (Implementierungsdetail unbekannt)."
+    },
+    {
+      "id": "E-18",
+      "name": "Monitoring",
+      "art": "Betriebsdienst",
+      "beschreibung": "Grafana, Prometheus."
+    },
+    {
+      "id": "E-19",
+      "name": "Log Server DB",
+      "art": "Datenspeicher",
+      "beschreibung": "OpenSearch, Protokolle aller Dienste; Einträge enthalten u.a. User-Agent und E-Mail-Adresse angemeldeter Nutzer."
+    },
+    {
+      "id": "E-20",
+      "name": "Google Analytics",
+      "art": "Externes System",
+      "beschreibung": "Externer Analysedienst; erhält Seitenaufrufe und Conversion-Trichter-Daten vom Frontend."
+    },
+    {
+      "id": "E-21",
+      "name": "Faktur SaaS",
+      "art": "Externes System",
+      "beschreibung": "Rechnungserstellung; erhält Kunden- und Bestelldaten vom Middleware Service; Anbindung per OAuth 2.0."
+    },
+    {
+      "id": "E-22",
+      "name": "Zahlungsdienstleister",
+      "art": "Externes System",
+      "beschreibung": "PCI-DSS-zertifiziert, Kartendaten außerhalb des Systems; stellt iframe und Zahlungsmittel-Token bereit, meldet Zahlungsstatus per HMAC-signiertem Webhook."
+    },
+    {
+      "id": "E-23",
+      "name": "Werbung und Affiliate Marketing",
+      "art": "Externes System",
+      "beschreibung": "Externer Werbe-/Marketingpartner; Werbepartner-Skript erhält Klicks und Konversionen vom Frontend."
+    }
+  ],
+  "datenfluesse": [
+    {
+      "id": "DF-01",
+      "quelle": "E-01",
+      "ziel": "E-03",
+      "daten": "HTTPS (Inhalt unbekannt)",
+      "ueberschreitet_grenze": "VG-1"
+    },
+    {
+      "id": "DF-02",
+      "quelle": "E-02",
+      "ziel": "E-04",
+      "daten": "HTTPS (Inhalt unbekannt)",
+      "ueberschreitet_grenze": "VG-1"
+    },
+    {
+      "id": "DF-03",
+      "quelle": "E-04",
+      "ziel": "E-05",
+      "daten": "OIDC/OAuth 2.0 Authorization Code Flow, JWT",
+      "ueberschreitet_grenze": "VG-2"
+    },
+    {
+      "id": "DF-04",
+      "quelle": "E-04",
+      "ziel": "E-06",
+      "daten": "API-Aufrufe mit JWT (Inhalt unbekannt)",
+      "ueberschreitet_grenze": "VG-2"
+    },
+    {
+      "id": "DF-05",
+      "quelle": "E-06",
+      "ziel": "E-04",
+      "daten": "API-Antworten (Inhalt unbekannt)",
+      "ueberschreitet_grenze": "VG-2"
+    },
+    {
+      "id": "DF-06",
+      "quelle": "E-07",
+      "ziel": "E-04",
+      "daten": "Monitoring-Daten (JavaScript-Fehler, Ladezeiten, Nutzersitzungen)",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-07",
+      "quelle": "E-06",
+      "ziel": "E-08",
+      "daten": "Routing zu Fachdiensten, JWT-Token mit Rolleninformationen (Feldstruktur unbekannt); Verschlüsselung/Authentifizierung nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-08",
+      "quelle": "E-04",
+      "ziel": "E-08",
+      "daten": "unbekannt",
+      "ueberschreitet_grenze": "VG-3"
+    },
+    {
+      "id": "DF-09",
+      "quelle": "E-08",
+      "ziel": "E-09",
+      "daten": "unbekannt; Verschlüsselung/Authentifizierung nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-4"
+    },
+    {
+      "id": "DF-10",
+      "quelle": "E-08",
+      "ziel": "E-10",
+      "daten": "unbekannt; Verschlüsselung/Authentifizierung nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-4"
+    },
+    {
+      "id": "DF-11",
+      "quelle": "E-08",
+      "ziel": "E-11",
+      "daten": "unbekannt; Verschlüsselung/Authentifizierung nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-4"
+    },
+    {
+      "id": "DF-12",
+      "quelle": "E-08",
+      "ziel": "E-12",
+      "daten": "unbekannt; Verschlüsselung/Authentifizierung nicht dokumentiert",
+      "ueberschreitet_grenze": "VG-4"
+    },
+    {
+      "id": "DF-13",
+      "quelle": "E-08",
+      "ziel": "E-13",
+      "daten": "Bestellbestätigungen, Marketing-E-Mails (Feldebene unbekannt)",
+      "ueberschreitet_grenze": "VG-4"
+    },
+    {
+      "id": "DF-14",
+      "quelle": "E-08",
+      "ziel": "E-21",
+      "daten": "Kunden- und Bestelldaten; Anbindung per OAuth 2.0 (Feldebene unbekannt)",
+      "ueberschreitet_grenze": "VG-5"
+    },
+    {
+      "id": "DF-15",
+      "quelle": "E-09",
+      "ziel": "E-14",
+      "daten": "Kundendaten; JDBC, TLS deaktiviert",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-16",
+      "quelle": "E-10",
+      "ziel": "E-15",
+      "daten": "Bestelldaten; ohne TLS",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-17",
+      "quelle": "E-11",
+      "ziel": "E-16",
+      "daten": "Versandauftragsdaten",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-18",
+      "quelle": "E-13",
+      "ziel": "E-17",
+      "daten": "E-Mail (SMTP), TLS erwähnt",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-19",
+      "quelle": "E-18",
+      "ziel": "E-19",
+      "daten": "Protokolle aller Dienste, u.a. User-Agent und E-Mail-Adresse angemeldeter Nutzer",
+      "ueberschreitet_grenze": "nein"
+    },
+    {
+      "id": "DF-20",
+      "quelle": "E-10",
+      "ziel": "E-22",
+      "daten": "Bestelldaten zur Zahlungsauslösung (impliziert)",
+      "ueberschreitet_grenze": "VG-5"
+    },
+    {
+      "id": "DF-21",
+      "quelle": "E-22",
+      "ziel": "E-10",
+      "daten": "HMAC-signierter Webhook mit Zahlungsstatus",
+      "ueberschreitet_grenze": "VG-5"
+    },
+    {
+      "id": "DF-22",
+      "quelle": "E-03",
+      "ziel": "E-22",
+      "daten": "Kartendaten via eingebettetem iframe des Zahlungsdienstleisters; Rückgabe eines Zahlungsmittel-Tokens (Orchestrierung im Detail unbekannt)",
+      "ueberschreitet_grenze": "VG-5"
+    },
+    {
+      "id": "DF-23",
+      "quelle": "E-03",
+      "ziel": "E-20",
+      "daten": "Seitenaufrufe, Conversion-Trichter-Daten (Rechtsgrundlage/Konsent offen)",
+      "ueberschreitet_grenze": "VG-5"
+    },
+    {
+      "id": "DF-24",
+      "quelle": "E-03",
+      "ziel": "E-23",
+      "daten": "Klicks und Konversionen via Werbepartner-Skript (Rechtsgrundlage/Konsent offen)",
+      "ueberschreitet_grenze": "VG-5"
+    }
+  ],
+  "vertrauensgrenzen": [
+    {
+      "id": "VG-1",
+      "name": "Externe Zugangsgrenze",
+      "beschreibung": "Grenze zwischen externen Akteuren und Frontend über HTTPS."
+    },
+    {
+      "id": "VG-2",
+      "name": "Frontend-/Zugriffsschicht",
+      "beschreibung": "Grenze der Frontend- und Zugriffskomponenten."
+    },
+    {
+      "id": "VG-3",
+      "name": "Integrationsschicht",
+      "beschreibung": "Grenze um den Middleware Service."
+    },
+    {
+      "id": "VG-4",
+      "name": "Anwendungs- und Datenschicht",
+      "beschreibung": "Grenze um Backend-Dienste und Datenbanken. Hinweis: technische Durchsetzung (Segmentierung/Firewalls) nicht dokumentiert."
+    },
+    {
+      "id": "VG-5",
+      "name": "Externe Systeme und Partner",
+      "beschreibung": "Grenze zu Drittsystemen außerhalb des eigenen Systems."
+    }
+  ],
+  "assets": [
+    {
+      "id": "A-01",
+      "name": "Kundendaten",
+      "element_ref": "E-14",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integrität"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Personenbezogene Daten unterliegen Schutzanforderungen. DB-Zugriff per JDBC mit deaktiviertem TLS erhöht Risiko."
+    },
+    {
+      "id": "A-02",
+      "name": "Zahlungsmittel-Token",
+      "element_ref": "E-14",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integrität"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Kartendaten selbst verlassen das System nicht (iframe des PCI-DSS-zertifizierten Zahlungsdienstleisters), aber der in der User-DB gespeicherte Zahlungsmittel-Token ist missbrauchsrelevant. Verschlüsselung des Tokens at rest nicht dokumentiert."
+    },
+    {
+      "id": "A-03",
+      "name": "Bestelldaten",
+      "element_ref": "E-15",
+      "schutzziele": [
+        "Integrität",
+        "Verfügbarkeit"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Bestellungen sind geschäftskritisch. DB-Zugriff ohne TLS erhöht Risiko."
+    },
+    {
+      "id": "A-04",
+      "name": "Versandauftragsdaten",
+      "element_ref": "E-16",
+      "schutzziele": [
+        "Integrität",
+        "Verfügbarkeit"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Für Logistikabwicklung erforderlich."
+    },
+    {
+      "id": "A-05",
+      "name": "Shop-Konfiguration/Sortiment/Preise",
+      "element_ref": "E-04",
+      "schutzziele": [
+        "Integrität"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "Manipulation beeinflusst Geschäftsbetrieb direkt."
+    },
+    {
+      "id": "A-06",
+      "name": "Authentifizierungs-Token (JWT)",
+      "element_ref": "E-05",
+      "schutzziele": [
+        "Vertraulichkeit",
+        "Integrität"
+      ],
+      "kritikalitaet": "hoch",
+      "begruendung": "RS256-signierte JWT mit 8h Gültigkeit ohne Rücknahmemöglichkeit; kompromittierte Token bleiben lange gültig. Token-Prüfung sichert Zugriffskontrolle."
+    },
+    {
+      "id": "A-07",
+      "name": "Protokolldaten",
+      "element_ref": "E-19",
+      "schutzziele": [
+        "Integrität",
+        "Vertraulichkeit"
+      ],
+      "kritikalitaet": "mittel",
+      "begruendung": "Protokolle enthalten personenbezogene Daten (E-Mail-Adressen, User-Agent) und sind für Nachvollziehbarkeit und Forensik relevant. Zugriffskontrolle nicht dokumentiert."
+    }
+  ],
+  "annahmen": [
+    "HTTPS wird nur für Zugangskanäle explizit genannt; interne Kommunikation ist überwiegend unspezifiziert, TLS zu den Datenbanken ist deaktiviert bzw. nicht vorhanden.",
+    "Zahlungskartendaten verbleiben laut Systembeschreibung außerhalb des Systems beim PCI-DSS-zertifizierten Zahlungsdienstleister (iframe); ShopFlow speichert nur einen Zahlungsmittel-Token.",
+    "Der Middleware Service ist zentraler Integrationspunkt zu allen Backend- und Externsystemen (Faktur SaaS per OAuth 2.0).",
+    "Frontend-seitige Drittanbieter-Skripte (Google Analytics, Werbepartner) senden Daten direkt aus dem Browser an die externen Systeme, nicht über das Backend.",
+    "Der Zahlungsdienstleister kommuniziert direkt mit dem Bestellservice (Webhook) und mit dem User-Bereich (iframe/Tokenisierung)."
+  ],
+  "rueckfragen_nutzer": [
+    "Welche Daten werden an Google Analytics, Faktur SaaS und Werbung/Affiliate übermittelt und mit welcher Rechtsgrundlage (Konsent gemäß Datenschutzerklärung)?"
+  ],
+  "klaerungsprotokoll": [
+    {
+      "frage": "Welche konkreten Datenkategorien fließen über die einzelnen internen Datenflüsse (z.B. API Gateway zu Middleware)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Teilweise geklärt: API Gateway → Middleware nutzt JWT-Token mit Rolleninformationen; Middleware → Faktur SaaS überträgt Kunden- und Bestelldaten; Bestellservice → Zahlungsdienstleister Bestelldaten; Kafka-Event 'Bestellung angelegt'; Fachdienste → Mailserver Bestellbestätigungen/Marketing-E-Mails; Logs enthalten User-Agent und E-Mail; Frontend → Sentry/Google Analytics/Werbepartner. LÜCKE bleibt: exakte Feldstruktur/Datenkategorien (PII, Finanzdaten) je Datenfluss ist nicht dokumentiert."
+    },
+    {
+      "frage": "Werden interne Verbindungen (Middleware zu Backend, zu DBs, zu externen Systemen) verschlüsselt/authentifiziert?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Teilweise geklärt: PostgreSQL TLS optional und deaktiviert, MySQL ohne TLS, User-DB per JDBC ohne TLS; Faktur SaaS per OAuth 2.0. LÜCKE bleibt: Verschlüsselung/Authentifizierung für Middleware→Backend, Middleware→externe Systeme (außer Faktur SaaS), Backend-Dienste untereinander, Redis, Kafka, Postfix→SMTP-Relay, API Gateway→Backend nicht dokumentiert."
+    },
+    {
+      "frage": "Welches Authentifizierungs-/Autorisierungsverfahren nutzt der Authentication-Dienst?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Geklärt: Keycloak 18.0.0, OIDC/OAuth 2.0 (Authorization Code Flow), RS256-signierte JWT, Zugriffstoken 8h gültig ohne Rücknahme, TOTP optional. LÜCKE bleibt: MFA-Pflicht für Admin unklar, Refresh-Token-Gültigkeit, Client-seitiges Token-Handling, Durchsetzung der Token-Revokation."
+    },
+    {
+      "frage": "Wie werden Kreditkartendaten im User-Bereich verarbeitet und an den Zahlungsdienstleister übertragen (Tokenisierung, PCI-Scope)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": "Geklärt: Karteneingabe ausschließlich im iframe des PCI-DSS-zertifizierten Zahlungsdienstleisters; ShopFlow erhält nur einen Zahlungsmittel-Token, gespeichert in PostgreSQL 13.4; Kartennummer berührt ShopFlow nie; Rückmeldung per HMAC-signiertem Webhook. LÜCKE bleibt: technische Orchestrierung der Tokenisierung, Schutz der Token-Übertragung Frontend→Bestellung, Verschlüsselung der gespeicherten Tokens (Feldverschlüsselung vs. Klartext)."
+    },
+    {
+      "frage": "Welche Daten werden an Google Analytics, Faktur SaaS und Werbung/Affiliate übermittelt und mit welcher Rechtsgrundlage?",
+      "gefragt_wen": "nutzer",
+      "antwort": "Offen – an Nutzer weitergeleitet (siehe rueckfragen_nutzer)."
+    },
+    {
+      "frage": "Gibt es einen direkten Datenfluss vom User-Bereich zum API Gateway/Authentication?",
+      "gefragt_wen": "architekt",
+      "antwort": "Teilweise geklärt: Im Diagramm kein eindeutiger direkter Pfad vom User-Bereich zu API Gateway/Authentication; Pfade nur für Admin-Bereich explizit. LÜCKE bleibt: Unklar, ob User- und Admin-Bereich dasselbe API Gateway/Authentication nutzen und wie RBAC-Trennung technisch durchgesetzt wird. Modell führt keinen bestätigten direkten User→Gateway-Fluss ein."
+    },
+    {
+      "frage": "Wie ist die genaue Anbindung zu Faktur SaaS und Werbung/Affiliate (welche Dienste rufen sie auf)?",
+      "gefragt_wen": "architekt",
+      "antwort": "Teilweise geklärt: Faktur SaaS wird vom Middleware Service angebunden (Kunden-/Bestelldaten, OAuth 2.0); Werbung/Affiliate über Frontend-Werbepartner-Skript. LÜCKE bleibt: welche internen Services genau Faktur SaaS aufrufen (Frequenz/Kritikalität), Mechanismus und Verschlüsselung der Affiliate-Anbindung, Routing über API Gateway vs. Direktverbindung."
+    },
+    {
+      "frage": "Sind die Vertrauensgrenzen (Schichten) durch Netzwerksegmentierung/Firewalls technisch durchgesetzt?",
+      "gefragt_wen": "architekt",
+      "antwort": "Nicht geklärt: Diagramm stellt Schichten nur visuell dar, keine technischen Durchsetzungsmechanismen (Firewalls, Segmentierung, Isolation) dokumentiert. LÜCKE bleibt bestehen; als Hinweis in VG-4 vermerkt."
+    }
+  ],
+  "fachagenten_dialog": [
+    {
+      "frage": "Welche konkreten Datenkategorien fließen über die einzelnen internen Datenflüsse (z.B. API Gateway zu Middleware)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Die Systembeschreibung dokumentiert die Komponenten und ihre Funktionen, nicht aber die konkreten Datenkategorien, die über einzelne Datenflüsse fließen. Aus dem Text lassen sich einige Hinweise ableiten:\n\n**Dokumentierte Datenflüsse mit teilweiser Spezifikation:**\n- API Gateway → Middleware Service: Routing zu Fachdiensten, Token-Prüfung (impliziert: JWT-Token mit Rolleninformationen)\n- Middleware Service → Faktur SaaS: Kundendaten und Bestelldaten (explizit genannt)\n- Bestellservice → Zahlungsdienstleister: Bestelldaten zur Zahlungsauslösung (impliziert)\n- Zahlungsdienstleister → Bestellservice: HMAC-signierte Webhook mit Zahlungsstatus (impliziert)\n- Kafka-Events: Ereignis \"Bestellung angelegt\" (genannt, weitere nicht spezifiziert)\n- Fachdienste → Mailserver Gateway: Bestellbestätigungen, Marketing-E-Mails (funktional beschrieben, nicht nach Feldebene)\n- Log4j-Appender → Logstash → OpenSearch: Logs mit `User-Agent` und E-Mail-Adresse angemeldeter Nutzer\n- Frontend → Sentry: JavaScript-Fehler, Ladezeiten, Nutzersitzungen (funktional beschrieben)\n- Frontend → Google Analytics: Seitenaufrufe, Conversion-Trichter-Daten\n- Frontend → Werbepartner-Skript: Klicks und Konversionen\n\n**Nicht spezifiziert bleibt:** Die exakte Feldstruktur und Datenkategorien (z.B. welche PII, Finanz- oder Zahlungsdaten) in den einzelnen Datenflüssen.",
+        "quelle": "gemischt",
+        "beleg": "\"führt Formatumsetzungen durch und hält die Anbindungen nach außen\"; \"erhält Kunden- und Bestelldaten vom Middleware Service\"; \"publiziert das Ereignis 'Bestellung angelegt'\"; \"die Einträge enthalten u. a. `User-Agent` und E-Mail-Adresse angemeldeter Nutzer\"",
+        "luecke": "Die Systembeschreibung nennt die beteiligten Komponenten und ihre Funktionen, dokumentiert aber nicht die granularen Datenkategorien pro Datenfluss (z.B.: Welche Kundenstammdaten genau fließen zum Faktur SaaS? Welche Felder in den Kafka-Events? Welche PII in den Logs? Welche Bestelldetails zum Versanddienstleister? Welche Session-Daten an Sentry?). Dies ist sicherheitsrelevant für Datenschutz, Datenminimierung und Schutzbedarf.",
+        "rueckfrage": "Bitte stellen Sie folgende Fragen:\n1. Welche konkreten Datenkategorien (z.B. Kundenname, E-Mail, Adresse, Zahlungstoken, Bestelldetails, Produktdaten) fließen zwischen API Gateway und Middleware Service, und wie werden sie strukturiert?\n2. Welche Felder enthalten die Kafka-Events (z.B. nur Bestell-ID oder auch Kundendaten, Warenkorbinhalt)?\n3. Welche Kundendaten und Bestelldaten genau werden an den Faktur SaaS übertragen?\n4. Welche personenbezogenen Daten werden an Sentry (Fehlerberichtssystem) und Google Analytics (Frontend-Skript) übertragen, und sind diese gemäß Datenschutzerklärung konsentiert?\n5. Welche Daten fließen zum Werbepartner-Skript (Node.js-Service) und wie wird deren Konsentierung gewährleistet?\n6. Welche Daten landen in OpenSearch-Logs und welche Zugriffskontrolle existiert für diese potenziell sensiblen Logs?"
+      }
+    },
+    {
+      "frage": "Werden interne Verbindungen (Middleware zu Backend, zu DBs, zu externen Systemen) verschlüsselt/authentifiziert?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Die Systembeschreibung dokumentiert einzelne Verschlüsselungsaspekte fragmentarisch: TLS ist bei PostgreSQL 'optional und derzeit deaktiviert', bei MySQL 'ohne TLS'. Die Datenbank User wird per JDBC ohne explizite TLS-Angabe erreichbar. Für die Kommunikation Middleware → Backend-Dienste, Middleware → Externe Systeme (außer Faktur SaaS mit OAuth 2.0) und intern zwischen den Java-Diensten werden weder Verschlüsselung noch gegenseitige Authentifizierung dokumentiert. Kafka und Redis werden erwähnt, aber ohne Sicherheitsangaben.",
+        "quelle": "dokument",
+        "beleg": "TLS optional und derzeit deaktiviert [PostgreSQL]; JDBC ohne TLS [MySQL]; Zugriff per JDBC, TLS optional und derzeit deaktiviert [User-DB]",
+        "luecke": "Es fehlt eine vollständige Beschreibung der Verschlüsselung und Authentifizierung für: (1) Middleware Service → Backend Services; (2) Middleware Service → externe Systeme (außer Faktur SaaS); (3) Backend-Dienste untereinander; (4) Redis-Kommunikation; (5) Kafka-Kommunikation; (6) Postfix → externe SMTP-Relay (nur 'TLS' erwähnt, kein Detail zur Implementierung); (7) API Gateway → Backend Services.",
+        "rueckfrage": "Für jeden internen Kommunikationskanal (Middleware zu Services, Services untereinander, zu Datenbanken, zu Kafka/Redis): Ist die Verbindung verschlüsselt (TLS/mTLS)? Findet gegenseitige oder einseitige Authentifizierung statt (Zertifikate, API-Keys, andere)? Welche konkrete Konfiguration wird eingesetzt?"
+      }
+    },
+    {
+      "frage": "Welches Authentifizierungs-/Autorisierungsverfahren nutzt der Authentication-Dienst (z.B. OAuth, Session, MFA)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Der Authentication-Dienst (Keycloak 18.0.0) nutzt OIDC/OAuth 2.0 mit dem Authorization Code Flow und stellt RS256-signierte JWT aus. Die Zugriffstokens sind 8 Stunden gültig und können nicht widerrufen werden. TOTP ist optional verfügbar.",
+        "quelle": "dokument",
+        "beleg": "Keycloak 18.0.0; OIDC/OAuth 2.0 (Authorization Code Flow), RS256-signierte JWT […] stellt Zugriffs- (8 h gültig, keine Rücknahme) und Aktualisierungstoken aus; Passwortzurücksetzung; TOTP optional.",
+        "luecke": "1. Für den Admin-Bereich ist nicht dokumentiert, ob MFA (z.B. TOTP) erzwungen ist oder nur optional. 2. Nicht beschrieben: Gültigkeitsdauer des Aktualisierungstoken (Refresh Token). 3. Nicht dokumentiert: Token-Speicherung und -Handling auf Client-Seite für Kunden vs. Administratoren (unterschiedliche Sicherheitsanforderungen?). 4. Nicht dokumentiert: Wie wird die Token-Revokation im Fehlerfall (z.B. Logout, Passwortwechsel) praktisch durchgesetzt, wenn Zugriffstokens 8h lang gültig sind und nicht revozierbar?",
+        "rueckfrage": "1. Ist MFA (insbesondere TOTP) für Shop-Administratoren und Support-Nutzer im Admin-Bereich obligatorisch oder optional? 2. Wie lange ist der Refresh-Token gültig? 3. Wird in der Praxis eine Token-Blacklist oder ähnlicher Mechanismus eingesetzt, um bereits ausgegebene Zugriffstokens vor Ablauf der 8-Stunden-Frist zu invalidieren (z.B. bei Logout oder Passwortwechsel)?"
+      }
+    },
+    {
+      "frage": "Wie werden Kreditkartendaten im User-Bereich verarbeitet und an den Zahlungsdienstleister übertragen (Tokenisierung, PCI-Scope)?",
+      "gefragt_wen": "sw_engineer",
+      "antwort": {
+        "antwort": "Gemäß Systembeschreibung werden Kartendaten NICHT durch ShopFlow verarbeitet. Die Karteneingabe erfolgt ausschließlich in einem eingebetteten iframe des PCI-DSS-zertifizierten Zahlungsdienstleisters. ShopFlow erhält vom Zahlungsdienstleister nur einen Token, den es in der User-Datenbank (PostgreSQL 13.4) speichert. Die tatsächliche Kartennummer berührt das ShopFlow-System nie. Der Zahlungsdienstleister meldet den Zahlungsausgang per HMAC-signiertem Webhook an den Bestellservice zurück.",
+        "quelle": "dokument",
+        "beleg": "Die eigentliche Karteneingabe erfolgt im eingebetteten iframe des Zahlungsdienstleisters; Kartendaten liegen nicht im System. ... erhält Zahlungsmittel-Token des Zahlungsdienstleisters [in der Datenbank]. ... Kartendaten werden nur im Formular des Dienstleisters erfasst und berühren ShopFlow nicht.",
+        "luecke": "1. Wie wird der Token-Austausch zwischen Frontend und Zahlungsdienstleister technisch orchestriert (z. B. API-Aufruf zum Tokenisierungsendpunkt, Rückgabemechanismus)? 2. Wird die Token-Übertragung vom Frontend zur Bestellung verschlüsselt oder anderweitig geschützt? 3. Wie werden gespeicherte Tokens in der User-DB verschlüsselt (Feldverschlüsselung, nur hashen)?",
+        "rueckfrage": "1. Wie erfolgt technisch die Tokenisierung: ruft das Frontend direkt eine API des Zahlungsdienstleisters auf und erhält einen Token zurück, oder vermittelt ein Backend-Service diesen Austausch? 2. Sind die Zahlungsmittel-Tokens in der PostgreSQL-Datenbank verschlüsselt, oder werden sie im Klartext gespeichert?"
+      }
+    },
+    {
+      "frage": "Welche Daten werden an Google Analytics, Faktur SaaS und Werbung/Affiliate übermittelt und mit welcher Rechtsgrundlage?",
+      "gefragt_wen": "nutzer",
+      "antwort": "(offen)"
+    },
+    {
+      "frage": "Gibt es einen direkten Datenfluss vom User-Bereich zum API Gateway/Authentication (im Diagramm nur für Admin sichtbar)?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "Im Diagramm ist kein direkter Datenfluss vom User-Bereich zum API Gateway oder zur Authentication-Komponente eingezeichnet. Der User-Bereich (Frontend → User-Bereich mit Bestellungen, Kundenkonto, Kreditkarte) kommuniziert über HTTPS mit dem Frontend. Von dort führt ein HTTPS-Pfeil zum API Gateway und zur Authentication, aber dieser Pfad ist im Diagramm nur für den Admin-Bereich explizit dargestellt.",
+        "quelle": "dokument",
+        "beleg": "Das Diagramm zeigt zwei separate HTTPS-Pfeile aus dem Frontend-Bereich: einen vom User-Bereich (ohne weiteres Label) und einen vom Admin-Bereich, beide in Richtung API Gateway und Authentication. Die Pfeile sind unterschiedlich positioniert, aber es ist unklar, ob beide zum gleichen Ziel führen oder ob der User-Bereich einen separaten Pfad nutzt.",
+        "luecke": "Es ist nicht eindeutig erkennbar, ob der User-Bereich das gleiche API Gateway und die gleiche Authentication-Komponente nutzt wie der Admin-Bereich, oder ob es separate Kanäle/Instanzen gibt. Die Routing- und Token-Prüfungslogik ('Routing · Token-Prüfung' im API Gateway) könnte unterschiedlich für User vs. Admin konfiguriert sein, ist aber nicht spezifiziert.",
+        "rueckfrage": "Nutzen User-Bereich und Admin-Bereich das gleiche API Gateway und die gleiche Authentication-Komponente, oder gibt es separate Instanzen/Kanäle? Falls gleich: Wie wird die Trennung der Berechtigungen und des Zugriffs (Role-Based Access Control) technisch durchgesetzt?"
+      }
+    },
+    {
+      "frage": "Wie ist die genaue Anbindung zu Faktur SaaS und Werbung/Affiliate (welche Dienste rufen sie auf)?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "Das Diagramm zeigt Faktur SaaS und Werbung/Affiliate Marketing als externe Systeme und Partner auf der rechten Seite an. Aus der Architektur ist erkennbar, dass der Mailserver Gateway (PostFix, Mailversand) als Komponente existiert, die als potentieller Kontaktpunkt fungieren könnte. Allerdings ist die konkrete Anbindungsrichtung und der genaue Datenflussverlauf nicht explizit dargestellt.",
+        "quelle": "dokument",
+        "beleg": "Das Diagramm zeigt im Bereich 'Externe Systeme und Partner' die Boxen 'Faktur SaaS', 'Zahlungsdienstleister' und 'Werbung und Affiliate Marketing' mit gestrichelten Rahmen. Der 'Mailserver Gateway' ist als Komponente im Anwendungsschicht-Block eingezeichnet. Pfeile vom Anwendungsschicht-Bereich deuten auf die externen Systeme, aber die spezifischen Serviceroufen sind nicht benannt.",
+        "luecke": "1. Welche Middleware-Services oder Backend-Komponenten rufen Faktur SaaS auf und mit welcher Häufigkeit/Kritikalität? 2. Durch welchen Kanal erfolgt die Anbindung zu Werbung/Affiliate Marketing (API, Webhook, File-Transfer, etc.)? 3. Gibt es direkte Verbindungen vom Frontend oder nur über die Backend/Middleware-Schicht? 4. Sind diese Kanäle verschlüsselt und authentifiziert?",
+        "rueckfrage": "1) Welche internen Services initiieren Aufrufe zu Faktur SaaS (z.B. Backend direkt, Middleware Service, ein spezialisierter Billing-Service)? 2) Wie erfolgt die Anbindung zu Werbung/Affiliate Marketing – über welchen Mechanismus und von welcher Komponente aus? 3) Sind diese externen Anbindungen über das API Gateway geroutet oder erfolgen direkte Verbindungen aus den Backend-Komponenten?"
+      }
+    },
+    {
+      "frage": "Sind die Vertrauensgrenzen (Schichten) durch Netzwerksegmentierung/Firewalls technisch durchgesetzt?",
+      "gefragt_wen": "architekt",
+      "antwort": {
+        "antwort": "",
+        "quelle": "dokument",
+        "beleg": "Das Diagramm zeigt Schichten (Zuganskanäle, Frontend-/Zugriffschicht, Integrationsschicht, Anwendungs-/Datenschicht, Betrieb und Überwachung) und kennzeichnet Vertrauensgrenzen visuell durch räumliche Trennung und Boxen. Es werden jedoch KEINE technischen Sicherheitsmechanismen dargestellt – weder Firewalls, noch Netzwerksegmentierung, noch andere Durchsetzungsmechanismen sind im Diagramm dokumentiert.",
+        "luecke": "Es ist völlig unklar, ob und wie die visuell dargestellten Schichtgrenzen durch technische Maßnahmen (Netzwerksegmentierung, Firewalls, Zugriffskontrolle, Isolation) tatsächlich durchgesetzt werden. Die Schichten könnten rein logisch sein oder auch technisch isoliert.",
+        "rueckfrage": "Welche technischen Mechanismen (Netzwerk-Segmentierung, Firewalls, Container-Isolation, API-Gateways mit Zugriffskontrolle etc.) setzen die Vertrauensgrenzen zwischen den Schichten durch? Gibt es eine Netzwerk- oder Deployment-Architektur, die zeigt, wie die Isolation technisch realisiert ist?"
+      }
+    }
+  ],
+  "modell_zuordnung": {
+    "ciso": {
+      "anbieter": "anthropic",
+      "modell": "claude-opus-4-8",
+      "temperature": 0.2,
+      "profil": "tiefes Reasoning (Kern)"
+    },
+    "architekt": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "temperature": 0.2,
+      "profil": "guenstige, bildfaehige Extraktion"
+    },
+    "sw_engineer": {
+      "anbieter": "anthropic",
+      "modell": "claude-haiku-4-5-20251001",
+      "temperature": 0.2,
+      "profil": "guenstige, treue Extraktion"
+    },
+    "ti_agent": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "temperature": 0.2,
+      "profil": "Websuche + Normalisierung"
+    },
+    "pruefer": {
+      "anbieter": "anthropic",
+      "modell": "claude-sonnet-4-6",
+      "temperature": 0.2,
+      "profil": "unabhaengige Pruefung (anderes Modell als CISO)"
+    }
+  },
+  "angriffsflaechen": [
+    {
+      "id": "AF-01",
+      "name": "Kundenzugang zum User-Bereich",
+      "art": "Grenzueberschreitung (VG-1) / externer Akteur",
+      "element_refs": [
+        "E-01",
+        "E-03"
+      ],
+      "erreichbare_assets": [
+        "A-01",
+        "A-02",
+        "A-03"
+      ],
+      "begruendung": "Der externe Kunde greift ueber HTTPS (DF-01) ueber die externe Zugangsgrenze auf den User-Bereich zu, der Bestell- und Kundenfunktionen bereitstellt."
+    },
+    {
+      "id": "AF-02",
+      "name": "Administratorzugang zum Admin-Bereich",
+      "art": "Grenzueberschreitung (VG-1) / externer Akteur",
+      "element_refs": [
+        "E-02",
+        "E-04"
+      ],
+      "erreichbare_assets": [
+        "A-05"
+      ],
+      "begruendung": "Der externe Shop-Administrator greift ueber HTTPS (DF-02) ueber die externe Zugangsgrenze auf den Admin-Bereich mit Sortiment-/Preis-/Konfigurationshoheit zu."
+    },
+    {
+      "id": "AF-03",
+      "name": "Authentifizierung Admin-Bereich zu Keycloak",
+      "art": "Grenzueberschreitung (VG-2)",
+      "element_refs": [
+        "E-04",
+        "E-05"
+      ],
+      "erreichbare_assets": [
+        "A-06"
+      ],
+      "begruendung": "Der OIDC/OAuth-Fluss (DF-03) ueberschreitet die Frontend-/Zugriffsschicht und exponiert die Ausstellung der JWT-Authentifizierungstoken."
+    },
+    {
+      "id": "AF-04",
+      "name": "API-Aufrufe Admin-Bereich zu API Gateway",
+      "art": "Grenzueberschreitung (VG-2)",
+      "element_refs": [
+        "E-04",
+        "E-06"
+      ],
+      "erreichbare_assets": [
+        "A-05",
+        "A-06"
+      ],
+      "begruendung": "Die API-Aufrufe mit JWT (DF-04) und die API-Antworten (DF-05) ueberschreiten die Frontend-/Zugriffsschicht und exponieren Routing und Token-Pruefung."
+    },
+    {
+      "id": "AF-05",
+      "name": "API Gateway zu Middleware Service",
+      "art": "Grenzueberschreitung (VG-3)",
+      "element_refs": [
+        "E-06",
+        "E-08"
+      ],
+      "erreichbare_assets": [
+        "A-06"
+      ],
+      "begruendung": "Der Routing-Fluss mit JWT-Token (DF-07) ueberschreitet die Integrationsschicht, wobei Verschluesselung/Authentifizierung nicht dokumentiert sind."
+    },
+    {
+      "id": "AF-06",
+      "name": "Admin-Bereich zu Middleware Service",
+      "art": "Grenzueberschreitung (VG-3)",
+      "element_refs": [
+        "E-04",
+        "E-08"
+      ],
+      "erreichbare_assets": [
+        "A-05"
+      ],
+      "begruendung": "Der Datenfluss vom Admin-Bereich zur Middleware (DF-08) ueberschreitet die Integrationsschicht mit unbekanntem Inhalt und Schutz."
+    },
+    {
+      "id": "AF-07",
+      "name": "Middleware Service zu Backend",
+      "art": "Grenzueberschreitung (VG-4)",
+      "element_refs": [
+        "E-08",
+        "E-09"
+      ],
+      "erreichbare_assets": [
+        "A-01",
+        "A-02"
+      ],
+      "begruendung": "Der Fluss Middleware zu Backend (DF-09) ueberschreitet die Anwendungs-/Datenschicht ohne dokumentierte Verschluesselung/Authentifizierung und erreicht ueber das Backend die User-DB."
+    },
+    {
+      "id": "AF-08",
+      "name": "Middleware Service zu Bestellung",
+      "art": "Grenzueberschreitung (VG-4)",
+      "element_refs": [
+        "E-08",
+        "E-10"
+      ],
+      "erreichbare_assets": [
+        "A-03"
+      ],
+      "begruendung": "Der Fluss Middleware zu Bestellservice (DF-10) ueberschreitet die Anwendungs-/Datenschicht ohne dokumentierte Sicherung und erreicht Bestelldaten."
+    },
+    {
+      "id": "AF-09",
+      "name": "Middleware Service zu Logistik",
+      "art": "Grenzueberschreitung (VG-4)",
+      "element_refs": [
+        "E-08",
+        "E-11"
+      ],
+      "erreichbare_assets": [
+        "A-04"
+      ],
+      "begruendung": "Der Fluss Middleware zu Logistik (DF-11) ueberschreitet die Anwendungs-/Datenschicht ohne dokumentierte Sicherung und erreicht Versandauftragsdaten."
+    },
+    {
+      "id": "AF-10",
+      "name": "Middleware Service zu Suche",
+      "art": "Grenzueberschreitung (VG-4)",
+      "element_refs": [
+        "E-08",
+        "E-12"
+      ],
+      "erreichbare_assets": [],
+      "begruendung": "Der Fluss Middleware zu Suche (DF-12) ueberschreitet die Anwendungs-/Datenschicht ohne dokumentierte Verschluesselung/Authentifizierung."
+    },
+    {
+      "id": "AF-11",
+      "name": "Middleware Service zu Mailserver Gateway",
+      "art": "Grenzueberschreitung (VG-4)",
+      "element_refs": [
+        "E-08",
+        "E-13"
+      ],
+      "erreichbare_assets": [],
+      "begruendung": "Der Fluss Middleware zu Mailserver Gateway (DF-13) mit Bestellbestaetigungen/Marketing-E-Mails ueberschreitet die Anwendungs-/Datenschicht."
+    },
+    {
+      "id": "AF-12",
+      "name": "Middleware Service zu Faktur SaaS",
+      "art": "Grenzueberschreitung (VG-5) / externes System",
+      "element_refs": [
+        "E-08",
+        "E-21"
+      ],
+      "erreichbare_assets": [
+        "A-01",
+        "A-03"
+      ],
+      "begruendung": "Der Fluss Middleware zu Faktur SaaS (DF-14) uebermittelt Kunden- und Bestelldaten ueber die Grenze zu Drittsystemen."
+    },
+    {
+      "id": "AF-13",
+      "name": "Bestellung zu Zahlungsdienstleister",
+      "art": "Grenzueberschreitung (VG-5) / externes System",
+      "element_refs": [
+        "E-10",
+        "E-22"
+      ],
+      "erreichbare_assets": [
+        "A-03"
+      ],
+      "begruendung": "Der Fluss Bestellung zum Zahlungsdienstleister (DF-20) mit Bestelldaten zur Zahlungsausloesung ueberschreitet die Grenze zu externen Systemen."
+    },
+    {
+      "id": "AF-14",
+      "name": "Webhook Zahlungsdienstleister zu Bestellung",
+      "art": "Grenzueberschreitung (VG-5) / externer Eingang",
+      "element_refs": [
+        "E-22",
+        "E-10"
+      ],
+      "erreichbare_assets": [
+        "A-03"
+      ],
+      "begruendung": "Der HMAC-signierte Webhook (DF-21) ist ein von aussen eingehender Aufruf ueber die externe Systemgrenze, der Bestellstatus manipulieren koennte."
+    },
+    {
+      "id": "AF-15",
+      "name": "User-Bereich zu Zahlungsdienstleister (iframe/Tokenisierung)",
+      "art": "Grenzueberschreitung (VG-5) / externes System",
+      "element_refs": [
+        "E-03",
+        "E-22"
+      ],
+      "erreichbare_assets": [
+        "A-02"
+      ],
+      "begruendung": "Der Fluss aus dem Browser zum Zahlungsdienstleister (DF-22) mit Kartendaten via iframe und Token-Rueckgabe ueberschreitet die externe Systemgrenze."
+    },
+    {
+      "id": "AF-16",
+      "name": "Frontend zu Google Analytics",
+      "art": "Grenzueberschreitung (VG-5) / externes System",
+      "element_refs": [
+        "E-03",
+        "E-20"
+      ],
+      "erreichbare_assets": [],
+      "begruendung": "Der Fluss aus dem Browser zu Google Analytics (DF-23) mit Seitenaufrufen und Conversion-Daten ueberschreitet die Grenze zu Drittsystemen (Konsent offen)."
+    },
+    {
+      "id": "AF-17",
+      "name": "Frontend zu Werbung/Affiliate Marketing",
+      "art": "Grenzueberschreitung (VG-5) / externes System",
+      "element_refs": [
+        "E-03",
+        "E-23"
+      ],
+      "erreichbare_assets": [],
+      "begruendung": "Der Fluss aus dem Browser zum Werbepartner-Skript (DF-24) mit Klicks und Konversionen ueberschreitet die Grenze zu Drittsystemen (Konsent offen)."
+    },
+    {
+      "id": "AF-18",
+      "name": "Zahlungsdienstleister als eingebundenes externes System (iframe/Webhook)",
+      "art": "Externes System / extern erreichbar",
+      "element_refs": [
+        "E-22"
+      ],
+      "erreichbare_assets": [
+        "A-02",
+        "A-03"
+      ],
+      "begruendung": "Der Zahlungsdienstleister ist ein extern gesteuertes System, das ueber iframe und Webhook direkt in Frontend und Bestellservice eingreift und damit eine externe Angriffsflaeche bildet."
+    }
+  ],
+  "_pos_zuordnung": [
+    {
+      "element": "E-01",
+      "name": "Kunde",
+      "kasten": "Kunde Browser · registriert / Gast",
+      "score": 1.0
+    },
+    {
+      "element": "E-02",
+      "name": "Shop-Administrator",
+      "kasten": "Shop-Administrator Sortiment · Preise · Konfiguration",
+      "score": 1.0
+    },
+    {
+      "element": "E-03",
+      "name": "User-Bereich",
+      "kasten": "User-Bereich Bestellungen · Kundenkonto · Kreditkarte",
+      "score": 1.0
+    },
+    {
+      "element": "E-04",
+      "name": "Admin-Bereich",
+      "kasten": "Admin-Bereich Sortiment · Preise · Shop-Konfiguration",
+      "score": 1.0
+    },
+    {
+      "element": "E-05",
+      "name": "Authentication",
+      "kasten": "Authentication",
+      "score": 1.0
+    },
+    {
+      "element": "E-06",
+      "name": "API Gateway (REST)",
+      "kasten": "API Gateway (REST) Routing · Token-Prüfung",
+      "score": 1.0
+    },
+    {
+      "element": "E-07",
+      "name": "Monitoring für Frontend",
+      "kasten": "Monitoring für Frontend Verfügbarkeit · Fehler",
+      "score": 1.0
+    },
+    {
+      "element": "E-08",
+      "name": "Middleware Service",
+      "kasten": "Middleware Service Anbindung an Backend-Service und Externe Systeme",
+      "score": 1.0
+    },
+    {
+      "element": "E-09",
+      "name": "Backend",
+      "kasten": "Middleware Service Anbindung an Backend-Service und Externe Systeme",
+      "score": 1.0
+    },
+    {
+      "element": "E-10",
+      "name": "Bestellung",
+      "kasten": "Bestellung Annahme · Status · Storno",
+      "score": 1.0
+    },
+    {
+      "element": "E-11",
+      "name": "Logistik",
+      "kasten": "Logistik Sendungsverfolgung",
+      "score": 1.0
+    },
+    {
+      "element": "E-12",
+      "name": "Suche",
+      "kasten": "Suche Produktsuche",
+      "score": 1.0
+    },
+    {
+      "element": "E-13",
+      "name": "Mailserver Gateway",
+      "kasten": "Mailserver Gateway Postfix · Mailversand",
+      "score": 1.0
+    },
+    {
+      "element": "E-14",
+      "name": "Datenbank (User)",
+      "kasten": "Datenbank (User) Kundendaten",
+      "score": 1.0
+    },
+    {
+      "element": "E-15",
+      "name": "Datenbank Bestellungen",
+      "kasten": "Datenbank Bestellungen",
+      "score": 1.0
+    },
+    {
+      "element": "E-16",
+      "name": "Datenbank Versandaufträge",
+      "kasten": "Datenbank Versandaufträge",
+      "score": 1.0
+    },
+    {
+      "element": "E-17",
+      "name": "Mailserver",
+      "kasten": "Mailserver Gateway Postfix · Mailversand",
+      "score": 1.0
+    },
+    {
+      "element": "E-18",
+      "name": "Monitoring",
+      "kasten": "Monitoring für Frontend Verfügbarkeit · Fehler",
+      "score": 1.0
+    },
+    {
+      "element": "E-19",
+      "name": "Log Server DB",
+      "kasten": "Log Server DB OpenSearch · Protokolle",
+      "score": 1.0
+    },
+    {
+      "element": "E-20",
+      "name": "Google Analytics",
+      "kasten": "Google Analytics",
+      "score": 1.0
+    },
+    {
+      "element": "E-21",
+      "name": "Faktur SaaS",
+      "kasten": "Faktur SaaS Rechnungserstellung",
+      "score": 1.0
+    },
+    {
+      "element": "E-22",
+      "name": "Zahlungsdienstleister",
+      "kasten": "Zahlungsdienstleister Kartendaten außerhalb des Systems",
+      "score": 1.0
+    },
+    {
+      "element": "E-23",
+      "name": "Werbung und Affiliate Marketing",
+      "kasten": "Werbung und Affiliate Marketing",
+      "score": 1.0
+    }
+  ],
+  "_pos_unklar": [],
+  "ti_diagnose": [
+    {
+      "surface_ref": "AF-01",
+      "status": "ok",
+      "anzahl": 3,
+      "hinweis": "3 belegte Befunde uebernommen."
+    }
+  ],
+  "ti_befunde": [
+    {
+      "id": "TI-01",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A01:2021",
+      "summary": "Broken Access Control ist das kritischste Web-Anwendungsrisiko laut OWASP 2021: 94 % der getesteten Anwendungen weisen eine Form von Zugriffskontroll-Schwäche auf. Angreifer können URL-Parameter manipulieren, fremde Konten einsehen oder Privilege Escalation durchführen – direkt relevant für den Kundenkonto- und Bestellbereich der SPA.",
+      "source_url": "https://owasp.org/Top10/2021/A01_2021-Broken_Access_Control/",
+      "quellenwahl_begruendung": "Der User-Bereich ist eine externe Web-SPA mit Kundenkonto-Funktion; A01:2021 trifft exakt diesen Angriffsweg gegen fehlende oder fehlerhafte Autorisierungsprüfungen in Web-Anwendungen.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-02",
+      "source_id": "owasp",
+      "source_name": "OWASP Top 10 (Web, 2021)",
+      "klasse": "OWASP",
+      "abstraktionsebene": "Web-Anwendungsrisiko",
+      "identifier": "A07:2021",
+      "summary": "Identification and Authentication Failures (ehem. Broken Authentication): Die Kategorie umfasst Credential Stuffing, Brute-Force-Angriffe, schwache Passwörter, unsichere Session-IDs und JWT-Missbrauch. Für einen über HTTPS erreichbaren Registrierungs-/Login-Bereich (registrierte Kunden und Gäste) ist dies ein zentrales Risiko.",
+      "source_url": "https://owasp.org/Top10/2021/A07_2021-Identification_and_Authentication_Failures/",
+      "quellenwahl_begruendung": "Der User-Bereich erlaubt Login registrierter Kunden sowie Gastzugang; Schwächen in Authentifizierung und Session-Management (A07:2021) sind für diesen externen Zugangspunkt der SPA direkt einschlägig.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "unbekannt",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    },
+    {
+      "id": "TI-03",
+      "source_id": "attack",
+      "source_name": "MITRE ATT&CK (Enterprise)",
+      "klasse": "K3",
+      "abstraktionsebene": "Gegner-TTP (Wer real, wie)",
+      "identifier": "T1190",
+      "summary": "Exploit Public-Facing Application: Reale Angreifer nutzen Schwachstellen (Bugs, Fehlkonfigurationen) in internetexponierter Software, um initialen Zugang zu erlangen – ohne Nutzerinteraktion. Laut Verizon DBIR 2025 ist dies der zweithäufigste Initial-Access-Vektor; die Zeit von Disclosure bis Massenausnutzung beträgt nur noch Stunden.",
+      "source_url": "https://attack.mitre.org/techniques/T1190/",
+      "quellenwahl_begruendung": "AF-01 ist eine über HTTPS öffentlich erreichbare SPA; T1190 bildet das beobachtete reale Angreifer-TTP für den Erstzugang über genau solche internetexponierte Web-Anwendungen ab.",
+      "retrieved_at": "2026-09-22T11:20:56+00:00",
+      "exploitation_status": "aktiv und weit verbreitet – zweithäufigster Initial-Access-Vektor laut Verizon DBIR 2025",
+      "surface_ref": "AF-01",
+      "is_external_content": true,
+      "live_abgefragt": true
+    }
+  ],
+  "bedrohungen": [
+    {
+      "id": "T-01",
+      "titel": "Broken Access Control / IDOR im Kundenkonto- und Bestellbereich",
+      "beschreibung": "Fehlende oder fehlerhafte serverseitige Autorisierung erlaubt Zugriff auf fremde Konto- und Bestelldaten durch Manipulation von Objekt-Referenzen (z.B. order_id, customer_id).",
+      "stride": "Elevation of Privilege",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [
+        "TI-01"
+      ],
+      "methodik": "kombiniert",
+      "begruendung": "Die SPA bietet Kundenkonto- und Bestellfunktionen, und laut OWASP A01:2021 weisen 94% der Anwendungen Zugriffskontroll-Schwächen auf.",
+      "szenario": "Ein registrierter Kunde ändert im API-Aufruf des User-Bereichs die order_id/customer_id auf fremde Werte und ruft darüber Bestell- und Kundendaten anderer Nutzer ab.",
+      "voraussetzungen": "Autorisierungsprüfung erfolgt nur im Frontend oder das API Gateway/Backend prüft nicht, ob das JWT-Subjekt Eigentümer der referenzierten Ressource ist.",
+      "auswirkung": "Unbefugte Einsicht/Änderung von Kundendaten (A-01), Zahlungsmittel-Token (A-02) und Bestelldaten (A-03) fremder Kunden mit Datenschutzverletzung."
+    },
+    {
+      "id": "T-02",
+      "titel": "Credential Stuffing / Brute-Force gegen Kunden-Login",
+      "beschreibung": "Schwache Authentifizierung ermöglicht automatisierte Anmeldeversuche mit geleakten Zugangsdaten oder Passwort-Erraten am externen Login des User-Bereichs.",
+      "stride": "Spoofing",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [
+        "TI-02"
+      ],
+      "methodik": "kombiniert",
+      "begruendung": "Der User-Bereich erlaubt Login registrierter Kunden über HTTPS und TOTP ist nur optional, wodurch Credential Stuffing (A07:2021) direkt greift.",
+      "szenario": "Ein Angreifer spielt große Listen geleakter E-Mail/Passwort-Kombinationen automatisiert gegen den Login und übernimmt Konten ohne aktivierte TOTP.",
+      "voraussetzungen": "Kein wirksames Rate-Limiting/Bot-Schutz, wiederverwendete Passwörter der Kunden und TOTP nicht erzwungen.",
+      "auswirkung": "Kontoübernahme mit Zugriff auf Kundendaten (A-01), Zahlungsmittel-Token (A-02) und Bestellhistorie (A-03) betroffener Kunden."
+    },
+    {
+      "id": "T-03",
+      "titel": "Ausnutzung öffentlich erreichbarer SPA/Endpunkte für Erstzugang",
+      "beschreibung": "Angreifer nutzen Schwachstellen oder Fehlkonfigurationen der internetexponierten SPA bzw. der dahinterliegenden Endpunkte, um ohne Nutzerinteraktion initialen Zugang zu erlangen.",
+      "stride": "Tampering",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [
+        "TI-03"
+      ],
+      "methodik": "kombiniert",
+      "begruendung": "AF-01 ist eine öffentlich über HTTPS erreichbare Web-Anwendung, und T1190 ist laut Verizon DBIR 2025 der zweithäufigste Initial-Access-Vektor mit Stunden bis zur Massenausnutzung.",
+      "szenario": "Ein Angreifer scannt die exponierte SPA/API, findet eine bekannte Schwachstelle oder Fehlkonfiguration und exploited einen Endpunkt für Codeausführung oder Datenmanipulation.",
+      "voraussetzungen": "Verwundbare oder ungepatchte Frontend-/API-Komponente ist von außen erreichbar und ungenügend gehärtet.",
+      "auswirkung": "Kompromittierung des User-Bereichs als Einstiegspunkt, potenziell mit Zugriff auf nachgelagerte Assets (A-01, A-02, A-03) und Manipulation von Daten."
+    },
+    {
+      "id": "T-04",
+      "titel": "Abstreitbarkeit von Bestell- und Kontoaktionen (unzureichende Nachweisbarkeit)",
+      "beschreibung": "Handlungen des Kunden (Bestellung, Stornierung, Kontoänderung) können mangels belastbarer, integritätsgeschützter Protokollierung nachträglich abgestritten werden.",
+      "stride": "Repudiation",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [],
+      "methodik": "kombiniert",
+      "begruendung": "Ohne fälschungssichere Zuordnung von Aktionen zu authentifizierten Nutzern lassen sich getätigte Bestellungen oder Änderungen nicht zweifelsfrei nachweisen.",
+      "szenario": "Ein Kunde bestreitet eine getätigte Bestellung oder Kontoänderung, und der Betreiber kann die Aktion mangels manipulationssicherer Protokolle nicht eindeutig zuordnen.",
+      "voraussetzungen": "Aktionen werden nicht oder nur ungeschützt (manipulierbar, ohne starke Nutzerbindung) protokolliert.",
+      "auswirkung": "Streitfälle über Bestellungen (A-03) und Kontoänderungen belasten Geschäftsbetrieb und erschweren Forensik/Abrechnung."
+    },
+    {
+      "id": "T-05",
+      "titel": "Denial of Service gegen den externen User-Bereich",
+      "beschreibung": "Massenhafte Anfragen oder ressourcenintensive Aufrufe gegen die öffentlich erreichbare SPA/API beeinträchtigen die Verfügbarkeit der Kundenfunktionen.",
+      "stride": "Denial of Service",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [],
+      "methodik": "kombiniert",
+      "begruendung": "Als über HTTPS öffentlich erreichbarer Einstiegspunkt ist der User-Bereich exponiert für Überlastungsangriffe auf Bestell- und Kundenfunktionen.",
+      "szenario": "Ein Angreifer flutet Login-, Such- oder Bestell-Endpunkte des User-Bereichs mit Anfragen und macht den Shop für legitime Kunden unerreichbar.",
+      "voraussetzungen": "Fehlendes oder unzureichendes Rate-Limiting, Skalierungs- oder DDoS-Schutz am externen Zugangspunkt.",
+      "auswirkung": "Ausfall der Kunden-/Bestellfunktionen mit Umsatzverlust und beeinträchtigter Verfügbarkeit bestellbezogener Prozesse (A-03)."
+    },
+    {
+      "id": "T-06",
+      "titel": "Abgriff von Kunden-/Bestelldaten bei der Übertragung",
+      "beschreibung": "Vertrauliche Kunden- und Bestelldaten könnten bei fehlerhafter Transportverschlüsselung oder über kompromittierte Frontend-Skripte an Dritte offengelegt werden.",
+      "stride": "Information Disclosure",
+      "element_ref": "E-03",
+      "surface_ref": "AF-01",
+      "ti_refs": [],
+      "methodik": "kombiniert",
+      "begruendung": "Der User-Bereich verarbeitet personenbezogene und bestellbezogene Daten und bindet externe Skripte (Analytics, Werbung) ein, wodurch ein Abfluss sensibler Daten möglich ist.",
+      "szenario": "Ein Angreifer erzwingt eine TLS-Downgrade-/MitM-Situation oder nutzt ein manipuliertes Drittanbieter-Skript im Frontend, um übertragene Kunden- und Bestelldaten mitzulesen.",
+      "voraussetzungen": "Unzureichende TLS-/HSTS-Konfiguration am Zugang oder fehlende Content-Security-Policy/Integritätsprüfung für eingebundene externe Skripte.",
+      "auswirkung": "Offenlegung von Kundendaten (A-01) und Bestelldaten (A-03) mit Datenschutz- und Reputationsschaden."
+    }
+  ],
+  "abdeckung": [
+    {
+      "surface_ref": "AF-01",
+      "methodik": "kombiniert",
+      "methodik_begruendung": "Zu AF-01 liegen konkrete TI-Befunde vor (TI-01 Broken Access Control, TI-02 Auth-Failures, TI-03 Exploit Public-Facing Application), die zunächst quellengeleitet auf die betroffenen Elemente zurückgebunden werden; anschließend wird die kategoriengeleitete STRIDE-Restabdeckung ergänzt, um strukturelle Lücken (z.B. Repudiation, DoS) für diesen externen Zugangspunkt zu schließen.",
+      "bedrohungen": [
+        "T-01",
+        "T-02",
+        "T-03",
+        "T-04",
+        "T-05",
+        "T-06"
+      ],
+      "geprueft": true
+    }
+  ],
+  "bedrohungen_freigegeben": true,
+  "bewertungen": [
+    {
+      "threat_ref": "T-01",
+      "eintrittswahrscheinlichkeit": 4,
+      "auswirkung": 4,
+      "score": 16,
+      "prioritaet": "hoch",
+      "asset_refs": [
+        "A-01",
+        "A-02",
+        "A-03"
+      ],
+      "ew_begruendung": "IDOR/Broken Access Control (A01:2021) ist eine weit verbreitete, mit öffentlichem Wissen ausnutzbare Schwäche, auch wenn kein aktiver Exploit-Status vorliegt.",
+      "auswirkung_begruendung": "Unautorisierter Zugriff auf hochkritische Kunden-, Token- und Bestelldaten verletzt Vertraulichkeit und Integrität.",
+      "schema": "1"
+    },
+    {
+      "threat_ref": "T-02",
+      "eintrittswahrscheinlichkeit": 4,
+      "auswirkung": 4,
+      "score": 16,
+      "prioritaet": "hoch",
+      "asset_refs": [
+        "A-01",
+        "A-06"
+      ],
+      "ew_begruendung": "Credential Stuffing/Brute-Force (A07:2021) ist mit gängigen Tools und geleakten Zugangsdaten leicht durchführbar.",
+      "auswirkung_begruendung": "Kontoübernahme kompromittiert hochkritische Kundendaten und gültige JWT ohne Rücknahmemöglichkeit.",
+      "schema": "1"
+    },
+    {
+      "threat_ref": "T-03",
+      "eintrittswahrscheinlichkeit": 5,
+      "auswirkung": 5,
+      "score": 25,
+      "prioritaet": "kritisch",
+      "asset_refs": [
+        "A-01",
+        "A-03",
+        "A-06"
+      ],
+      "ew_begruendung": "T1190 ist laut DBIR 2025 aktiv und weit verbreitet als zweithäufigster Initial-Access-Vektor.",
+      "auswirkung_begruendung": "Erstzugang über öffentliche Endpunkte kann zur Systemübernahme und Zugriff auf mehrere hochkritische Assets führen.",
+      "schema": "1"
+    },
+    {
+      "threat_ref": "T-04",
+      "eintrittswahrscheinlichkeit": 3,
+      "auswirkung": 3,
+      "score": 9,
+      "prioritaet": "mittel",
+      "asset_refs": [
+        "A-07",
+        "A-03"
+      ],
+      "ew_begruendung": "Unzureichende Nachweisbarkeit ist ohne besonderes Wissen ausnutzbar, wenn Protokollierung lückenhaft ist.",
+      "auswirkung_begruendung": "Fehlende Nachvollziehbarkeit betrifft primär die mittelkritischen Protokolldaten und erschwert Forensik.",
+      "schema": "1"
+    },
+    {
+      "threat_ref": "T-05",
+      "eintrittswahrscheinlichkeit": 3,
+      "auswirkung": 3,
+      "score": 9,
+      "prioritaet": "mittel",
+      "asset_refs": [
+        "A-03"
+      ],
+      "ew_begruendung": "DoS gegen öffentlich erreichbare Bereiche ist mit verfügbaren Mitteln möglich, aber ohne konkreten TI-Beleg.",
+      "auswirkung_begruendung": "Verfügbarkeit des User-Bereichs und damit der Bestellabwicklung wird spürbar beeinträchtigt.",
+      "schema": "1"
+    },
+    {
+      "threat_ref": "T-06",
+      "eintrittswahrscheinlichkeit": 2,
+      "auswirkung": 4,
+      "score": 8,
+      "prioritaet": "mittel",
+      "asset_refs": [
+        "A-01",
+        "A-02"
+      ],
+      "ew_begruendung": "Abgriff bei der Übertragung erfordert eine Man-in-the-Middle-Position; intern erhöht deaktiviertes JDBC-TLS jedoch die Machbarkeit.",
+      "auswirkung_begruendung": "Kompromittierung der Übertragung hochkritischer Kundendaten und Zahlungsmittel-Token verletzt die Vertraulichkeit.",
+      "schema": "1"
+    }
+  ],
+  "scoring_schema": {
+    "_hinweis": "Konfigurierbares Bewertungsschema (FA-18/FA-19). Aendern = diese Datei bearbeiten, kein Code. Prioritaet = Eintrittswahrscheinlichkeit x Auswirkung, danach in Klassen eingeteilt.",
+    "id": "1",
+    "name": "Eintrittswahrscheinlichkeit x Auswirkung",
+    "dimensionen": {
+      "eintrittswahrscheinlichkeit": {
+        "1": "unwahrscheinlich - privilegierter Zugang oder unrealistische Vorbedingungen noetig",
+        "2": "denkbar - erheblicher Aufwand oder Insiderwissen noetig",
+        "3": "moeglich - mit oeffentlich verfuegbarem Wissen ausfuehrbar",
+        "4": "wahrscheinlich - bekannte Schwaeche, Angriffsweg oeffentlich bekannt",
+        "5": "sehr wahrscheinlich - aktiv ausgenutzt (KEV-Beleg o. Ae.)"
+      },
+      "auswirkung": {
+        "1": "vernachlaessigbar - kein Schutzziel eines benannten Assets verletzt",
+        "2": "gering - Asset geringer Kritikalitaet betroffen",
+        "3": "spuerbar - Asset mittlerer Kritikalitaet betroffen",
+        "4": "schwerwiegend - Asset hoher Kritikalitaet betroffen",
+        "5": "kritisch - mehrere hochkritische Assets oder Systemuebernahme"
+      }
+    },
+    "prioritaetsklassen": [
+      {
+        "name": "kritisch",
+        "min_score": 20
+      },
+      {
+        "name": "hoch",
+        "min_score": 12
+      },
+      {
+        "name": "mittel",
+        "min_score": 6
+      },
+      {
+        "name": "niedrig",
+        "min_score": 1
+      }
+    ]
+  },
+  "laufmetriken": {
+    "lauf_id": "20260922T111443Z",
+    "start": "2026-09-22T11:14:43+00:00",
+    "wall_clock_s": 451.4,
+    "aktive_modellzeit_s": 377.2,
+    "aufrufe": 14,
+    "tokens": {
+      "input": 123106,
+      "output": 30445,
+      "gesamt": 153551
+    },
+    "je_modell": {
+      "claude-opus-4-8": {
+        "aufrufe": 5,
+        "input_tokens": 40024,
+        "output_tokens": 21267,
+        "gesamt_tokens": 61291,
+        "modellzeit_s": 220.2
+      },
+      "claude-haiku-4-5-20251001": {
+        "aufrufe": 7,
+        "input_tokens": 19559,
+        "output_tokens": 4061,
+        "gesamt_tokens": 23620,
+        "modellzeit_s": 43.4
+      },
+      "claude-sonnet-4-6": {
+        "aufrufe": 2,
+        "input_tokens": 63523,
+        "output_tokens": 5117,
+        "gesamt_tokens": 68640,
+        "modellzeit_s": 113.5
+      }
+    },
+    "phasen": [
+      {
+        "name": "Stufe 1 – Systemmodell + Prüfung",
+        "aufrufe": 10,
+        "input_tokens": 46722,
+        "output_tokens": 21261,
+        "modellzeit_s": 245.7
+      },
+      {
+        "name": "Stufe 2 – Angriffsflächen",
+        "aufrufe": 1,
+        "input_tokens": 16139,
+        "output_tokens": 3413,
+        "modellzeit_s": 35.0
+      },
+      {
+        "name": "Stufe 3 – Threat-Intelligence (Websuche)",
+        "aufrufe": 1,
+        "input_tokens": 50958,
+        "output_tokens": 1307,
+        "modellzeit_s": 39.0
+      },
+      {
+        "name": "Stufe 4 – Bedrohungen identifizieren/analysieren",
+        "aufrufe": 1,
+        "input_tokens": 6482,
+        "output_tokens": 3163,
+        "modellzeit_s": 41.9
+      },
+      {
+        "name": "Stufe 5 – Bewertung/Priorisierung",
+        "aufrufe": 1,
+        "input_tokens": 2805,
+        "output_tokens": 1301,
+        "modellzeit_s": 15.6
+      }
+    ]
+  },
+  "element_positionen": {
+    "E-01": {
+      "x": 0.1082,
+      "y": 0.1302
+    },
+    "E-02": {
+      "x": 0.2943,
+      "y": 0.1302
+    },
+    "E-03": {
+      "x": 0.1136,
+      "y": 0.3349
+    },
+    "E-04": {
+      "x": 0.2928,
+      "y": 0.3349
+    },
+    "E-05": {
+      "x": 0.5169,
+      "y": 0.2734
+    },
+    "E-06": {
+      "x": 0.5169,
+      "y": 0.3586
+    },
+    "E-07": {
+      "x": 0.7126,
+      "y": 0.3231
+    },
+    "E-08": {
+      "x": 0.3998,
+      "y": 0.497
+    },
+    "E-09": {
+      "x": 0.3998,
+      "y": 0.497
+    },
+    "E-10": {
+      "x": 0.2096,
+      "y": 0.6331
+    },
+    "E-11": {
+      "x": 0.3344,
+      "y": 0.6331
+    },
+    "E-12": {
+      "x": 0.4592,
+      "y": 0.6331
+    },
+    "E-13": {
+      "x": 0.7126,
+      "y": 0.6331
+    },
+    "E-14": {
+      "x": 0.0847,
+      "y": 0.7408
+    },
+    "E-15": {
+      "x": 0.2096,
+      "y": 0.7408
+    },
+    "E-16": {
+      "x": 0.3344,
+      "y": 0.7408
+    },
+    "E-17": {
+      "x": 0.7126,
+      "y": 0.6331
+    },
+    "E-18": {
+      "x": 0.7126,
+      "y": 0.3231
+    },
+    "E-19": {
+      "x": 0.2227,
+      "y": 0.9083
+    },
+    "E-20": {
+      "x": 0.9168,
+      "y": 0.4994
+    },
+    "E-21": {
+      "x": 0.9168,
+      "y": 0.5728
+    },
+    "E-22": {
+      "x": 0.9168,
+      "y": 0.6485
+    },
+    "E-23": {
+      "x": 0.9168,
+      "y": 0.7254
+    }
+  },
+  "_pos_quelle": "drawio"
+}

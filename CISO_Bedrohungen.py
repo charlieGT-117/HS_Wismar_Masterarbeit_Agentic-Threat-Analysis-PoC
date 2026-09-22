@@ -22,9 +22,10 @@ from pathlib import Path
 
 from llm import frage_modell, repariere_json
 from ausgabe import AUSGABE, CONFIG
-from modelle import modell_fuer
+from modelle import modell_fuer, temperatur_fuer
 
 MODELL = modell_fuer("ciso")
+TEMPERATUR = temperatur_fuer("ciso")
 MAX_TOKENS = 8000
 ORDNER = Path(__file__).resolve().parent
 
@@ -124,7 +125,7 @@ def bedrohungen_je_flaeche(modell: dict, methodik: dict,
         try:
             ergebnis = _json_aus_text(frage_modell(
                 auftrag + "\n\n" + _kontext(modell, flaeche, ti_zur_flaeche),
-                modell=MODELL, max_tokens=MAX_TOKENS))
+                modell=MODELL, max_tokens=MAX_TOKENS, temperatur=TEMPERATUR))
         except Exception as exc:
             print(f"   uebersprungen ({type(exc).__name__}).")
             abdeckung.append({"surface_ref": af_id, "methodik": "-",

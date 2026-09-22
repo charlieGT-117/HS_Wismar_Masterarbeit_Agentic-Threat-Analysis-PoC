@@ -1,0 +1,72 @@
+{
+  "lauf_id": "20260922T111443Z",
+  "start": "2026-09-22T11:14:43+00:00",
+  "wall_clock_s": 451.4,
+  "aktive_modellzeit_s": 377.2,
+  "aufrufe": 14,
+  "tokens": {
+    "input": 123106,
+    "output": 30445,
+    "gesamt": 153551
+  },
+  "je_modell": {
+    "claude-opus-4-8": {
+      "aufrufe": 5,
+      "input_tokens": 40024,
+      "output_tokens": 21267,
+      "gesamt_tokens": 61291,
+      "modellzeit_s": 220.2
+    },
+    "claude-haiku-4-5-20251001": {
+      "aufrufe": 7,
+      "input_tokens": 19559,
+      "output_tokens": 4061,
+      "gesamt_tokens": 23620,
+      "modellzeit_s": 43.4
+    },
+    "claude-sonnet-4-6": {
+      "aufrufe": 2,
+      "input_tokens": 63523,
+      "output_tokens": 5117,
+      "gesamt_tokens": 68640,
+      "modellzeit_s": 113.5
+    }
+  },
+  "phasen": [
+    {
+      "name": "Stufe 1 – Systemmodell + Prüfung",
+      "aufrufe": 10,
+      "input_tokens": 46722,
+      "output_tokens": 21261,
+      "modellzeit_s": 245.7
+    },
+    {
+      "name": "Stufe 2 – Angriffsflächen",
+      "aufrufe": 1,
+      "input_tokens": 16139,
+      "output_tokens": 3413,
+      "modellzeit_s": 35.0
+    },
+    {
+      "name": "Stufe 3 – Threat-Intelligence (Websuche)",
+      "aufrufe": 1,
+      "input_tokens": 50958,
+      "output_tokens": 1307,
+      "modellzeit_s": 39.0
+    },
+    {
+      "name": "Stufe 4 – Bedrohungen identifizieren/analysieren",
+      "aufrufe": 1,
+      "input_tokens": 6482,
+      "output_tokens": 3163,
+      "modellzeit_s": 41.9
+    },
+    {
+      "name": "Stufe 5 – Bewertung/Priorisierung",
+      "aufrufe": 1,
+      "input_tokens": 2805,
+      "output_tokens": 1301,
+      "modellzeit_s": 15.6
+    }
+  ]
+}

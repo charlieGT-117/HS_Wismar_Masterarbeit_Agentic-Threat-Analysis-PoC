@@ -10,11 +10,12 @@ import json
 import re
 from pathlib import Path
 from llm import frage_modell, repariere_json
-from modelle import modell_fuer, anbieter_fuer
+from modelle import modell_fuer, anbieter_fuer, temperatur_fuer
 
 
 ANBIETER = anbieter_fuer("sw_engineer")
 MODELL = modell_fuer("sw_engineer")
+TEMPERATUR = temperatur_fuer("sw_engineer")
 
 
 AUFTRAG = """Du bist der Software-Engineer-Agent im Threat-Analyse-System fuer die
@@ -80,7 +81,7 @@ def frage_sw_engineer(frage: str) -> dict:
     Gibt das JSON als dict zurueck."""
     beschreibung = lade_systembeschreibung()
     prompt = AUFTRAG.format(beschreibung=beschreibung) + f"\nFRAGE:\n{frage}"
-    rohantwort = frage_modell(prompt, anbieter=ANBIETER, modell=MODELL)
+    rohantwort = frage_modell(prompt, anbieter=ANBIETER, modell=MODELL, temperatur=TEMPERATUR)
     return _json_aus_text(rohantwort)
 
 
