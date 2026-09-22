@@ -143,3 +143,25 @@ PoC_final/
 
 ---
 
+## 10. Fehlerbehebung
+
+- **Schritt 3 liefert keine TI-Befunde** → `python Test_Websuche.py` ausführen.
+  Zeigt „Websuche genutzt: NEIN" oder einen Fehler, ist die **Web Search nicht aktiviert
+  oder kein Guthaben** vorhanden (im Anthropic-Konto prüfen). In der Oberfläche wird bei
+  0 Befunden zusätzlich der Grund je Angriffsfläche angezeigt.
+- **`ANTHROPIC_API_KEY` nicht gefunden** → `.env` fehlt oder falscher Name/Ordner.
+- **Marker sitzen falsch** → „Positionen neu bestimmen" klicken; für Pixelgenauigkeit die
+  draw.io-Quelle in `Input/` hochladen.
+- **`streamlit` nicht gefunden** → venv aktiviert? Sonst `pip install -r requirements.txt`
+  wiederholen und mit `python -m streamlit run app.py` starten.
+
+---
+
+## 11. Grundprinzipien
+
+- **Nur der CISO schreibt** in das gemeinsame Analysemodell; die Fachagenten liefern zu.
+- **Lücken werden nie stillschweigend gefüllt** – fehlende Angaben bleiben als Annahme
+  oder offener Punkt sichtbar (Faktentreue).
+- **Zwei Kontrollpunkte** (Systemmodell, Bedrohungen) sichern die Kontrolle durch den Nutzer.
+- **Belegpflicht**: TI-Befunde tragen eine echte Quell-URL und sind als externe Daten
+  gekennzeichnet.

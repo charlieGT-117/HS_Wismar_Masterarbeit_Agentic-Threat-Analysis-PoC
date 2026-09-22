@@ -13,13 +13,12 @@ import json
 import re
 from llm import frage_modell, repariere_json
 from ausgabe import AUSGABE
-from modelle import modell_fuer, anbieter_fuer, temperatur_fuer
+from modelle import modell_fuer, anbieter_fuer
 
 
 # Eigenes Modell fuer die unabhaengige Pruefung (kann vom CISO-Modell abweichen).
 ANBIETER = anbieter_fuer("pruefer")
 MODELL = modell_fuer("pruefer")
-TEMPERATUR = temperatur_fuer("pruefer")
 
 
 AUFTRAG = """Du bist der Pruef-Agent in einem Threat-Analyse-System. Du erhaeltst ein
@@ -82,4 +81,4 @@ def pruefe_systemmodell(modell: dict | None = None) -> dict:
         + json.dumps(modell, ensure_ascii=False, indent=2)
     )
     return _json_aus_text(frage_modell(prompt, anbieter=ANBIETER, modell=MODELL,
-                                       max_tokens=8000, temperatur=TEMPERATUR))
+                                       max_tokens=8000))

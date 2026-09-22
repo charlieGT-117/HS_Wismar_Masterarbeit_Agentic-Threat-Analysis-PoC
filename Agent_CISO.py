@@ -28,7 +28,7 @@ from pathlib import Path
 
 from llm import frage_modell, frage_modell_mit_bild, repariere_json
 from ausgabe import AUSGABE
-from modelle import modell_fuer, alle_zuordnungen, temperatur_fuer
+from modelle import modell_fuer, alle_zuordnungen
 from Agent_Software_Engineer import frage_sw_engineer
 from Agent_Architekt import frage_architekt, finde_diagramm
 from Agent_Pruefer import pruefe_systemmodell
@@ -40,7 +40,6 @@ from CISO_Bericht import erzeuge_bericht
 
 
 MODELL = modell_fuer("ciso")      # Reasoning-Kern (zentral in Config/modelle.json)
-TEMPERATUR = temperatur_fuer("ciso")
 EINGABE = "diagramm"              # "diagramm" (Bild) oder "beschreibung" (Text)
 MAX_KLAERUNGEN = 8                # so viele offene Punkte klaert der CISO aktiv
 MAX_TOKENS = 16000                # Obergrenze der Antwortlaenge, damit das Systemmodell nicht abgeschnitten wird
@@ -144,15 +143,13 @@ def _analysiere_eingabe() -> dict:
         diagramm = finde_diagramm()
         print(f"\n[CISO] Analysiere Eingabe (Diagramm): {Path(diagramm).name}")
         return _json_aus_text(frage_modell_mit_bild(
-            AUFTRAG_ENTWURF, diagramm, modell=MODELL, max_tokens=MAX_TOKENS,
-            temperatur=TEMPERATUR))
+            AUFTRAG_ENTWURF, diagramm, modell=MODELL, max_tokens=MAX_TOKENS))
     elif EINGABE == "beschreibung":
         from Agent_Software_Engineer import lade_systembeschreibung
         text = lade_systembeschreibung()
         print("\n[CISO] Analysiere Eingabe (Systembeschreibung)")
         prompt = AUFTRAG_ENTWURF + "\n\nEINGABEDOKUMENT:\n\"\"\"\n" + text + "\n\"\"\""
-        return _json_aus_text(frage_modell(prompt, modell=MODELL, max_tokens=MAX_TOKENS,
-                                           temperatur=TEMPERATUR))
+        return _json_aus_text(frage_modell(prompt, modell=MODELL, max_tokens=MAX_TOKENS))
     else:
         raise ValueError(f"Unbekannter EINGABE-Typ: {EINGABE}")
 
@@ -191,8 +188,7 @@ def entwickle_systemmodell() -> dict:
         + "\n\nKLAERUNGEN:\n" + json.dumps(klaerungen, ensure_ascii=False, indent=2)
     )
     modell = _json_aus_text(frage_modell(
-        AUFTRAG_FINAL + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS,
-        temperatur=TEMPERATUR))
+        AUFTRAG_FINAL + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS))
     # Den echten Dialog CISO <-> Fachagenten mitschreiben (Nachvollziehbarkeit NFA-01).
     modell["fachagenten_dialog"] = klaerungen
     # Rolle-zu-Modell-Zuordnung als Laufmanifest festhalten (NFA-01).
@@ -238,8 +234,7 @@ def ueberarbeite(modell: dict, bericht: dict) -> dict:
     )
     try:
         return _json_aus_text(frage_modell(
-            AUFTRAG_UEBERARBEITUNG + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS,
-            temperatur=TEMPERATUR))
+            AUFTRAG_UEBERARBEITUNG + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS))
     except Exception as exc:
         print(f"[CISO] Ueberarbeitung nicht lesbar ({type(exc).__name__}); "
               f"behalte das bisherige Modell.")
@@ -259,8 +254,7 @@ def ueberarbeite_mit_antworten(modell: dict, antworten: dict) -> dict:
                + "\n\nBEANTWORTETE RUECKFRAGEN:\n" + dialog)
     try:
         neu = _json_aus_text(frage_modell(
-            AUFTRAG_ANTWORTEN + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS,
-            temperatur=TEMPERATUR))
+            AUFTRAG_ANTWORTEN + "\n\n" + kontext, modell=MODELL, max_tokens=MAX_TOKENS))
         neu.setdefault("fachagenten_dialog", modell.get("fachagenten_dialog", []))
         return neu
     except Exception as exc:

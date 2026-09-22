@@ -7,6 +7,9 @@ Summe der API-Aufrufdauern und damit unabhaengig von Denk-/Pruefpausen des
 Nutzers an den Human-in-the-Loop-Punkten; die Wall-Clock-Zeit wird zusaetzlich
 als Referenz gefuehrt.
 
+Die Erfassung ist bewusst ausfallsicher: Schlaegt das Auslesen der Nutzungsdaten
+fehl, wird der Lauf NICHT abgebrochen (die Messung ist Beiwerk, nicht Teil der
+Analyse).
 
 Verwendung:
     import metriken

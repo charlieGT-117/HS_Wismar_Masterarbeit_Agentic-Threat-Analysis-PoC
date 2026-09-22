@@ -22,10 +22,9 @@ from pathlib import Path
 
 from llm import frage_modell_websuche, repariere_json
 from ausgabe import AUSGABE, CONFIG
-from modelle import modell_fuer, temperatur_fuer
+from modelle import modell_fuer
 
 MODELL = modell_fuer("ti_agent")
-TEMPERATUR = temperatur_fuer("ti_agent")
 ORDNER = Path(__file__).resolve().parent
 MAX_TI_FLAECHEN = 1   # zum Token-Sparen: nur eine Angriffsflaeche live recherchieren
 
@@ -116,7 +115,7 @@ def recherchiere(modell: dict, quellen: dict, nur_ids: list | None = None) -> li
         roh = ""
         try:
             roh = frage_modell_websuche(auftrag + "\n\nANGRIFFSFLAECHE + ELEMENTE:\n" + kontext,
-                                        modell=MODELL, max_tokens=8000, temperatur=TEMPERATUR)
+                                        modell=MODELL, max_tokens=8000)
             ergebnis = _json_aus_text(roh)
         except Exception as exc:
             hinweis = (f"Antwort nicht als JSON lesbar ({type(exc).__name__}). "

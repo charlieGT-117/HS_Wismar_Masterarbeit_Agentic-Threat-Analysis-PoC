@@ -1,6 +1,6 @@
 {
   "_hinweis": "Konfigurierbares Bewertungsschema (FA-18/FA-19). Aendern = diese Datei bearbeiten, kein Code. Prioritaet = Eintrittswahrscheinlichkeit x Auswirkung, danach in Klassen eingeteilt.",
-  "id": "1",
+  "id": "cvss-nah-v1",
   "name": "Eintrittswahrscheinlichkeit x Auswirkung",
   "dimensionen": {
     "eintrittswahrscheinlichkeit": {

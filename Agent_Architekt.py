@@ -15,11 +15,10 @@ import json
 import re
 from pathlib import Path
 from llm import frage_modell_mit_bild, repariere_json
-from modelle import modell_fuer, temperatur_fuer
+from modelle import modell_fuer
 
 
 MODELL = modell_fuer("architekt")
-TEMPERATUR = temperatur_fuer("architekt")
 
 
 AUFTRAG = """Du bist der Architekt-Agent im Threat-Analyse-System fuer die Plattform
@@ -83,7 +82,7 @@ def _json_aus_text(text: str) -> dict:
 def frage_architekt(bildpfad: str, frage: str) -> dict:
     """Stellt dem Architekt-Agenten eine Frage zum Diagramm. Gibt das JSON als dict zurueck."""
     prompt = AUFTRAG + f"\nFRAGE:\n{frage}"
-    rohantwort = frage_modell_mit_bild(prompt, bildpfad, modell=MODELL, temperatur=TEMPERATUR)
+    rohantwort = frage_modell_mit_bild(prompt, bildpfad, modell=MODELL)
     return _json_aus_text(rohantwort)
 
 

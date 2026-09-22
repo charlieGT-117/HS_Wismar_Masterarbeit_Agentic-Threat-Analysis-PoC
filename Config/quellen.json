@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Konfigurierbares Quellen-Artefakt (FA-07-FA-11). Der TI-Agent waehlt je Anfrage EINE Quelle nach passender Abstraktionsebene (FA-12) und begruendet die Wahl. ",
+  "_hinweis": "Konfigurierbares Quellen-Artefakt (FA-07). Der TI-Agent waehlt je Anfrage EINE Quelle nach passender Abstraktionsebene und begruendet die Wahl - so wird die Recherche aus Modell und Angriffsflaeche abgeleitet (FA-08) und die Relevanz gesichert (FA-09). Weitere Quellen hier ergaenzen; im Code kommt je Quelle ein Abruf-Handler dazu.",
   "quellen": [
     {
       "id": "cwe", "klasse": "K1", "name": "CWE (Common Weakness Enumeration)",

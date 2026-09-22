@@ -1,7 +1,8 @@
 """Zentrale Rolle-zu-Modell-Zuordnung.
 
 Liest Config/modelle.json und liefert je Rolle Anbieter und Modell. So steht die
-Zuordnung an einer Stelle.
+Zuordnung an EINER Stelle (Kapitel 6.3.2). Die vollstaendige Zuordnung wird ins
+Analysemodell geschrieben und dient damit als Laufmanifest (NFA-01).
 """
 
 import json

@@ -15,10 +15,9 @@ from pathlib import Path
 
 from llm import frage_modell, repariere_json
 from ausgabe import AUSGABE, CONFIG
-from modelle import modell_fuer, temperatur_fuer
+from modelle import modell_fuer
 
 MODELL = modell_fuer("ciso")
-TEMPERATUR = temperatur_fuer("ciso")
 MAX_TOKENS = 12000
 STAPEL = 12          # so viele Bedrohungen je Aufruf (gegen Token-Limit, LL-1)
 ORDNER = Path(__file__).resolve().parent
@@ -93,7 +92,7 @@ def bewerte(modell: dict, scoring: dict) -> list:
         try:
             ergebnis = _json_aus_text(frage_modell(
                 auftrag + "\n\nZU BEWERTEN:\n" + json.dumps(kontext, ensure_ascii=False, indent=2),
-                modell=MODELL, max_tokens=MAX_TOKENS, temperatur=TEMPERATUR))
+                modell=MODELL, max_tokens=MAX_TOKENS))
         except Exception as exc:
             print(f"   Stapel uebersprungen ({type(exc).__name__}).")
             continue
