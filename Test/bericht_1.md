@@ -139,7 +139,7 @@
 - Zahlungskartendaten verbleiben laut Systembeschreibung außerhalb des Systems beim PCI-DSS-zertifizierten Zahlungsdienstleister (iframe); ShopFlow speichert nur einen Zahlungsmittel-Token.
 - Der Middleware Service ist zentraler Integrationspunkt zu allen Backend- und Externsystemen (Faktur SaaS per OAuth 2.0).
 - Frontend-seitige Drittanbieter-Skripte (Google Analytics, Werbepartner) senden Daten direkt aus dem Browser an die externen Systeme, nicht über das Backend.
-- Der Zahlungsdienstleister kommuniziert direkt mit dem Bestellservice (Webhook) und mit dem User-Bereich (iframe/Tokenisierung).
+- Der Zahlungsdienstleister kommuniziSert direkt mit dem Bestellservice (Webhook) und mit dem User-Bereich (iframe/Tokenisierung).
 
 ## 7 Offene Rückfragen an den Nutzer
 - Welche Daten werden an Google Analytics, Faktur SaaS und Werbung/Affiliate übermittelt und mit welcher Rechtsgrundlage (Konsent gemäß Datenschutzerklärung)?

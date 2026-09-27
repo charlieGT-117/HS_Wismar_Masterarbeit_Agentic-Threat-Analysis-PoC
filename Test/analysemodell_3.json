@@ -593,31 +593,26 @@
     "ciso": {
       "anbieter": "anthropic",
       "modell": "claude-opus-4-8",
-      "temperature": 0.2,
       "profil": "tiefes Reasoning (Kern)"
     },
     "architekt": {
       "anbieter": "anthropic",
       "modell": "claude-haiku-4-5-20251001",
-      "temperature": 0.2,
       "profil": "guenstige, bildfaehige Extraktion"
     },
     "sw_engineer": {
       "anbieter": "anthropic",
       "modell": "claude-haiku-4-5-20251001",
-      "temperature": 0.2,
       "profil": "guenstige, treue Extraktion"
     },
     "ti_agent": {
       "anbieter": "anthropic",
       "modell": "claude-sonnet-4-6",
-      "temperature": 0.2,
       "profil": "Websuche + Normalisierung"
     },
     "pruefer": {
       "anbieter": "anthropic",
       "modell": "claude-sonnet-4-6",
-      "temperature": 0.2,
       "profil": "unabhaengige Pruefung (anderes Modell als CISO)"
     }
   },
