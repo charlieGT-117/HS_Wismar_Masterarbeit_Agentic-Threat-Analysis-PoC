@@ -1,12 +1,5 @@
-"""Stufe 4: Bewertung und Priorisierung (CISO als Risikoanalyst, FA-18 / FA-19).
-
-Bewertet jede Bedrohung nach dem offengelegten Schema (scoring.json):
-Eintrittswahrscheinlichkeit x Auswirkung. Die Auswirkung bemisst sich an der
-Kritikalitaet der erreichbaren Assets, die Eintrittswahrscheinlichkeit an
-Erreichbarkeit, Vorbedingungen und dem Ausnutzungsstatus aus den TI-Befunden (FA-18).
-
-Der CISO liefert Wahrscheinlichkeit, Auswirkung, Asset-Bezug und Begruendungen;
-Score und Prioritaetsklasse werden im Code aus dem Schema berechnet (reproduzierbar).
+"""Bewertung und Priorisierung (Stufe 4): Der CISO-Agent bewertet jede Bedrohung anhand ihrer Eintrittswahrscheinlichkeit und Auswirkung unter Berücksichtigung der betroffenen Assets und Threat-Intelligence-Befunde.
+ Score und Prioritätsklasse werden anschließend regelbasiert anhand des Bewertungsschemas (scoring.json) berechnet, um eine reproduzierbare Priorisierung sicherzustellen.
 """
 
 import json

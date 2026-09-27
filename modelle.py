@@ -1,8 +1,6 @@
 """Zentrale Rolle-zu-Modell-Zuordnung.
 
-Liest Config/modelle.json und liefert je Rolle Anbieter und Modell. So steht die
-Zuordnung an EINER Stelle (Kapitel 6.3.2). Die vollstaendige Zuordnung wird ins
-Analysemodell geschrieben und dient damit als Laufmanifest (NFA-01).
+Liest Config/modelle.json und liefert je Rolle Anbieter und Modell. So ist die Zuordnung zentral implementiert.
 """
 
 import json
@@ -34,5 +32,5 @@ def anbieter_fuer(rolle: str) -> str:
 
 
 def alle_zuordnungen() -> dict:
-    """Die komplette Rolle-zu-Modell-Zuordnung (fuer das Laufmanifest)."""
+    """Die komplette Rolle-zu-Modell-Zuordnung."""
     return _laden().get("rollen", {})

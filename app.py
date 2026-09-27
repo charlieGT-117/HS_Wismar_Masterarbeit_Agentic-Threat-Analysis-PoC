@@ -1,9 +1,5 @@
-"""Frontend (Streamlit) fuer den Threat-Analyse-Prototyp.
-
-Bindet die Pipeline in eine Oberflaeche: Eingabe -> Systemmodell -> HITL-Freigabe
--> Angriffsflaechen -> TI -> Bedrohungen -> Bewertung -> priorisierte Liste + Bericht.
-Die Oberflaeche enthaelt KEINE eigene Logik: sie ruft dieselben Funktionen wie die
-Skripte und zeigt das wachsende Analysemodell.
+"""Frontend (Streamlit): Stellt den gesamten Threat-Analyse-Prozess einschließlich der Human-in-the-Loop-Freigabe über eine grafische Benutzeroberfläche bereit.
+ Es visualisiert das schrittweise wachsende Analysemodell und nutzt die bestehenden Pipeline-Funktionen ohne eigene Analyselogik.
 
 Starten:  streamlit run app.py
 """

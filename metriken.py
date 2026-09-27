@@ -1,15 +1,6 @@
-"""Laufmetriken: Zeit und Tokenverbrauch je Analysedurchlauf.
-
-Erfasst zentral, was jeder Modellaufruf kostet - Tokens (Input/Output) und die
-aktive Modellzeit (Dauer des API-Aufrufs) - und schreibt daraus eine kompakte
-Metrik-Datei je Lauf (Output/lauf_metriken.json). Die aktive Modellzeit ist die
-Summe der API-Aufrufdauern und damit unabhaengig von Denk-/Pruefpausen des
-Nutzers an den Human-in-the-Loop-Punkten; die Wall-Clock-Zeit wird zusaetzlich
-als Referenz gefuehrt.
-
-Die Erfassung ist bewusst ausfallsicher: Schlaegt das Auslesen der Nutzungsdaten
-fehl, wird der Lauf NICHT abgebrochen (die Messung ist Beiwerk, nicht Teil der
-Analyse).
+"""Erfasst je Analysedurchlauf den Tokenverbrauch (Input/Output), die aktive Modellzeit als Summe der API-Aufrufdauern sowie die gesamte Wall-Clock-Zeit und speichert diese in Output/lauf_metriken.json. 
+Die aktive Modellzeit berücksichtigt keine nutzerbedingten Pausen an Human-in-the-Loop-Punkten. 
+Fehler bei der Metrikerfassung beeinträchtigen den Analyseablauf nicht.
 
 Verwendung:
     import metriken
@@ -57,11 +48,7 @@ def starte_lauf() -> None:
 
 
 def stufe(name: str) -> None:
-    """Schliesst die laufende Analysestufe ab und verbucht ihren Verbrauch.
-
-    Indentierungsfrei: eine einzige Zeile nach Abschluss einer Stufe genuegt.
-    Erfasst je Stufe Aufrufe, Tokens und die AKTIVE Modellzeit (ohne die
-    Denk-/Pruefpausen des Nutzers zwischen den Stufen)."""
+    """Erfasst nach Abschluss jeder Analysestufe die Anzahl der Modellaufrufe, den Tokenverbrauch und die aktive Modellzeit, ohne nutzerbedingte Denk- und Prüfpausen zwischen den Stufen zu berücksichtigen."""
     global _grenze
     try:
         z = _sicher_zustand()
@@ -162,7 +149,7 @@ class phase:
 
 
 def schnappschuss() -> dict:
-    """Aktueller Stand als serialisierbares dict (fuer analysemodell.json o. Ae.)."""
+    """Aktueller Stand als serialisierbares dict."""
     z = _sicher_zustand()
     jetzt = time.time()
     gesamt = z["input_tokens"] + z["output_tokens"]

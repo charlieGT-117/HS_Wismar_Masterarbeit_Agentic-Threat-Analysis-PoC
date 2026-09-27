@@ -1,19 +1,6 @@
-"""Stufe 3: Bedrohungen identifizieren UND analysieren (CISO, KF-4 / FA-12 bis FA-16).
-
-Analyse je Bedrohung (FA-15): Angriffsszenario, Voraussetzungen und moegliche Auswirkung
-werden zusammen mit der Identifikation erzeugt (ein Aufruf je Angriffsflaeche).
-
-Nimmt das Analysemodell (Systemmodell + Angriffsflaechen + TI-Befunde) und
-identifiziert je Angriffsflaeche die Bedrohungen. Pro Angriffsflaeche ein eigener
-Modellaufruf - kleine Ausgaben, robust gegen das Token-Limit (LL-1).
-
-Die Methodik ist NICHT im Code verdrahtet (FA-14): Die Bausteine stehen in
-methodik.json. Der CISO waehlt je Angriffsflaeche einen Baustein und begruendet die
-Wahl. Liegen zur Angriffsflaeche TI-Befunde vor, kann er "quellengeleitet" oder
-"kombiniert" waehlen und die Bedrohung auf den Befund zurueckbinden (ti_refs).
-
-Jede Bedrohung traegt eine STRIDE-Kategorie und eine knappe Begruendung (dosiertes
-Chain-of-Thought, LL-3). Auch Flaechen ohne Bedrohung erhalten einen Abdeckungsnachweis.
+"""Bedrohungsidentifikation und -analyse (Stufe 3): Der CISO-Agent identifiziert und analysiert Bedrohungen je Angriffsfläche anhand des Systemmodells und der TI-Befunde.
+ Dabei wählt er einen geeigneten Methodikbaustein aus methodik.json und begründet seine Auswahl. Jede Bedrohung wird mit STRIDE-Kategorie, Angriffsszenario, Voraussetzungen, möglichen Auswirkungen und gegebenenfalls TI-Referenzen dokumentiert. 
+Separate Modellaufrufe je Angriffsfläche reduzieren den Tokenverbrauch;
 """
 
 import json
@@ -62,7 +49,7 @@ Identifiziere die Bedrohungen fuer genau diese Angriffsflaeche.
 
 {_methodik_text(methodik)}
 
-Vorgehen (FA-14): Waehle den passenden Baustein (per id) und begruende die Wahl kurz.
+Vorgehen: Waehle den passenden Baustein (per id) und begruende die Wahl kurz.
 - Liegen TI-Befunde vor, kannst du "quellengeleitet" oder "kombiniert" waehlen und die
   Bedrohung auf den Befund zuruueckbinden (ti_refs = Liste der TI-Kennungen).
 - Liegen keine vor, ist meist "stride" angemessen (ti_refs bleibt leer).
@@ -73,7 +60,7 @@ Fuer jede Bedrohung:
   - element_ref: betroffenes Element (Kennung aus dem Systemmodell, muss existieren)
   - ti_refs: Liste der belegenden TI-Kennungen (z. B. ["TI-01"]) oder leer
   - begruendung: EIN Satz, warum diese Bedrohung besteht.
-  ANALYSE der Bedrohung (FA-15, je ein knapper Satz, konkret auf dieses System bezogen):
+  ANALYSE der Bedrohung (e ein knapper Satz, konkret auf dieses System bezogen):
   - szenario: ein plausibles Angriffsszenario (wie ein Angreifer konkret vorgeht)
   - voraussetzungen: welche Voraussetzungen dafuer erfuellt sein muessen
   - auswirkung: die moegliche Auswirkung auf das System bzw. die betroffenen Assets

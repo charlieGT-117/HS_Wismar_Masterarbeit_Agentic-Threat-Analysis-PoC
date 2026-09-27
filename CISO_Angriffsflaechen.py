@@ -1,12 +1,5 @@
-"""Stufe 2: Angriffsflaechen ableiten (CISO, KF-2 / FA-05 / FA-06).
-
-Nimmt das FREIGEGEBENE Systemmodell aus Stufe 1 und leitet daraus die
-Angriffsflaechen ab. Jede Angriffsflaeche verweist auf mindestens ein
-Modellelement und auf die darueber erreichbaren Assets (FA-06) - das ist der
-Weg, ueber den Asset-Kritikalitaet spaeter in die Priorisierung gelangt.
-
-Das Ergebnis wird an das gemeinsame Analysemodell angehaengt (analysemodell.json),
-das ueber die Prozessschritte hinweg waechst.
+"""Ableitung der Angriffsflächen (Stufe 2): Der CISO-Agent leitet aus dem freigegebenen Systemmodell potenzielle Angriffsflächen ab. Jede Angriffsfläche wird den zugehörigen Modellelementen und erreichbaren Assets zugeordnet , deren Kritikalität später in die Risikobewertung einfließt. 
+Die Ergebnisse werden im gemeinsamen Analysemodell (analysemodell.json) ergänzt.  
 """
 
 import json

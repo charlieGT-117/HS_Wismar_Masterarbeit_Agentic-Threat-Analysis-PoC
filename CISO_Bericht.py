@@ -1,11 +1,6 @@
-"""Stufe 5: Bericht und maschinenlesbarer Export (FA-20 / FA-21).
-
-Erzeugt aus dem Analysemodell einen strukturierten, lesbaren Bericht (bericht.md)
-und stellt den maschinenlesbaren Export (analysemodell.json) sicher. Der Bericht wird
-DETERMINISTISCH aus den Daten erzeugt (kein zusaetzlicher Modellaufruf) - das haelt ihn
-reproduzierbar und deckungsgleich mit dem Analysemodell.
-
-Ohne Maßnahmenabschnitt (bewusst ausserhalb des Scope, W-8).
+"""Bericht und Export (Stufe 5): Erzeugt deterministisch einen strukturierten Analysebericht (bericht.md) aus dem Analysemodell und stellt den maschinenlesbaren Export (analysemodell.json) sicher. 
+Die Berichtserstellung erfolgt ohne zusätzlichen Modellaufruf und gewährleistet die Konsistenz mit dem Analysemodell. 
+Maßnahmenempfehlungen sind bewusst nicht Bestandteil des Untersuchungsumfangs.
 """
 
 import json

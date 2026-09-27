@@ -1,12 +1,5 @@
-"""Der Pruef-Agent (Reflexionsmuster; unterstuetzt NFA-01 Nachvollziehbarkeit und NFA-03 Kontrollierbarkeit).
-
-Prueft das vom CISO entwickelte Systemmodell KRITISCH, bevor es dem Nutzer zur
-Freigabe vorgelegt wird. Zweite Pruefebene neben der strukturellen Schema-Pruefung:
-Das Schema prueft maschinell die Verweise; dieser Agent prueft semantisch die
-Qualitaet und Ehrlichkeit des Modells.
-
-Der Pruefer nutzt bewusst ein eigenes Modell - so beurteilt nicht dasselbe Modell
-seine eigene Ausgabe (unabhaengige Reflexion).
+"""Prüf-Agent: Überprüft das vom CISO-Agenten erstellte Systemmodell vor der Nutzerfreigabe auf semantische Qualität, Konsistenz und Nachvollziehbarkeit. 
+Er ergänzt die maschinelle Schema-Prüfung um eine unabhängige inhaltliche Reflexion und verwendet dafür ein separates Sprachmodell
 """
 
 import json

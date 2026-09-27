@@ -1,7 +1,5 @@
-"""Die eine Stelle, die mit den Sprachmodellen spricht.
-
-Kann Text schicken (frage_modell), Text + Bild (frage_modell_mit_bild) und Text mit
-Live-Websuche (frage_modell_websuche - Claude recherchiert selbst im Internet).
+"""Modellschnittstelle: Zentralisiert die Kommunikation mit den Sprachmodellen und unterstützt textbasierte Anfragen (frage_modell), 
+multimodale Anfragen mit Bild (frage_modell_mit_bild) sowie Anfragen mit integrierter Websuche (frage_modell_websuche).
 """
 
 import os

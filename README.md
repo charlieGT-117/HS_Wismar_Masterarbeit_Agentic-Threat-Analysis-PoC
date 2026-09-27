@@ -1,10 +1,6 @@
 # PoC – Agentische Threat Analyse
 
-Prototyp zur Masterarbeit: Ein **CISO-Agent** orchestriert mehrere spezialisierte
-LLM-Agenten (Architekt, Software-Engineer, Threat-Intelligence, Prüfer) und führt eine
-nachvollziehbare Threat Analyse durch – vom Systemmodell über Angriffsflächen und
-Threat Intelligence bis zu bewerteten, priorisierten Bedrohungen. Bedienung über eine
-Streamlit-Oberfläche.
+Prototyp zur Masterarbeit "Einsatz der Ki-Agenten zur Threat Analyse und Threat Intelligence-Korellation für Softwareapllikationen.
 
 ---
 
@@ -43,9 +39,6 @@ Eine Datei **`.env`** im Projektordner anlegen mit genau dieser Zeile:
 ANTHROPIC_API_KEY=sk-ant-...dein-key...
 ```
 
-**Wichtig:** Der Key ist wie ein Passwort. Nicht weitergeben, nicht in Screenshots
-zeigen, nicht in Git einchecken. Die `.env` bleibt lokal.
-
 ---
 
 ## 4. Eingaben ablegen (Ordner `Input/`)
@@ -69,8 +62,7 @@ Die Dateien lassen sich auch direkt in der Oberfläche (Seitenleiste) hochladen.
 python -m streamlit run app.py
 ```
 
-Der Browser öffnet die Oberfläche automatisch (sonst die angezeigte lokale Adresse
-öffnen). Beim ersten Start ggf. mit **Enter** durch die E-Mail-Abfrage von Streamlit.
+Der Browser öffnet die Oberfläche automatisch
 
 ---
 
@@ -93,36 +85,7 @@ hoch = rot, mittel = orange, niedrig = grün). Sitzt ein Marker falsch, hilft de
 
 ---
 
-## 7. Projektstruktur
-
-```
-PoC_final/
-├─ app.py                     Streamlit-Oberfläche (Ablaufsteuerung, HITL)
-├─ Agent_CISO.py              Orchestrator: Systemmodell + gesamte Kette
-├─ Agent_Architekt.py         liest das Architekturdiagramm (Bild)
-├─ Agent_Software_Engineer.py hält die Systembeschreibung, beantwortet Rückfragen
-├─ Agent_TI.py                Threat-Intelligence-Agent (Live-Websuche + Beleg)
-├─ Agent_Pruefer.py           unabhängige Prüfung des Systemmodells (nur lesend)
-├─ CISO_Angriffsflaechen.py   Stufe 2: Angriffsflächen
-├─ CISO_Bedrohungen.py        Stufe 3/4: Bedrohungen identifizieren + analysieren
-├─ CISO_Bewertung.py          Stufe 5: Bewertung + Priorisierung
-├─ CISO_Bericht.py            Bericht (bericht.md) + Export
-├─ Wissensbasis.py            Expertenfragen aus der gespeicherten Analyse
-├─ Bild_Marker.py             Marker der Findings im Architekturbild
-├─ Drawio_Positionen.py       exakte Marker-Positionen aus draw.io (optional)
-├─ llm.py                     zentraler Modell-Adapter (Text, Bild, Websuche)
-├─ modelle.py                 lädt die Rolle→Modell-Zuordnung
-├─ ausgabe.py                 Pfade für Input/Output/Config
-├─ Test_Websuche.py           Selbsttest der Websuche
-├─ requirements.txt           Abhängigkeiten
-├─ Config/                    konfigurierbar OHNE Code (siehe unten)
-├─ Input/                     Eingaben (Bild, Systembeschreibung, optional draw.io)
-└─ Output/                    Ergebnisse (wird automatisch angelegt)
-```
-
----
-
-## 8. Konfiguration (Ordner `Config/`, ohne Code änderbar)
+## 7. Konfiguration (Ordner `Config/`, ohne Code änderbar)
 
 - **`modelle.json`** – welche Rolle welches Modell nutzt. Standard: CISO =
   `claude-opus-4-8` (Reasoning-Kern), Architekt/SW-Engineer = Haiku, TI/Prüfer = Sonnet.
@@ -134,7 +97,7 @@ PoC_final/
 
 ---
 
-## 9. Ergebnisse (Ordner `Output/`)
+## 8. Ergebnisse (Ordner `Output/`)
 
 - **`analysemodell.json`** – das über die Schritte wachsende Analysemodell (Wissensbasis).
 - **`ti_befunde.json`** – die recherchierten Threat-Intelligence-Befunde als eigenes Beleg-Artefakt.

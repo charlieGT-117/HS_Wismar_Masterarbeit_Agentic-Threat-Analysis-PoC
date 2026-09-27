@@ -1,12 +1,5 @@
-"""Drawio_Positionen.py - exakte Element-Positionen aus der draw.io-Quelle.
-
-Statt Pixel-Koordinaten aus einem Bild zu SCHAETZEN (Vision), lesen wir sie aus der
-draw.io-/XML-Quelle des Architekturdiagramms. Jeder Kasten hat dort echte Koordinaten.
-Wir ordnen die Modell-Elemente (E-xx) ueber einen Namensabgleich den Kaesten zu und
-rechnen die Kasten-Mittelpunkte auf 0..1 (relativ zur Gesamtausdehnung der Zeichnung)
-um - deckungsgleich mit dem exportierten PNG.
-
-Unterstuetzt sowohl unkomprimierte als auch komprimierte .drawio-Dateien.
+"""Drawio_Positionen.py: Extrahiert die exakten Elementpositionen aus der XML-Quelle des Architekturdiagramms, ordnet diese über einen Namensabgleich den Modellelementen (E-xx) zu und normalisiert die Koordinaten auf den Bereich 0 bis 1. 
+Unterstützt komprimierte und unkomprimierte .drawio-Dateien und vermeidet eine bildbasierte Schätzung der Positionen.
 """
 
 import base64
@@ -19,7 +12,7 @@ from pathlib import Path
 
 
 def drawio_pfad() -> str | None:
-    """Findet die hochgeladene draw.io-/XML-Quelle (bevorzugt im Input-Ordner)."""
+    """Findet die hochgeladene draw.io-/XML-Quelle."""
     projekt = Path(__file__).resolve().parent
     kandidaten = []
     for endung in ("*.drawio", "*.xml"):

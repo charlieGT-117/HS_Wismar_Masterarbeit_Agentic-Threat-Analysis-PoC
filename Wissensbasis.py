@@ -3,7 +3,7 @@
 Der Output-Ordner (Output/analysemodell.json) ist die Wissensbasis. Stellt ein
 Experte eine Frage, beantwortet der CISO sie AUSSCHLIESSLICH auf Basis dieser
 Analyse und verweist auf Kennungen (E-.., AF-.., T-..) und TI-Belege. Steht die
-Antwort nicht in der Analyse, sagt er das ehrlich (kein Erfinden).
+Antwort nicht in der Analyse, liefert er keine Information ohne Erfinden.
 """
 
 import json

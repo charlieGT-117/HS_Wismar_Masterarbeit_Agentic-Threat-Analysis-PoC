@@ -1,25 +1,7 @@
-"""Der CISO-Agent - analytischer Kern und Orchestrator.
-
-Der CISO erhaelt EIN Eingabedokument (Architekturdiagramm ODER Systembeschreibung),
-analysiert es selbst und entwickelt daraus einen Entwurf des Systemmodells. Erkennt er
-dabei eine Informationsluecke, richtet er eine gezielte Rueckfrage an die Instanz mit dem
-tieferen Wissen:
-
-  - Architekt-Agent  : detailliertes Architekturwissen / -diagramm
-  - SW-Engineer-Agent: Wissen ueber das System (Datenfluesse, Datenkategorien,
-                       Implementierung, Sicherheitseigenschaften)
-  - Nutzer           : was nur der Nutzer beantworten kann
-
-Ein unabhaengiger Pruef-Agent begutachtet anschliessend das Systemmodell (nur lesend) und
-dokumentiert Maengel in einem Pruefbericht. Systemmodell und Pruefbericht gehen an den
-Nutzer (Human-in-the-Loop, Freigabepunkt 1): freigeben, ueberarbeiten lassen oder ablehnen.
-
-Sterntopologie: NUR der CISO spricht mit den Fachagenten und schreibt in das Analysemodell.
-
-Nach der Freigabe orchestriert der CISO die weitere Kette (siehe __main__):
-Angriffsflaechen -> Threat Intelligence -> Bedrohungen (identifizieren und analysieren)
--> Bewertung und Priorisierung -> Bericht. Im Frontend (app.py) kommt vor der Bewertung
-ein zweiter Freigabepunkt fuer die Bedrohungen hinzu (FA-17).
+"""CISO-Agent: Bildet den analytischen Kern des Prototyps und orchestriert den gesamten Threat-Analyse-Prozess.
+ Er erstellt aus dem Eingabedokument ein Systemmodell und klärt Informationslücken durch gezielte Rückfragen an die Fachagenten oder den Nutzer. 
+ Nach einer unabhängigen Prüfung wird das Modell dem Nutzer zur Freigabe vorgelegt (Human-in-the-Loop). Anschließend steuert der CISO-Agent die Ableitung der Angriffsflächen, die Threat-Intelligence-Recherche, die Bedrohungsidentifikation und -analyse sowie die Bewertung, Priorisierung und Berichtserstellung.
+ Als zentrale Orchestrierungsinstanz kommuniziert ausschließlich er mit den Fachagenten und schreibt in das gemeinsame Analysemodell.
 """
 
 import json
@@ -46,7 +28,7 @@ MAX_TOKENS = 16000                # Obergrenze der Antwortlaenge, damit das Syst
 
 
 AUFTRAG_ENTWURF = """Du bist der CISO-Agent, der analytische Kern eines Threat-Analyse-
-Systems. Du erhaeltst EIN Eingabedokument (siehe unten bzw. als Bild) und analysierst es.
+Systems. Du erhaeltst EIN Eingabedokument und analysierst es.
 Entwickle daraus einen ENTWURF eines strukturierten Systemmodells.
 
 Regeln:
@@ -57,8 +39,7 @@ Regeln:
   konkreten Frage und der Angabe, wen du befragen solltest:
     "architekt"   = Struktur/Architekturdetails (Komponenten, Schichten, Zonen,
                     Vertrauensgrenzen) - der Architekt hat detailliertes Architekturwissen.
-    "sw_engineer" = Wissen ueber das System (Datenfluesse, Datenkategorien,
-                    Implementierung, Sicherheitseigenschaften).
+    "sw_engineer" = Wissen ueber das System.
     "nutzer"      = nur der Nutzer kann es wissen.
 - Denk daran: Ein Architekturdiagramm zeigt selten Datenfluesse im Detail, Daten-
   kategorien oder Sicherheitseigenschaften - solche fehlenden Angaben gehoeren als

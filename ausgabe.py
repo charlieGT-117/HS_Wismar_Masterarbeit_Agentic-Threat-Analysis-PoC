@@ -1,12 +1,5 @@
-"""Zentrale Stelle fuer die Ausgaben des Prototyps.
-
-Alle erzeugten Artefakte (Systemmodell, Analysemodell, Bericht, Pruefbericht)
-liegen im Ordner 'Output'. Dieser Ordner dient zugleich als Wissensbasis: Die
-gespeicherte Analyse ist die Grundlage, auf die sich der CISO bei Expertenfragen
-bezieht (siehe Wissensbasis.py).
-
-Konfiguration (methodik.json, quellen.json, scoring.json) und Eingaben (Input/)
-bleiben ausserhalb dieses Ordners.
+"""Ausgabeverwaltung: Verwaltet zentral die erzeugten Artefakte des Prototyps im Verzeichnis Output, darunter Systemmodell, Analysemodell, Analysebericht und Prüfbericht. Die gespeicherten Ergebnisse dienen zugleich als Wissensbasis für die Beantwortung von Expertenfragen durch den CISO-Agenten. 
+Konfigurations- und Eingabedateien werden getrennt verwaltet.
 """
 
 from pathlib import Path

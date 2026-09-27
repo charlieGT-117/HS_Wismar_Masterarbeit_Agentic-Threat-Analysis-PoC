@@ -1,18 +1,6 @@
-"""Der Threat-Intelligence-Agent (KF-3 / FA-07 bis FA-11) - Live-Recherche mit Quellenwahl.
-
-Nach den Angriffsflaechen gibt der CISO dem TI-Agenten je Angriffsflaeche einen
-Rechercheauftrag. Der TI-Agent:
-  1. WAEHLT selbst die passende Quelle aus der konfigurierten Liste (quellen.json, FA-08) -
-     nach der richtigen ABSTRAKTIONSEBENE (Relevanzpruefung, FA-09),
-  2. RECHERCHIERT LIVE IM INTERNET (Web-Such-Werkzeug), statt vorgefertigte Listen
-     abzuarbeiten - die Abgrenzung zum Regelwerk (pytm),
-  3. BELEGT jeden Befund mit einer echten, in der Recherche gefundenen Quell-URL
-     (Zuordnung FA-10, Herkunft FA-11),
-  4. kennzeichnet alles als externe Daten (is_external_content) - Vertrauensgrenze VG-2.
-
-quellen.json ist nur das MENUE der verfuegbaren Quellen (Klasse, Abstraktionsebene,
-Eignung) - keine Liste von Schwachstellen. Die Daten kommen live aus dem Internet.
-Der TI-Agent ist die EINZIGE Rolle mit externem Zugriff, und dieser ist rein lesend.
+"""Threat-Intelligence-Agent: Recherchiert im Auftrag des CISO-Agenten aktuelle Bedrohungsinformationen je Angriffsfläche. 
+Er wählt eigenständig geeignete Quellen anhand der Konfiguration (quellen.json) und ihrer Abstraktionsebene aus, führt eine Live-Webrecherche durch und dokumentiert jeden Befund mit einer überprüfbaren Quell-URL. 
+Der TI-Agent verfügt als einzige Rolle über einen ausschließlich lesenden externen Zugriff.  
 """
 
 import json
@@ -70,11 +58,8 @@ Zu der unten genannten Angriffsflaeche sollst du belegbare Bedrohungsinformation
 beschaffen.
 
 1. WAEHLE die passende Quelle aus dieser Liste - entscheidend ist die richtige
-   Abstraktionsebene (FA-09):
+   Abstraktionsebene:
 {_menue(quellen)}
-   Faustregel: Nennt das Modell KEIN konkretes Produkt mit Version, waehle KEINE
-   CVE-Quelle (nvd/kev), sondern cwe, capec, attack oder owasp. CVE nur bei konkret
-   benanntem Produkt.
 2. RECHERCHIERE dann LIVE im Internet (nutze die Websuche) zu dieser Quelle/Ebene.
 3. Uebernimm nur BELEGTE Befunde mit einer echten, in deiner Recherche gefundenen
    Quell-URL. Erfinde keine Kennungen und keine URLs. 1 bis 3 Befunde genuegen.

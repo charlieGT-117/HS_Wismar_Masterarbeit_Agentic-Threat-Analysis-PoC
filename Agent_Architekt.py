@@ -1,14 +1,5 @@
-"""Der Architekt-Agent.
-
-Zwilling des Software-Engineer-Agenten - gleiches Muster, aber:
-  - andere Eingabe: das Architekturdiagramm als BILD (PNG/JPG)
-  - anderes Profil: kennt die STRUKTUR (Komponenten, Schichten, Zonen,
-    Vertrauensgrenzen, das grosse Bild), nicht die Implementierung.
-
-Rolle im Ablauf: Der CISO befragt ihn, um das Systemmodell aufzubauen -
-speziell zu Komponentenschnitt, Schichten und Vertrauensgrenzen.
-
-Belegt FA-01: der Prototyp kann eine diagrammbasierte Beschreibung uebernehmen.
+"""Architekt-Agent: Verwaltet das Architekturdiagramm (PNG/JPG) und beantwortet strukturelle Rückfragen des CISO-Agenten.
+ Er unterstützt damit die Erstellung des Systemmodells auf Grundlage einer diagrammbasierten Eingabe
 """
 
 import json
@@ -24,8 +15,7 @@ MODELL = modell_fuer("architekt")
 AUFTRAG = """Du bist der Architekt-Agent im Threat-Analyse-System fuer die Plattform
 ShopFlow. Du hast die Architektur entworfen. Dir liegt das Architekturdiagramm als
 Bild vor. Du kennst den Schnitt des Systems - welche Komponenten es gibt, wie sie zu
-Schichten gruppiert sind, welche Netz- und Vertrauenszonen existieren, wo die
-Vertrauensgrenzen verlaufen und welche externen Systeme angebunden sind. Du denkst in
+Schichten gruppiert sind und welche externen Systeme angebunden sind. Du denkst in
 Struktur und Verantwortlichkeiten, nicht in Implementierungsdetails (Protokolle,
 Versionen, Code) - das ist Sache des Software-Engineers.
 

@@ -1,16 +1,5 @@
-"""Bild_Marker.py - annotiert das hochgeladene Architektur-Bild mit Findings-Markern.
-
-Ein Architektur-Bild (PNG/JPG) enthaelt keine Koordinaten. Deshalb lokalisiert ein
-bildfaehiges Modell EINMALIG jedes Element (E-xx) im Bild und speichert
-Naeherungs-Koordinaten (0..1) im Analysemodell (element_positionen, mit Cache).
-Danach zeichnet dieses Modul zu jedem Schritt farbige, beschriftete Marker auf eine
-Kopie des Bildes:
-  - Schritt 2: Angriffsflaechen (AF-xx) auf den betroffenen Elementen,
-  - Schritt 4: Bedrohungen (T-xx) auf den betroffenen Elementen,
-  - Schritt 5: dieselben Bedrohungen, eingefaerbt nach Prioritaet (hoch/mittel/niedrig).
-
-Die Positionen sind Naeherungen; die begleitende Legende sichert die eindeutige
-Zuordnung ueber die Kennungen.
+"""Annotiert das Architekturdiagramm mit farbigen Markern für Angriffsflächen (Stufe 2), Bedrohungen (Stufe 4) und deren Prioritätsklassen (Stufe 5). Die Elementpositionen werden einmalig durch ein bildfähiges Modell näherungsweise ermittelt, normalisiert und im Analysemodell zwischengespeichert. 
+Eine begleitende Legende gewährleistet die eindeutige Zuordnung über die jeweiligen Kennungen.
 """
 
 import json

@@ -1,9 +1,5 @@
-"""Der Software-Engineer-Agent.
-
-Rolle: haelt die Systembeschreibung (systemspezifisch) und beantwortet Fragen dazu.
-Nur DIESER Agent kennt die Beschreibung - der CISO fragt ihn danach, sieht sie aber
-nie selbst. Der Agent darf technisches Allgemeinwissen ergaenzen, kennzeichnet aber
-die Quelle jeder Aussage (Rueckverfolgbarkeit, NFA-02).
+"""Software-Engineer-Agent: Verwaltet die systemspezifische Systembeschreibung und beantwortet darauf bezogene Fragen des CISO-Agenten, ohne diesem direkten Zugriff auf das Dokument zu gewähren. 
+Ergänzendes technisches Allgemeinwissen wird von dokumentierten Informationen unterschieden, um die Rückverfolgbarkeit der Aussagen sicherzustellen
 """
 
 import json
